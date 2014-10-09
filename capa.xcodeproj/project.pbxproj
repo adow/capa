@@ -13,6 +13,8 @@
 		6884755E19E6D7E100F0A416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6884755D19E6D7E100F0A416 /* Images.xcassets */; };
 		6884756119E6D7E100F0A416 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6884755F19E6D7E100F0A416 /* LaunchScreen.xib */; };
 		6884756D19E6D7E100F0A416 /* capaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884756C19E6D7E100F0A416 /* capaTests.swift */; };
+		6884757719E6DE9400F0A416 /* CPPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884757619E6DE9400F0A416 /* CPPreviewView.swift */; };
+		6884757919E6DF4200F0A416 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6884757819E6DF4200F0A416 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		6884756619E6D7E100F0A416 /* capaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = capaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6884756B19E6D7E100F0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6884756C19E6D7E100F0A416 /* capaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = capaTests.swift; sourceTree = "<group>"; };
+		6884757619E6DE9400F0A416 /* CPPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPPreviewView.swift; sourceTree = "<group>"; };
+		6884757819E6DF4200F0A416 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6884757919E6DF4200F0A416 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +64,7 @@
 		6884754819E6D7E100F0A416 = {
 			isa = PBXGroup;
 			children = (
+				6884757819E6DF4200F0A416 /* AVFoundation.framework */,
 				6884755319E6D7E100F0A416 /* capa */,
 				6884756919E6D7E100F0A416 /* capaTests */,
 				6884755219E6D7E100F0A416 /* Products */,
@@ -83,6 +89,7 @@
 				6884755D19E6D7E100F0A416 /* Images.xcassets */,
 				6884755F19E6D7E100F0A416 /* LaunchScreen.xib */,
 				6884755419E6D7E100F0A416 /* Supporting Files */,
+				6884757619E6DE9400F0A416 /* CPPreviewView.swift */,
 			);
 			path = capa;
 			sourceTree = "<group>";
@@ -214,6 +221,7 @@
 			files = (
 				6884755919E6D7E100F0A416 /* ViewController.swift in Sources */,
 				6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */,
+				6884757719E6DE9400F0A416 /* CPPreviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
