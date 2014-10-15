@@ -240,8 +240,19 @@ class ViewController: UIViewController {
                 self.exposureTargetOffset = change[NSKeyValueChangeNewKey]?.floatValue
                 break
             case "exposureMode":
+                if let mode_value = change[NSKeyValueChangeOldKey]?.integerValue {
+                    let mode = AVCaptureExposureMode.fromRaw(mode_value)!
+                    if (mode == AVCaptureExposureMode.Custom){
+                        var error:NSError?
+                        self.device.lockForConfiguration(&error)
+                        self.device.activeVideoMaxFrameDuration=kCMTimeInvalid
+                        self.device.activeVideoMinFrameDuration=kCMTimeInvalid
+                        self.device.unlockForConfiguration()
+                    }
+                }
                 if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
-                    self.exposureMode = AVCaptureExposureMode.fromRaw(mode_value)
+                    let mode = AVCaptureExposureMode.fromRaw(mode_value)!
+                    self.exposureMode = mode
                 }
             case "focusMode":
                 if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
