@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -51,18 +51,27 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="5Uc-U5-v2f"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="onSlideChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="8az-u5-emR"/>
+                                                </connections>
                                             </slider>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bQ9-m8-9pW">
                                                 <rect key="frame" x="56" y="94" width="457" height="31"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Tfm-Wq-tGc"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="onSlideChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="0Ks-Kv-Xwi"/>
+                                                </connections>
                                             </slider>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="meX-T7-dTd">
                                                 <rect key="frame" x="56" y="132" width="457" height="31"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="ovn-1S-9AA"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="onSlideChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="BJc-FP-b5j"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ISO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMH-ew-XHg">
                                                 <rect key="frame" x="8" y="60" width="42" height="21"/>
@@ -175,6 +184,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="M4z-xi-KjH"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="onSlideChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="7ds-os-4DV"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsj-qe-LmK">
                                                 <rect key="frame" x="525" y="60" width="50" height="21"/>
@@ -224,6 +236,30 @@
                                             <constraint firstAttribute="trailing" secondItem="s9r-sH-hWU" secondAttribute="trailing" constant="58" id="urv-bQ-VQV"/>
                                         </constraints>
                                     </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Xc-IK-Qcc" userLabel="FlashModeView">
+                                        <rect key="frame" x="13" y="49" width="575" height="445"/>
+                                        <subviews>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WRS-y2-8b9">
+                                                <rect key="frame" x="208" y="8" width="159" height="29"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="159" id="MWu-0T-vhj"/>
+                                                    <constraint firstAttribute="height" constant="28" id="w8l-oz-3MA"/>
+                                                </constraints>
+                                                <segments>
+                                                    <segment title="关闭"/>
+                                                    <segment title="打开"/>
+                                                    <segment title="自动"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="onSegmentChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="SD2-YG-hwf"/>
+                                                </connections>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="centerX" secondItem="WRS-y2-8b9" secondAttribute="centerX" id="NLB-D8-92w"/>
+                                            <constraint firstItem="WRS-y2-8b9" firstAttribute="top" secondItem="5Xc-IK-Qcc" secondAttribute="top" constant="8" id="VYc-2M-IeB"/>
+                                        </constraints>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-O6-zLB">
                                         <rect key="frame" x="256" y="524" width="88" height="30"/>
                                         <constraints>
@@ -244,14 +280,18 @@
                                     <constraint firstAttribute="centerX" secondItem="ejR-cj-3gu" secondAttribute="centerX" id="E4y-pH-M9j"/>
                                     <constraint firstItem="ejR-cj-3gu" firstAttribute="top" secondItem="tJr-28-1l6" secondAttribute="top" constant="8" id="Ev4-z3-ZYr"/>
                                     <constraint firstItem="JP4-O6-zLB" firstAttribute="top" secondItem="HXT-nc-QsG" secondAttribute="bottom" constant="26" id="N4t-0u-7dg"/>
+                                    <constraint firstItem="5Xc-IK-Qcc" firstAttribute="top" secondItem="ejR-cj-3gu" secondAttribute="bottom" constant="13" id="PbP-9n-9Ff"/>
                                     <constraint firstItem="9V3-OE-H7u" firstAttribute="top" secondItem="ejR-cj-3gu" secondAttribute="bottom" constant="13" id="Pbu-zI-cAw"/>
                                     <constraint firstAttribute="trailing" secondItem="9V3-OE-H7u" secondAttribute="trailing" constant="12" id="Rh1-VL-dhx"/>
                                     <constraint firstAttribute="centerX" secondItem="JP4-O6-zLB" secondAttribute="centerX" id="TFB-ao-Xj0"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Xc-IK-Qcc" secondAttribute="trailing" constant="12" id="Way-Mg-Cbk"/>
                                     <constraint firstItem="HXT-nc-QsG" firstAttribute="top" secondItem="ejR-cj-3gu" secondAttribute="bottom" constant="13" id="Y4b-xX-zj5"/>
                                     <constraint firstAttribute="bottom" secondItem="Zrp-dh-fUm" secondAttribute="bottom" id="ZuQ-G3-e6l"/>
+                                    <constraint firstItem="5Xc-IK-Qcc" firstAttribute="leading" secondItem="tJr-28-1l6" secondAttribute="leading" constant="13" id="fK3-QO-4ip"/>
                                     <constraint firstAttribute="trailing" secondItem="HXT-nc-QsG" secondAttribute="trailing" constant="12" id="faE-FG-ycu"/>
                                     <constraint firstItem="HXT-nc-QsG" firstAttribute="leading" secondItem="tJr-28-1l6" secondAttribute="leading" constant="13" id="m8D-PZ-Reg"/>
                                     <constraint firstItem="JP4-O6-zLB" firstAttribute="top" secondItem="9V3-OE-H7u" secondAttribute="bottom" constant="30" id="n73-zu-rUn"/>
+                                    <constraint firstItem="JP4-O6-zLB" firstAttribute="top" secondItem="5Xc-IK-Qcc" secondAttribute="bottom" constant="30" id="x1o-05-3xb"/>
                                     <constraint firstItem="Zrp-dh-fUm" firstAttribute="leading" secondItem="tJr-28-1l6" secondAttribute="leading" constant="8" id="zvn-rk-4m1"/>
                                 </constraints>
                             </view>
@@ -270,11 +310,13 @@
                         <outlet property="debugLabel" destination="Zrp-dh-fUm" id="8xj-LD-nea"/>
                         <outlet property="exposeView" destination="9V3-OE-H7u" id="ZAu-Af-255"/>
                         <outlet property="exposureDuration_label" destination="5x7-kv-MzL" id="zqP-qQ-0Lp"/>
+                        <outlet property="flashModeView" destination="5Xc-IK-Qcc" id="EJo-Qb-zzg"/>
                         <outlet property="iso_label" destination="CJj-2m-uOd" id="Nyw-P3-OCU"/>
                         <outlet property="lenseView" destination="HXT-nc-QsG" id="XKO-yR-uUH"/>
                         <outlet property="lense_label" destination="zsj-qe-LmK" id="2Vu-cY-VMr"/>
                         <outlet property="previewView" destination="tJr-28-1l6" id="3S7-N5-Xni"/>
                         <outlet property="segmentExposure" destination="jGX-ba-rs1" id="jRC-ZF-OK6"/>
+                        <outlet property="segmentFlashMode" destination="WRS-y2-8b9" id="J9V-fs-suK"/>
                         <outlet property="segmentFocus" destination="YyW-Cc-QTu" id="1sa-2m-iCx"/>
                         <outlet property="segmentFunction" destination="ejR-cj-3gu" id="uZB-As-rhq"/>
                         <outlet property="slide_baise" destination="meX-T7-dTd" id="uqE-60-YdT"/>

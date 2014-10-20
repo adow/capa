@@ -16,10 +16,12 @@ class ViewController: UIViewController {
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var exposeView:UIView!
     @IBOutlet var lenseView:UIView!
+    @IBOutlet var flashModeView:UIView!
     @IBOutlet var debugLabel:UILabel!
     @IBOutlet var segmentFunction:UISegmentedControl!
     @IBOutlet var segmentFocus:UISegmentedControl!
     @IBOutlet var segmentExposure:UISegmentedControl!
+    @IBOutlet var segmentFlashMode:UISegmentedControl!
     @IBOutlet var slide_exposureDuration:UISlider!
     @IBOutlet var slide_lensPosition:UISlider!
     @IBOutlet var slide_iso:UISlider!
@@ -36,19 +38,19 @@ class ViewController: UIViewController {
     var sessionQueue : dispatch_queue_t!
     var exposureDurationSeconds:Float64?{
         get{
-            return Float64(self.slide_exposureDuration.value)
+            return Float64(1 / self.slide_exposureDuration.value)
         }
         set{
             if let value = newValue {
-                self.slide_exposureDuration.value=Float(value)
-                self.slide_exposureDuration.enabled=true
+                self.slide_exposureDuration.value = Float(1 / value)
+                self.slide_exposureDuration.enabled = true
+                self.exposureDuration_label.text = String(format: "%.2f", value)
             }
             else{
                 self.slide_exposureDuration.enabled=false
             }
         }
     }
-    var exposureDuration:CMTime?
     var lensPosition:Float?{
         get{
             return self.slide_lensPosition.value
@@ -57,7 +59,7 @@ class ViewController: UIViewController {
             if let value = newValue {
                 self.slide_lensPosition.value=value
                 self.slide_lensPosition.enabled=true
-                self.lense_label.text=String(format: "%.2f",value)
+                self.lense_label.text=String(format: "%.1f",value)
             }
             else{
                 self.slide_lensPosition.enabled=false
@@ -109,16 +111,15 @@ class ViewController: UIViewController {
             return self.device.focusMode
         }
         set{
-            switch newValue! {
-            case .Locked:
-                self.segmentFocus.selectedSegmentIndex = 0
-            case .AutoFocus:
-                self.segmentFocus.selectedSegmentIndex = 1
-            case .ContinuousAutoFocus:
-                self.segmentFocus.selectedSegmentIndex = 2
-            default:
-                break
-            }
+            self.segmentFocus.selectedSegmentIndex = newValue.toRaw()
+        }
+    }
+    var flashMode : AVCaptureFlashMode! {
+        get{
+            return self.device.flashMode
+        }
+        set{
+            self.segmentFlashMode.selectedSegmentIndex = newValue.toRaw()
         }
     }
     
@@ -129,7 +130,7 @@ class ViewController: UIViewController {
         session = AVCaptureSession()
         self.previewView.session=session
         
-        let t_start=CFAbsoluteTimeGetCurrent()
+//        let t_start=CFAbsoluteTimeGetCurrent()
         self.sessionQueue=dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         dispatch_async(self.sessionQueue){
             [unowned self] () -> () in
@@ -151,40 +152,33 @@ class ViewController: UIViewController {
             self.captureOutput=AVCaptureStillImageOutput()
             let outputSettings=[AVVideoCodecKey:AVVideoCodecJPEG]
             self.captureOutput.outputSettings=outputSettings
-            self.session .addOutput(self.captureOutput)
+            self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             
-            self.slide_baise.maximumValue=self.device.maxExposureTargetBias
-            self.slide_baise.minimumValue=self.device.minExposureTargetBias
-            self.slide_iso.maximumValue=self.device.activeFormat.maxISO
-            self.slide_iso.minimumValue=self.device.activeFormat.minISO
-//            self.slide_exposureDuration.maximumValue=Float(CMTimeGetSeconds(device.activeFormat.maxExposureDuration))
-//            self.slide_exposureDuration.minimumValue=Float(CMTimeGetSeconds(device.activeFormat.minExposureDuration))
-            self.slide_exposureDuration.minimumValue=0.0
-            self.slide_exposureDuration.maximumValue=1.0
-            self.slide_lensPosition.maximumValue=1.0
-            self.slide_lensPosition.minimumValue=0.0
+//            self.session.startRunning()
+//            let t_end=CFAbsoluteTimeGetCurrent()
+//            NSLog("start duration:%.1f", t_end-t_start)
             
-            println("baise:\(self.slide_baise.minimumValue),\(self.slide_baise.maximumValue);ISO:\(self.slide_iso.minimumValue),\(self.slide_iso.maximumValue);duration:\(self.slide_exposureDuration.minimumValue),\(self.slide_exposureDuration.maximumValue)")
-            
-            let context = 0
-            self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
-            self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureTargetBias", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureTargetOffset", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "ISO", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureMode", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "focusMode", options: .New, context: nil)
-            
-            self.exposureMode=self.device.exposureMode
-            self.focusMode=self.device.focusMode
-            self.exposureTargetBias = self.device.exposureTargetBias
-            
-//            device.exposureMode=AVCaptureExposureMode.Custom
-            
-            self.session.startRunning()
-            let t_end=CFAbsoluteTimeGetCurrent()
-            NSLog("start duration:%f", t_end-t_start)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.exposureMode = self.device.exposureMode
+                self.focusMode = self.device.focusMode
+                self.flashMode = self.device.flashMode
+                self.exposureTargetBias = self.device.exposureTargetBias
+                
+                self.slide_baise.maximumValue=self.device.maxExposureTargetBias
+                self.slide_baise.minimumValue=self.device.minExposureTargetBias
+                self.slide_iso.maximumValue=self.device.activeFormat.maxISO
+                self.slide_iso.minimumValue=self.device.activeFormat.minISO
+                self.slide_exposureDuration.maximumValue = 1000
+                self.slide_exposureDuration.minimumValue = 1
+                NSLog("exposureDuration:%f,%f", self.slide_exposureDuration.minimumValue,self.slide_exposureDuration.maximumValue)
+                self.slide_lensPosition.maximumValue=1.0
+                self.slide_lensPosition.minimumValue=0.0
+                
+                println("baise:\(self.slide_baise.minimumValue),\(self.slide_baise.maximumValue);ISO:\(self.slide_iso.minimumValue),\(self.slide_iso.maximumValue);duration:\(self.slide_exposureDuration.minimumValue),\(self.slide_exposureDuration.maximumValue)")
+                
+                
+            })
         }
         
         
@@ -193,6 +187,28 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
+        dispatch_async(self.sessionQueue, { () -> Void in
+            self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
+            self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "exposureTargetBias", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "exposureTargetOffset", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "ISO", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "exposureMode", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "focusMode", options: .New, context: nil)
+            self.device.addObserver(self, forKeyPath: "flashMode", options: .New, context: nil)
+            self.session.startRunning()
+        })
+    }
+    override func viewDidDisappear(animated:Bool){
+        super.viewDidDisappear(animated)
+        self.device.removeObserver(self, forKeyPath: "exposureDuration")
+        self.device.removeObserver(self, forKeyPath: "lensPosition")
+        self.device.removeObserver(self, forKeyPath: "exposureTargetBias")
+        self.device.removeObserver(self, forKeyPath: "exposureTargetOffset")
+        self.device.removeObserver(self, forKeyPath: "ISO")
+        self.device.removeObserver(self, forKeyPath: "exposureMode")
+        self.device.removeObserver(self, forKeyPath: "focusMode")
+        self.device.removeObserver(self, forKeyPath: "flashMode")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -213,18 +229,21 @@ class ViewController: UIViewController {
             case "exposureDuration":
                 if let time = change[NSKeyValueChangeNewKey]?.CMTimeValue {
                     let seconds = CMTimeGetSeconds(time)
-                    let minDurationSeconds = max(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration), Float64(EXPOSURE_MINIMUM_DURATION));
-                    let maxDurationSeconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration);
-                    let p = ( seconds - minDurationSeconds ) / ( maxDurationSeconds - minDurationSeconds ); // Scale to 0-1
-                    let durationSeconds = pow( p, 1 / Float64(EXPOSURE_DURATION_POWER));
-                    self.exposureDurationSeconds=durationSeconds;
-                    println("seconds:\(seconds),duration:\(durationSeconds)")
-                    if ( seconds < 1){
-                        self.exposureDuration_label.text="1/\(Int((1 / seconds)))"
-                    }
-                    else{
-                        self.exposureDuration_label.text="\(seconds)"
-                    }
+//                    NSLog("exposureDurationSeconds:%.2f", seconds)
+                    self.exposureDurationSeconds = seconds
+//                    let minDurationSeconds = max(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration), Float64(EXPOSURE_MINIMUM_DURATION));
+//                    let maxDurationSeconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration);
+//                    let p = ( seconds - minDurationSeconds ) / ( maxDurationSeconds - minDurationSeconds ); // Scale to 0-1
+//                    let durationSeconds = pow( p, 1 / Float64(EXPOSURE_DURATION_POWER));
+//                    //self.exposureDurationSeconds=durationSeconds;
+//                    self.exposureDurationSeconds = seconds
+//                    println("seconds:\(seconds),duration:\(durationSeconds)")
+//                    if ( seconds < 1){
+//                        self.exposureDuration_label.text="1/\(Int((1 / seconds)))"
+//                    }
+//                    else{
+//                        self.exposureDuration_label.text="\(seconds)"
+//                    }
                 }
                 break
             case "ISO":
@@ -258,6 +277,8 @@ class ViewController: UIViewController {
                 if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
                     self.focusMode = AVCaptureFocusMode.fromRaw(mode_value)
                 }
+            case "flashMode":
+                break
             default:
                 break
         }
@@ -281,24 +302,21 @@ class ViewController: UIViewController {
     func updateDebugLabel(){
         var info = "mode: \(self.exposureMode)\n"
         if let iso_value = self.ISO {
-            info = info + "ISO:"+iso_value.format(".2") + "\n"
+            info = info + "ISO:"+iso_value.format(".1") + "\n"
         }
         if let exposureDurationSeconds_value = self.exposureDurationSeconds {
             info = info + "duration:"+exposureDurationSeconds_value.format(".2") + "\n"
         }
         if let lensPosition_value = self.lensPosition {
-            info = info + "lens:"+lensPosition_value.format(".2") + "\n"
+            info = info + "lens:"+lensPosition_value.format(".1") + "\n"
         }
         if let exposureTargetBias_value = self.exposureTargetBias {
-            info = info + "bias:"+exposureTargetBias_value.format(".2") + "\n"
+            info = info + "bias:"+exposureTargetBias_value.format(".1") + "\n"
         }
         if let exposureTargetOffset_value = self.exposureTargetOffset {
-            info = info + "offset:" + exposureTargetOffset_value.format(".2") + "\n"
+            info = info + "offset:" + exposureTargetOffset_value.format(".1") + "\n"
         }
         self.debugLabel.text=info
-        
-    }
-    func updateControl(){
         
     }
     @IBAction func onSegmentChanged(sender:UISegmentedControl){
@@ -307,9 +325,15 @@ class ViewController: UIViewController {
             case 0:
                 self.exposeView.hidden=false
                 self.lenseView.hidden=true
+                self.flashModeView.hidden = true
+            case 1:
+                self.exposeView.hidden = true
+                self.lenseView.hidden = true
+                self.flashModeView.hidden = true
             default:
                 self.exposeView.hidden=true
-                self.lenseView.hidden=false
+                self.lenseView.hidden=true
+                self.flashModeView.hidden = false
             }
         }
         else if sender == self.segmentExposure {
@@ -324,7 +348,53 @@ class ViewController: UIViewController {
             self.device.focusMode = AVCaptureFocusMode.fromRaw(sender.selectedSegmentIndex)!
             self.device.unlockForConfiguration()
         }
+        else if sender == self.segmentFlashMode {
+            var error:NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.flashMode = AVCaptureFlashMode.fromRaw(sender.selectedSegmentIndex)!
+            self.device.unlockForConfiguration()
+        }
     }
-
+    @IBAction func onSlideChanged(sender:UISlider){
+        if (sender == self.slide_exposureDuration && self.device.exposureMode == AVCaptureExposureMode.Custom){
+//            let p = pow( Float64(sender.value), Float64(EXPOSURE_MINIMUM_DURATION) ) // Apply power function to expand slider's low-end range
+//            let minDurationSeconds = max(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration),
+//                    Float64(EXPOSURE_MINIMUM_DURATION));
+//            let maxDurationSeconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration);
+//            let newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
+//            NSLog("newDurationSeconds:%f", newDurationSeconds)
+            let exosureDuration = CMTimeMakeWithSeconds(Float64(self.slide_exposureDuration.value) / 1000,1000*1000*1000 )
+            var error:NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.setExposureModeCustomWithDuration(exosureDuration, ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
+                
+            })
+            self.device.unlockForConfiguration()
+        }
+        else if (sender == self.slide_iso && self.device.exposureMode == AVCaptureExposureMode.Custom) {
+            var error:NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, ISO: self.slide_iso.value, completionHandler: { (time) -> Void in
+                
+            })
+            self.device.unlockForConfiguration()
+        }
+        else if (sender == self.slide_baise && self.device.exposureMode != AVCaptureExposureMode.Custom){
+            var error: NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.setExposureTargetBias(self.slide_baise.value, completionHandler: { (time) -> Void in
+                
+            })
+            self.device.unlockForConfiguration()
+        }
+        else if (sender == self.slide_lensPosition && self.device.focusMode == AVCaptureFocusMode.Locked) {
+            var error : NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.setFocusModeLockedWithLensPosition(self.slide_lensPosition.value, completionHandler: { (time) -> Void in
+                
+            })
+            self.device.unlockForConfiguration()
+        }
+    }
 }
 
