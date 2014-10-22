@@ -30,6 +30,7 @@ class ViewController: UIViewController {
     @IBOutlet var exposureDuration_label:UILabel!
     @IBOutlet var baise_label:UILabel!
     @IBOutlet var lense_label:UILabel!
+    @IBOutlet var focus_view:UIView!
     
     let EXPOSURE_DURATION_POWER = 5
     let EXPOSURE_MINIMUM_DURATION = 1/1000
@@ -103,7 +104,7 @@ class ViewController: UIViewController {
             return self.device.exposureMode
         }
         set{
-            self.segmentExposure.selectedSegmentIndex = newValue.toRaw()
+            self.segmentExposure.selectedSegmentIndex = newValue.rawValue
         }
     }
     var focusMode : AVCaptureFocusMode!{
@@ -111,7 +112,7 @@ class ViewController: UIViewController {
             return self.device.focusMode
         }
         set{
-            self.segmentFocus.selectedSegmentIndex = newValue.toRaw()
+            self.segmentFocus.selectedSegmentIndex = newValue.rawValue
         }
     }
     var flashMode : AVCaptureFlashMode! {
@@ -119,7 +120,18 @@ class ViewController: UIViewController {
             return self.device.flashMode
         }
         set{
-            self.segmentFlashMode.selectedSegmentIndex = newValue.toRaw()
+            self.segmentFlashMode.selectedSegmentIndex = newValue.rawValue
+        }
+    }
+    var focusPointOfIntereset : CGPoint! {
+        get{
+            return self.device.focusPointOfInterest
+        }
+        set{
+            let center_x = newValue.x * self.previewView.frame.size.width
+            let center_y = newValue.y * self.previewView.frame.size.height
+            NSLog("focus:%f,%f,%f,%f",newValue.x,newValue.y, center_x,center_y)
+            self.focus_view.center = CGPointMake(center_x, center_y)
         }
     }
     
@@ -130,8 +142,7 @@ class ViewController: UIViewController {
         session = AVCaptureSession()
         self.previewView.session=session
         
-//        let t_start=CFAbsoluteTimeGetCurrent()
-        self.sessionQueue=dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+        self.sessionQueue=dispatch_queue_create("test",DISPATCH_QUEUE_SERIAL)
         dispatch_async(self.sessionQueue){
             [unowned self] () -> () in
             self.session.beginConfiguration()
@@ -155,15 +166,12 @@ class ViewController: UIViewController {
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             
-//            self.session.startRunning()
-//            let t_end=CFAbsoluteTimeGetCurrent()
-//            NSLog("start duration:%.1f", t_end-t_start)
-            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.exposureMode = self.device.exposureMode
                 self.focusMode = self.device.focusMode
                 self.flashMode = self.device.flashMode
                 self.exposureTargetBias = self.device.exposureTargetBias
+                self.focusPointOfIntereset = self.device.focusPointOfInterest
                 
                 self.slide_baise.maximumValue=self.device.maxExposureTargetBias
                 self.slide_baise.minimumValue=self.device.minExposureTargetBias
@@ -177,7 +185,11 @@ class ViewController: UIViewController {
                 
                 println("baise:\(self.slide_baise.minimumValue),\(self.slide_baise.maximumValue);ISO:\(self.slide_iso.minimumValue),\(self.slide_iso.maximumValue);duration:\(self.slide_exposureDuration.minimumValue),\(self.slide_exposureDuration.maximumValue)")
                 
+                let focusPanGesture = UIPanGestureRecognizer(target: self, action: "onPanFocus:")
+                self.focus_view.addGestureRecognizer(focusPanGesture)
                 
+                let tapGesture = UITapGestureRecognizer(target: self, action: "onTapFocus:")
+                self.previewView.addGestureRecognizer(tapGesture)
             })
         }
         
@@ -187,6 +199,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
+//        self.sessionQueue=dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         dispatch_async(self.sessionQueue, { () -> Void in
             self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
             self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
@@ -223,7 +236,7 @@ class ViewController: UIViewController {
             layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
         }
     }
-    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: [NSObject : AnyObject]!, context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         //println("\(keyPath):\(change[NSKeyValueChangeNewKey])")
         switch keyPath {
             case "exposureDuration":
@@ -231,19 +244,6 @@ class ViewController: UIViewController {
                     let seconds = CMTimeGetSeconds(time)
 //                    NSLog("exposureDurationSeconds:%.2f", seconds)
                     self.exposureDurationSeconds = seconds
-//                    let minDurationSeconds = max(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration), Float64(EXPOSURE_MINIMUM_DURATION));
-//                    let maxDurationSeconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration);
-//                    let p = ( seconds - minDurationSeconds ) / ( maxDurationSeconds - minDurationSeconds ); // Scale to 0-1
-//                    let durationSeconds = pow( p, 1 / Float64(EXPOSURE_DURATION_POWER));
-//                    //self.exposureDurationSeconds=durationSeconds;
-//                    self.exposureDurationSeconds = seconds
-//                    println("seconds:\(seconds),duration:\(durationSeconds)")
-//                    if ( seconds < 1){
-//                        self.exposureDuration_label.text="1/\(Int((1 / seconds)))"
-//                    }
-//                    else{
-//                        self.exposureDuration_label.text="\(seconds)"
-//                    }
                 }
                 break
             case "ISO":
@@ -251,6 +251,7 @@ class ViewController: UIViewController {
                 break
             case "lensPosition":
                 self.lensPosition = change[NSKeyValueChangeNewKey]?.floatValue
+                self.focusPointOfIntereset = self.device.focusPointOfInterest
                 break
             case "exposureTargetBias":
                 self.exposureTargetBias = change[NSKeyValueChangeNewKey]?.floatValue
@@ -260,7 +261,7 @@ class ViewController: UIViewController {
                 break
             case "exposureMode":
                 if let mode_value = change[NSKeyValueChangeOldKey]?.integerValue {
-                    let mode = AVCaptureExposureMode.fromRaw(mode_value)!
+                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
                     if (mode == AVCaptureExposureMode.Custom){
                         var error:NSError?
                         self.device.lockForConfiguration(&error)
@@ -268,14 +269,15 @@ class ViewController: UIViewController {
                         self.device.activeVideoMinFrameDuration=kCMTimeInvalid
                         self.device.unlockForConfiguration()
                     }
-                }
+                }                
                 if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
-                    let mode = AVCaptureExposureMode.fromRaw(mode_value)!
+                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
                     self.exposureMode = mode
                 }
             case "focusMode":
+                NSLog("focusPointOfInterest:%@", NSStringFromCGPoint(self.device.focusPointOfInterest))
                 if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
-                    self.focusMode = AVCaptureFocusMode.fromRaw(mode_value)
+                    self.focusMode = AVCaptureFocusMode(rawValue: mode_value)
                 }
             case "flashMode":
                 break
@@ -291,8 +293,8 @@ class ViewController: UIViewController {
             let connection=self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                let image : UIImage=UIImage(data: imageData)
-                ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, orientation: ALAssetOrientation.fromRaw(image.imageOrientation.toRaw())!, completionBlock: {
+                let image : UIImage=UIImage(data: imageData)!
+                ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!, completionBlock: {
                         (url,error)-> () in
                     
                 })
@@ -328,7 +330,7 @@ class ViewController: UIViewController {
                 self.flashModeView.hidden = true
             case 1:
                 self.exposeView.hidden = true
-                self.lenseView.hidden = true
+                self.lenseView.hidden = false
                 self.flashModeView.hidden = true
             default:
                 self.exposeView.hidden=true
@@ -339,30 +341,24 @@ class ViewController: UIViewController {
         else if sender == self.segmentExposure {
             var error : NSError?
             self.device.lockForConfiguration(&error)
-            self.device.exposureMode = AVCaptureExposureMode.fromRaw(sender.selectedSegmentIndex)!
+            self.device.exposureMode = AVCaptureExposureMode(rawValue: sender.selectedSegmentIndex)!
             self.device.unlockForConfiguration()
         }
         else if sender == self.segmentFocus {
             var error:NSError?
             self.device.lockForConfiguration(&error)
-            self.device.focusMode = AVCaptureFocusMode.fromRaw(sender.selectedSegmentIndex)!
+            self.device.focusMode = AVCaptureFocusMode(rawValue: sender.selectedSegmentIndex)!
             self.device.unlockForConfiguration()
         }
         else if sender == self.segmentFlashMode {
             var error:NSError?
             self.device.lockForConfiguration(&error)
-            self.device.flashMode = AVCaptureFlashMode.fromRaw(sender.selectedSegmentIndex)!
+            self.device.flashMode = AVCaptureFlashMode(rawValue: sender.selectedSegmentIndex)!
             self.device.unlockForConfiguration()
         }
     }
     @IBAction func onSlideChanged(sender:UISlider){
         if (sender == self.slide_exposureDuration && self.device.exposureMode == AVCaptureExposureMode.Custom){
-//            let p = pow( Float64(sender.value), Float64(EXPOSURE_MINIMUM_DURATION) ) // Apply power function to expand slider's low-end range
-//            let minDurationSeconds = max(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration),
-//                    Float64(EXPOSURE_MINIMUM_DURATION));
-//            let maxDurationSeconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration);
-//            let newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
-//            NSLog("newDurationSeconds:%f", newDurationSeconds)
             let exosureDuration = CMTimeMakeWithSeconds(Float64(self.slide_exposureDuration.value) / 1000,1000*1000*1000 )
             var error:NSError?
             self.device.lockForConfiguration(&error)
@@ -395,6 +391,45 @@ class ViewController: UIViewController {
             })
             self.device.unlockForConfiguration()
         }
+    }
+    // 记录开始拖动前的位置
+    var stored_focus_view_point : CGPoint!
+    @IBAction func onPanFocus(recognizer:UIPanGestureRecognizer){
+        if recognizer.state == UIGestureRecognizerState.Began {
+            stored_focus_view_point = self.focus_view.center
+        }
+        else if recognizer.state == UIGestureRecognizerState.Changed {
+            let move = recognizer.translationInView(self.lenseView)
+//            NSLog("move:%@", NSStringFromCGPoint(move))
+            self.focus_view.center = CGPointMake(self.stored_focus_view_point.x + move.x,
+                self.stored_focus_view_point.y + move.y)
+        }
+        else if recognizer.state == UIGestureRecognizerState.Ended {
+            let focus_point = self.focus_view.convertPoint(self.focus_view.center, toView: self.previewView)
+            let focus_x = focus_point.x / 2 / self.previewView.frame.size.width
+            let focus_y = focus_point.y / 2 / self.previewView.frame.size.height
+            let new_focus = CGPointMake(focus_x, focus_y)
+            NSLog("center:%@,size:%@,new focus:%@",
+                NSStringFromCGPoint(focus_point),
+                NSStringFromCGSize(self.previewView.frame.size),
+                NSStringFromCGPoint(new_focus))
+            var error : NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.focusPointOfInterest = new_focus
+//            self.device.focusPointOfInterest = CGPointMake(0.5, 0.9)
+            self.device.focusMode = AVCaptureFocusMode.AutoFocus
+            self.device.unlockForConfiguration()
+        }
+    }
+    @IBAction func onTapFocus(recognizer:UITapGestureRecognizer){
+        let center = recognizer.locationInView(self.previewView)
+        let focus_x = center.x / self.previewView.frame.size.width
+        let focus_y = center.y / self.previewView.frame.size.height
+        var error : NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.focusPointOfInterest = CGPointMake(focus_x, focus_y)
+        self.device.focusMode = AVCaptureFocusMode.AutoFocus
+        self.device.unlockForConfiguration()
     }
 }
 

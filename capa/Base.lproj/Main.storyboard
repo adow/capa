@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,7 +19,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJr-28-1l6" userLabel="CameraPreview" customClass="CPPreviewView" customModule="capa" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exposure" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-dh-fUm" userLabel="DebugLabel">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exposure" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-dh-fUm" userLabel="DebugLabel">
                                         <rect key="frame" x="8" y="479" width="265" height="121"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="121" id="b5i-sj-rnH"/>
@@ -223,6 +223,10 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xAo-yN-Ko4" userLabel="FocusView">
+                                                <rect key="frame" x="30" y="203" width="60" height="60"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="YyW-Cc-QTu" firstAttribute="top" secondItem="HXT-nc-QsG" secondAttribute="top" constant="8" id="0Jh-0e-rkn"/>
@@ -260,7 +264,7 @@
                                             <constraint firstItem="WRS-y2-8b9" firstAttribute="top" secondItem="5Xc-IK-Qcc" secondAttribute="top" constant="8" id="VYc-2M-IeB"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-O6-zLB">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-O6-zLB">
                                         <rect key="frame" x="256" y="524" width="88" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="aeG-oL-otq"/>
@@ -311,6 +315,7 @@
                         <outlet property="exposeView" destination="9V3-OE-H7u" id="ZAu-Af-255"/>
                         <outlet property="exposureDuration_label" destination="5x7-kv-MzL" id="zqP-qQ-0Lp"/>
                         <outlet property="flashModeView" destination="5Xc-IK-Qcc" id="EJo-Qb-zzg"/>
+                        <outlet property="focus_view" destination="xAo-yN-Ko4" id="TbC-dm-xvj"/>
                         <outlet property="iso_label" destination="CJj-2m-uOd" id="Nyw-P3-OCU"/>
                         <outlet property="lenseView" destination="HXT-nc-QsG" id="XKO-yR-uUH"/>
                         <outlet property="lense_label" destination="zsj-qe-LmK" id="2Vu-cY-VMr"/>
@@ -327,6 +332,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="438" y="301"/>
         </scene>
     </scenes>
 </document>
