@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68332FEB19F7FEDB006CF89F /* CameraViewController.swift */; };
 		6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884755619E6D7E100F0A416 /* AppDelegate.swift */; };
 		6884755919E6D7E100F0A416 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884755819E6D7E100F0A416 /* ViewController.swift */; };
 		6884755C19E6D7E100F0A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6884755A19E6D7E100F0A416 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		68332FEB19F7FEDB006CF89F /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6884755119E6D7E100F0A416 /* capa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = capa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6884755519E6D7E100F0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6884755619E6D7E100F0A416 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				6884755619E6D7E100F0A416 /* AppDelegate.swift */,
 				6884755819E6D7E100F0A416 /* ViewController.swift */,
+				68332FEB19F7FEDB006CF89F /* CameraViewController.swift */,
 				6884755A19E6D7E100F0A416 /* Main.storyboard */,
 				6884755D19E6D7E100F0A416 /* Images.xcassets */,
 				6884755F19E6D7E100F0A416 /* LaunchScreen.xib */,
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6884755919E6D7E100F0A416 /* ViewController.swift in Sources */,
+				68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */,
 				6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */,
 				6884757719E6DE9400F0A416 /* CPPreviewView.swift in Sources */,
 				6884758119E808A500F0A416 /* Extension.swift in Sources */,

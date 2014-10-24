@@ -11,8 +11,8 @@ import AVFoundation
 import AssetsLibrary
 
 class ViewController: UIViewController {
-    var session:AVCaptureSession!
-    var device:AVCaptureDevice!
+
+    // MARK: - UI
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var exposeView:UIView!
     @IBOutlet var lenseView:UIView!
@@ -31,111 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet var baise_label:UILabel!
     @IBOutlet var lense_label:UILabel!
     @IBOutlet var focus_view:UIView!
-    
-    let EXPOSURE_DURATION_POWER = 5
-    let EXPOSURE_MINIMUM_DURATION = 1/1000
-    
-    var captureOutput:AVCaptureStillImageOutput!
-    var sessionQueue : dispatch_queue_t!
-    var exposureDurationSeconds:Float64?{
-        get{
-            return Float64(1 / self.slide_exposureDuration.value)
-        }
-        set{
-            if let value = newValue {
-                self.slide_exposureDuration.value = Float(1 / value)
-                self.slide_exposureDuration.enabled = true
-                self.exposureDuration_label.text = String(format: "%.2f", value)
-            }
-            else{
-                self.slide_exposureDuration.enabled=false
-            }
-        }
-    }
-    var lensPosition:Float?{
-        get{
-            return self.slide_lensPosition.value
-        }
-        set{
-            if let value = newValue {
-                self.slide_lensPosition.value=value
-                self.slide_lensPosition.enabled=true
-                self.lense_label.text=String(format: "%.1f",value)
-            }
-            else{
-                self.slide_lensPosition.enabled=false
-            }
-        }
-    }
-//    var lensPosition:Float?
-    var ISO:Float?{
-        get{
-            return self.slide_iso.value
-        }
-        set{
-            if let value = newValue {
-                self.slide_iso.value=value
-                self.slide_iso.enabled=true
-                self.iso_label.text="\(Int(value))"
-            }
-            else{
-                self.slide_iso.enabled=false
-            }
-        }
-    }
-    var exposureTargetBias:Float?{
-        get{
-            return self.slide_baise.value
-        }
-        set{
-            if let value = newValue {
-                self.slide_baise.value=value
-                self.slide_baise.enabled=true
-                self.baise_label.text="\(value)"
-            }
-            else{
-                self.slide_baise.enabled=false
-            }
-        }
-    }
-    var exposureTargetOffset:Float?
-    var exposureMode:AVCaptureExposureMode!{
-        get{
-            return self.device.exposureMode
-        }
-        set{
-            self.segmentExposure.selectedSegmentIndex = newValue.rawValue
-        }
-    }
-    var focusMode : AVCaptureFocusMode!{
-        get{
-            return self.device.focusMode
-        }
-        set{
-            self.segmentFocus.selectedSegmentIndex = newValue.rawValue
-        }
-    }
-    var flashMode : AVCaptureFlashMode! {
-        get{
-            return self.device.flashMode
-        }
-        set{
-            self.segmentFlashMode.selectedSegmentIndex = newValue.rawValue
-        }
-    }
-    var focusPointOfIntereset : CGPoint! {
-        get{
-            return self.device.focusPointOfInterest
-        }
-        set{
-            let center_x = newValue.x * self.previewView.frame.size.width
-            let center_y = newValue.y * self.previewView.frame.size.height
-            NSLog("focus:%f,%f,%f,%f",newValue.x,newValue.y, center_x,center_y)
-            self.focus_view.center = CGPointMake(center_x, center_y)
-        }
-    }
-    
-    // MARK: - viewcontroller
+    @IBOutlet var exposePointView:UIView!
+    // MARK: viewcontroller
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -199,7 +96,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
-//        self.sessionQueue=dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+        //        self.sessionQueue=dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         dispatch_async(self.sessionQueue, { () -> Void in
             self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
             self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
@@ -236,58 +133,8 @@ class ViewController: UIViewController {
             layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
         }
     }
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        //println("\(keyPath):\(change[NSKeyValueChangeNewKey])")
-        switch keyPath {
-            case "exposureDuration":
-                if let time = change[NSKeyValueChangeNewKey]?.CMTimeValue {
-                    let seconds = CMTimeGetSeconds(time)
-//                    NSLog("exposureDurationSeconds:%.2f", seconds)
-                    self.exposureDurationSeconds = seconds
-                }
-                break
-            case "ISO":
-                self.ISO = change[NSKeyValueChangeNewKey]?.floatValue
-                break
-            case "lensPosition":
-                self.lensPosition = change[NSKeyValueChangeNewKey]?.floatValue
-                self.focusPointOfIntereset = self.device.focusPointOfInterest
-                break
-            case "exposureTargetBias":
-                self.exposureTargetBias = change[NSKeyValueChangeNewKey]?.floatValue
-                break
-            case "exposureTargetOffset":
-                self.exposureTargetOffset = change[NSKeyValueChangeNewKey]?.floatValue
-                break
-            case "exposureMode":
-                if let mode_value = change[NSKeyValueChangeOldKey]?.integerValue {
-                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
-                    if (mode == AVCaptureExposureMode.Custom){
-                        var error:NSError?
-                        self.device.lockForConfiguration(&error)
-                        self.device.activeVideoMaxFrameDuration=kCMTimeInvalid
-                        self.device.activeVideoMinFrameDuration=kCMTimeInvalid
-                        self.device.unlockForConfiguration()
-                    }
-                }                
-                if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
-                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
-                    self.exposureMode = mode
-                }
-            case "focusMode":
-                NSLog("focusPointOfInterest:%@", NSStringFromCGPoint(self.device.focusPointOfInterest))
-                if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
-                    self.focusMode = AVCaptureFocusMode(rawValue: mode_value)
-                }
-            case "flashMode":
-                break
-            default:
-                break
-        }
-        self.updateDebugLabel()
-    }
     
-    // MARK: - Action
+    // MARK: Action
     @IBAction func onButtonShuttle(sender:UIButton){
         if (self.captureOutput != nil ){
             let connection=self.captureOutput.connections[0] as AVCaptureConnection
@@ -295,7 +142,7 @@ class ViewController: UIViewController {
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 let image : UIImage=UIImage(data: imageData)!
                 ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!, completionBlock: {
-                        (url,error)-> () in
+                    (url,error)-> () in
                     
                 })
             })
@@ -400,7 +247,7 @@ class ViewController: UIViewController {
         }
         else if recognizer.state == UIGestureRecognizerState.Changed {
             let move = recognizer.translationInView(self.lenseView)
-//            NSLog("move:%@", NSStringFromCGPoint(move))
+            //            NSLog("move:%@", NSStringFromCGPoint(move))
             self.focus_view.center = CGPointMake(self.stored_focus_view_point.x + move.x,
                 self.stored_focus_view_point.y + move.y)
         }
@@ -416,7 +263,7 @@ class ViewController: UIViewController {
             var error : NSError?
             self.device.lockForConfiguration(&error)
             self.device.focusPointOfInterest = new_focus
-//            self.device.focusPointOfInterest = CGPointMake(0.5, 0.9)
+            //            self.device.focusPointOfInterest = CGPointMake(0.5, 0.9)
             self.device.focusMode = AVCaptureFocusMode.AutoFocus
             self.device.unlockForConfiguration()
         }
@@ -431,5 +278,175 @@ class ViewController: UIViewController {
         self.device.focusMode = AVCaptureFocusMode.AutoFocus
         self.device.unlockForConfiguration()
     }
+
+    // MARK: - AV
+    var session:AVCaptureSession!
+    var device:AVCaptureDevice!
+    let EXPOSURE_DURATION_POWER = 5
+    let EXPOSURE_MINIMUM_DURATION = 1/1000
+    var captureOutput:AVCaptureStillImageOutput!
+    var sessionQueue : dispatch_queue_t!
+    var exposureDurationSeconds:Float64?{
+        get{
+            return Float64(1 / self.slide_exposureDuration.value)
+        }
+        set{
+            if let value = newValue {
+                self.slide_exposureDuration.value = Float(1 / value)
+                self.slide_exposureDuration.enabled = true
+                self.exposureDuration_label.text = String(format: "%.2f", value)
+            }
+            else{
+                self.slide_exposureDuration.enabled=false
+            }
+        }
+    }
+    var lensPosition:Float?{
+        get{
+            return self.slide_lensPosition.value
+        }
+        set{
+            if let value = newValue {
+                self.slide_lensPosition.value=value
+                self.slide_lensPosition.enabled=true
+                self.lense_label.text=String(format: "%.1f",value)
+            }
+            else{
+                self.slide_lensPosition.enabled=false
+            }
+        }
+    }
+    var ISO:Float?{
+        get{
+            return self.slide_iso.value
+        }
+        set{
+            if let value = newValue {
+                self.slide_iso.value=value
+                self.slide_iso.enabled=true
+                self.iso_label.text="\(Int(value))"
+            }
+            else{
+                self.slide_iso.enabled=false
+            }
+        }
+    }
+    var exposureTargetBias:Float?{
+        get{
+            return self.slide_baise.value
+        }
+        set{
+            if let value = newValue {
+                self.slide_baise.value=value
+                self.slide_baise.enabled=true
+                self.baise_label.text="\(value)"
+            }
+            else{
+                self.slide_baise.enabled=false
+            }
+        }
+    }
+    var exposureTargetOffset:Float?
+    var exposureMode:AVCaptureExposureMode!{
+        get{
+            return self.device.exposureMode
+        }
+        set{
+            self.segmentExposure.selectedSegmentIndex = newValue.rawValue
+        }
+    }
+    var focusMode : AVCaptureFocusMode!{
+        get{
+            return self.device.focusMode
+        }
+        set{
+            self.segmentFocus.selectedSegmentIndex = newValue.rawValue
+        }
+    }
+    var flashMode : AVCaptureFlashMode! {
+        get{
+            return self.device.flashMode
+        }
+        set{
+            self.segmentFlashMode.selectedSegmentIndex = newValue.rawValue
+        }
+    }
+    var focusPointOfIntereset : CGPoint! {
+        get{
+            return self.device.focusPointOfInterest
+        }
+        set{
+            let center_x = newValue.x * self.previewView.frame.size.width
+            let center_y = newValue.y * self.previewView.frame.size.height
+//            NSLog("focus:%f,%f,%f,%f",newValue.x,newValue.y, center_x,center_y)
+            self.focus_view.center = CGPointMake(center_x, center_y)
+        }
+    }
+    var exposurePointOfInterest: CGPoint! {
+        get{
+            return self.device.exposurePointOfInterest
+        }
+        set{
+            let center_x = newValue.x * self.previewView.frame.size.width
+            let center_y = newValue.y * self.previewView.frame.size.height
+            self.exposePointView.center = CGPointMake(center_x, center_y)
+        }
+    }
+    
+    // MARK: update device and refresh ui
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        //println("\(keyPath):\(change[NSKeyValueChangeNewKey])")
+        self.focusPointOfIntereset = self.device.focusPointOfInterest
+        self.exposurePointOfInterest = self.device.exposurePointOfInterest
+        switch keyPath {
+            case "exposureDuration":
+                if let time = change[NSKeyValueChangeNewKey]?.CMTimeValue {
+                    let seconds = CMTimeGetSeconds(time)
+//                    NSLog("exposureDurationSeconds:%.2f", seconds)
+                    self.exposureDurationSeconds = seconds
+                }
+                break
+            case "ISO":
+                self.ISO = change[NSKeyValueChangeNewKey]?.floatValue
+                break
+            case "lensPosition":
+                self.lensPosition = change[NSKeyValueChangeNewKey]?.floatValue
+                
+                break
+            case "exposureTargetBias":
+                self.exposureTargetBias = change[NSKeyValueChangeNewKey]?.floatValue
+                break
+            case "exposureTargetOffset":
+                self.exposureTargetOffset = change[NSKeyValueChangeNewKey]?.floatValue
+                break
+            case "exposureMode":
+                if let mode_value = change[NSKeyValueChangeOldKey]?.integerValue {
+                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
+                    if (mode == AVCaptureExposureMode.Custom){
+                        var error:NSError?
+                        self.device.lockForConfiguration(&error)
+                        self.device.activeVideoMaxFrameDuration=kCMTimeInvalid
+                        self.device.activeVideoMinFrameDuration=kCMTimeInvalid
+                        self.device.unlockForConfiguration()
+                    }
+                }                
+                if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
+                    let mode = AVCaptureExposureMode(rawValue: mode_value)!
+                    self.exposureMode = mode
+                }
+            case "focusMode":
+                NSLog("focusPointOfInterest:%@", NSStringFromCGPoint(self.device.focusPointOfInterest))
+                if let mode_value = change[NSKeyValueChangeNewKey]?.integerValue {
+                    self.focusMode = AVCaptureFocusMode(rawValue: mode_value)
+                }
+            case "flashMode":
+                break
+            default:
+                break
+        }
+        self.updateDebugLabel()
+    }
+    
+    
 }
 
