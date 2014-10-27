@@ -19,4 +19,13 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
             return "selection \(row)"
     }
+    @IBOutlet var flashButton:FlashButton!
+    override func viewDidLoad() {
+//        let flash_button = FlashButton(frame: CGRect(x: 100, y: 100.0, width: 100.0, height: 100.0))
+//        flash_button.addTarget(self, action: "onFlashButton:", forControlEvents: UIControlEvents.ValueChanged)
+//        self.view.addSubview(flash_button)
+    }
+    @IBAction func onFlashButton(sender:FlashButton!){
+        NSLog("flashButton:%d", sender.stateItem!.value)
+    }
 }
