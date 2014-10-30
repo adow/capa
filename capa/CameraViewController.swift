@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerViewDelegate {
+class CameraViewController : UIViewController {
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
@@ -20,16 +20,7 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
     @IBOutlet var flashButton:FlashButton!
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            return 3
-    }
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-            return 1
-    }
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-            return "selection \(row)"
-    }
-    
+    @IBOutlet var focusView:FocusControl!
     // MARK: - ViewController
     override func viewDidLoad() {
         session = AVCaptureSession()
@@ -65,6 +56,13 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
                 self.updateFocusMode()
                 self.updateFocusLensPosition()
                 self.updateFlashMode()
+                self.updateExposurePointOfInterest()
+                self.updateFocusPointOfInterest()
+                
+                let tapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+                self.previewView.addGestureRecognizer(tapGesture)
+                let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+                self.previewView.addGestureRecognizer(panGesture)
             })
         }
     }
@@ -108,6 +106,39 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
         self.device.flashMode = AVCaptureFlashMode(rawValue: sender.stateItem!.value)!
         self.device.unlockForConfiguration()
     }
+    // MARK: - Gesture
+    func onTapGesture(gesture:UITapGestureRecognizer){
+        let center = gesture.locationInView(self.previewView)
+        let focus_x = center.x / self.previewView.frame.size.width
+        let focus_y = center.y / self.previewView.frame.size.height
+        var error : NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.focusPointOfInterest = CGPointMake(focus_x, focus_y)
+        self.device.focusMode = AVCaptureFocusMode.AutoFocus
+        self.device.unlockForConfiguration()
+    }
+    func onPanGesture(gesture:UIPanGestureRecognizer){
+        if self.focusView.state == FocusControl.State.Active {
+            if gesture.state == UIGestureRecognizerState.Began {
+                var error : NSError?
+                self.device.lockForConfiguration(&error)
+                self.device.focusMode = AVCaptureFocusMode.Locked
+                
+            }
+            else if (gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled) {
+                self.device.unlockForConfiguration()
+            }
+            else if gesture.state == UIGestureRecognizerState.Changed {
+                let move = gesture.translationInView(self.previewView)
+                var lensPosition = self.device.lensPosition - Float(move.y / 1000.0)
+                lensPosition = min(lensPosition, 1.0)
+                lensPosition = max(lensPosition, 0.0)
+                self.device.setFocusModeLockedWithLensPosition(lensPosition, completionHandler: { (time) -> Void in
+                    
+                })
+            }
+        }
+    }
     // MARK: - Update UI
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         switch keyPath {
@@ -146,6 +177,8 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
             default:
                 break
         }
+        self.updateFocusPointOfInterest()
+        self.updateExposurePointOfInterest()
         self.updateDebug()
     }
     private func updateDebug(){
@@ -177,12 +210,16 @@ class CameraViewController : UIViewController, UIPickerViewDataSource,UIPickerVi
     private func updateFocusMode(){
         let mode = self.device.focusMode
         NSLog("updateFocusMode:\(mode)")
+        if mode == AVCaptureFocusMode.AutoFocus {
+            self.focusView.state = FocusControl.State.Active
+        }
     }
     private func updateFocusLensPosition(lensPosition:Float = AVCaptureLensPositionCurrent){
         NSLog("updateFocusLensPosition:%f", lensPosition)
+        self.focusView.updateLensPosition(lensPosition)
     }
     private func updateFocusPointOfInterest(){
-        
+        self.focusView.updateFocusPointOfInterest(self.device.focusPointOfInterest)
     }
     // MARK: Flash light
     private func updateFlashMode(){
