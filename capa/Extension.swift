@@ -52,3 +52,27 @@ extension AVCaptureExposureMode : Printable {
             }
     }
 }
+extension AVCaptureFocusMode : Printable {
+    public var description:String{
+        switch self {
+        case .AutoFocus:
+            return "AutoFocus"
+        case .ContinuousAutoFocus:
+            return "ContinuousAutoFocus"
+        case .Locked:
+            return "Locked"
+        }
+    }
+}
+extension AVCaptureFlashMode : Printable {
+    public var description : String{
+        switch self {
+        case .Auto:
+            return "Auto"
+        case .Off:
+            return "Off"
+        case .On:
+            return "On"
+        }
+    }
+}
