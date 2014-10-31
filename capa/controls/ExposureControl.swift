@@ -1,15 +1,15 @@
 //
-//  FocusControl.swift
+//  ExposureControl.swift
 //  capa
 //
-//  Created by 秦 道平 on 14/10/30.
+//  Created by 秦 道平 on 14/10/31.
 //  Copyright (c) 2014年 秦 道平. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class FocusControl:UIView {
+class ExposureControl:UIView {
     enum State:Int,Printable{
         case Unvisible = 0, Visible = 1 , Active = 2
         var description:String{
@@ -23,8 +23,8 @@ class FocusControl:UIView {
             }
         }
     }
-    @IBOutlet var focusView:UIView!
-    @IBOutlet var lensPositionLabel:UILabel!
+    @IBOutlet var exposureView:UIView!
+    @IBOutlet var biasLabel:UILabel!
     var _state:State!
     var state:State!{
         get{
@@ -50,7 +50,7 @@ class FocusControl:UIView {
         self.state = .Unvisible
     }
     // 更新位置
-    func updateFocusPointOfInterest(center:CGPoint){
+    func updateExposurePointOfInterest(center:CGPoint){
         if let superView_value = self.superview {
             let superFrame = superView_value.frame
             let x = superFrame.width * center.x
@@ -58,7 +58,7 @@ class FocusControl:UIView {
             self.center = CGPointMake(x, y)
         }
     }
-    func updateLensPosition(lensPosition:Float){
-        self.lensPositionLabel.text = lensPosition.format(".1")
+    func updateTargetBias(bias:Float){
+        self.biasLabel.text = bias.format(".1")
     }
 }

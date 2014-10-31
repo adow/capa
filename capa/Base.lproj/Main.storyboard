@@ -396,7 +396,7 @@
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMv-f2-jOm">
-                                                <rect key="frame" x="25" y="40" width="69" height="21"/>
+                                                <rect key="frame" x="22" y="40" width="69" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -417,6 +417,25 @@
                                         </constraints>
                                         <state key="normal" image="focustool"/>
                                     </button>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-x7-UgS" userLabel="exposurecontrol" customClass="ExposureControl" customModule="capa" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="250" width="100" height="100"/>
+                                        <subviews>
+                                            <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC8-Sw-ZNF">
+                                                <rect key="frame" x="5" y="5" width="90" height="90"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bias 0.3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H18-yD-AsG">
+                                                <rect key="frame" x="30" y="40" width="60" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <connections>
+                                            <outlet property="biasLabel" destination="H18-yD-AsG" id="lqK-ZS-tgA"/>
+                                            <outlet property="exposureView" destination="JC8-Sw-ZNF" id="fgI-AZ-V3F"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
@@ -454,6 +473,7 @@
                     </view>
                     <connections>
                         <outlet property="debugLabel" destination="bw7-A0-nmd" id="aLE-bL-azR"/>
+                        <outlet property="exposureView" destination="GwY-x7-UgS" id="fgE-ie-GfF"/>
                         <outlet property="flashButton" destination="Iy7-9m-rXZ" id="NPy-5f-9uH"/>
                         <outlet property="focusView" destination="FNa-HV-RfY" id="164-On-2TP"/>
                         <outlet property="previewView" destination="CeE-eV-OFd" id="7GN-Ls-IrV"/>

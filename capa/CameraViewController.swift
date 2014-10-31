@@ -21,6 +21,10 @@ class CameraViewController : UIViewController {
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
     @IBOutlet var focusView:FocusControl!
+    @IBOutlet var exposureView:ExposureControl!
+    var focusTapGesture : UITapGestureRecognizer!
+    var exposureTapGesutre: UITapGestureRecognizer!
+    var focusPanGesture : UIPanGestureRecognizer!
     // MARK: - ViewController
     override func viewDidLoad() {
         session = AVCaptureSession()
@@ -48,7 +52,7 @@ class CameraViewController : UIViewController {
             self.captureOutput.outputSettings=outputSettings
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                 self.updateExposureMode()
                 self.updateExposureISO()
                 self.updateExposureShuttle()
@@ -59,10 +63,13 @@ class CameraViewController : UIViewController {
                 self.updateExposurePointOfInterest()
                 self.updateFocusPointOfInterest()
                 
-                let tapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                self.previewView.addGestureRecognizer(tapGesture)
-                let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-                self.previewView.addGestureRecognizer(panGesture)
+                self.focusTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+                self.focusTapGesture.numberOfTapsRequired = 2
+                self.previewView.addGestureRecognizer(self.focusTapGesture)
+                self.exposureTapGesutre = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+                self.previewView.addGestureRecognizer(self.exposureTapGesutre)
+                self.focusPanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+                self.previewView.addGestureRecognizer(self.focusPanGesture)
             })
         }
     }
@@ -113,8 +120,14 @@ class CameraViewController : UIViewController {
         let focus_y = center.y / self.previewView.frame.size.height
         var error : NSError?
         self.device.lockForConfiguration(&error)
-        self.device.focusPointOfInterest = CGPointMake(focus_x, focus_y)
-        self.device.focusMode = AVCaptureFocusMode.AutoFocus
+        if gesture === self.focusTapGesture {
+            self.device.focusMode = AVCaptureFocusMode.AutoFocus
+            self.device.focusPointOfInterest = CGPointMake(focus_x, focus_y)
+        }
+        else if gesture === self.exposureTapGesutre {
+            self.device.exposureMode = AVCaptureExposureMode.AutoExpose
+            self.device.exposurePointOfInterest = CGPointMake(focus_x, focus_y)
+        }
         self.device.unlockForConfiguration()
     }
     func onPanGesture(gesture:UIPanGestureRecognizer){
@@ -160,7 +173,7 @@ class CameraViewController : UIViewController {
                 break
             case "exposureTargetBias":
                 if let bias = change[NSKeyValueChangeNewKey]?.floatValue {
-                    self.updateExposureTargetBias(bias: bias)
+                    self.updateExposureTargetBias()
                 }
                 break
             case "exposureTargetOffset":
@@ -189,6 +202,9 @@ class CameraViewController : UIViewController {
     private func updateExposureMode(){
         let mode = self.device.exposureMode
         NSLog("updateExposureMode:\(mode)")
+        if mode == AVCaptureExposureMode.AutoExpose {
+            self.exposureView.state = ExposureControl.State.Active
+        }
     }
     private func updateExposureISO(iso:Float = AVCaptureISOCurrent){
         NSLog("updateExposureISO:%f", iso)
@@ -197,13 +213,14 @@ class CameraViewController : UIViewController {
         let seconds = CMTimeGetSeconds(duration)
         NSLog("updateExposureShuttle:%f", seconds)
     }
-    private func updateExposureTargetBias(bias:Float = AVCaptureExposureTargetBiasCurrent){
-        NSLog("updateExposureTargetBias:%f", bias)
+    private func updateExposureTargetBias(){
+        NSLog("updateExposureTargetBias:%f", self.device.exposureTargetBias)
+        self.exposureView.updateTargetBias(self.device.exposureTargetBias)
     }
-    private func updateExposureTargetOffset(targetOffset:Float? = nil){
-        
+    private func updateExposureTargetOffset(){
     }
     private func updateExposurePointOfInterest(){
+        self.exposureView.updateExposurePointOfInterest(self.device.exposurePointOfInterest)
         
     }
     // MARK: Focus
