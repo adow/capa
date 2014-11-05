@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController : UIViewController {
+class CameraViewController : UIViewController,UIGestureRecognizerDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
@@ -23,8 +23,9 @@ class CameraViewController : UIViewController {
     @IBOutlet var focusView:FocusControl!
     @IBOutlet var exposureView:ExposureControl!
     var focusTapGesture : UITapGestureRecognizer!
+    var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
-    var focusPanGesture : UIPanGestureRecognizer!
+    var panGesture : UIPanGestureRecognizer!
     // MARK: - ViewController
     override func viewDidLoad() {
         session = AVCaptureSession()
@@ -53,6 +54,11 @@ class CameraViewController : UIViewController {
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                self.focusView.device = self.device
+                self.focusView.center = self.previewView.center
+                self.exposureView.device = self.device
+                self.exposureView.center = self.previewView.center
+                
                 self.updateExposureMode()
                 self.updateExposureISO()
                 self.updateExposureShuttle()
@@ -60,16 +66,13 @@ class CameraViewController : UIViewController {
                 self.updateFocusMode()
                 self.updateFocusLensPosition()
                 self.updateFlashMode()
-                self.updateExposurePointOfInterest()
-                self.updateFocusPointOfInterest()
                 
                 self.focusTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                self.focusTapGesture.numberOfTapsRequired = 2
                 self.previewView.addGestureRecognizer(self.focusTapGesture)
-                self.exposureTapGesutre = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                self.previewView.addGestureRecognizer(self.exposureTapGesutre)
-                self.focusPanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-                self.previewView.addGestureRecognizer(self.focusPanGesture)
+                self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+                self.previewView.addGestureRecognizer(self.panGesture)
+                
+                
             })
         }
     }
@@ -114,43 +117,39 @@ class CameraViewController : UIViewController {
         self.device.unlockForConfiguration()
     }
     // MARK: - Gesture
+    /// 触摸就显示对焦点，对焦点出现后可以拖动位置
     func onTapGesture(gesture:UITapGestureRecognizer){
         let center = gesture.locationInView(self.previewView)
         let focus_x = center.x / self.previewView.frame.size.width
         let focus_y = center.y / self.previewView.frame.size.height
-        var error : NSError?
-        self.device.lockForConfiguration(&error)
-        if gesture === self.focusTapGesture {
-            self.device.focusMode = AVCaptureFocusMode.AutoFocus
-            self.device.focusPointOfInterest = CGPointMake(focus_x, focus_y)
-        }
-        else if gesture === self.exposureTapGesutre {
-            self.device.exposureMode = AVCaptureExposureMode.AutoExpose
-            self.device.exposurePointOfInterest = CGPointMake(focus_x, focus_y)
-        }
-        self.device.unlockForConfiguration()
+        self.focusView.updateFocusPointOfInterest(CGPoint(x: focus_x, y: focus_y))
     }
+    ///在 Preview 上拖动就可以设置曝光补偿，同时会出现测光点，这时可以修改测光点
     func onPanGesture(gesture:UIPanGestureRecognizer){
-        if self.focusView.state == FocusControl.State.Active {
-            if gesture.state == UIGestureRecognizerState.Began {
-                var error : NSError?
-                self.device.lockForConfiguration(&error)
-                self.device.focusMode = AVCaptureFocusMode.Locked
-                
-            }
-            else if (gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled) {
-                self.device.unlockForConfiguration()
-            }
-            else if gesture.state == UIGestureRecognizerState.Changed {
-                let move = gesture.translationInView(self.previewView)
-                var lensPosition = self.device.lensPosition - Float(move.y / 1000.0)
-                lensPosition = min(lensPosition, 1.0)
-                lensPosition = max(lensPosition, 0.0)
-                self.device.setFocusModeLockedWithLensPosition(lensPosition, completionHandler: { (time) -> Void in
+        if gesture.state == UIGestureRecognizerState.Began {
+            var error : NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.exposureMode = AVCaptureExposureMode.Locked
+        }
+        else if (gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled) {
+            device.unlockForConfiguration()
+        }
+        else if gesture.state == UIGestureRecognizerState.Changed {
+            let move = gesture.translationInView(self.previewView)
+            if fabs(move.y) >= 10 {
+                var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
+                bias = min(bias, 8.0)
+                bias = max(bias, -8.0)
+                self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
                     
                 })
             }
         }
+    
+    }
+    // MARK: GestureDelegate
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     // MARK: - Update UI
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -190,8 +189,6 @@ class CameraViewController : UIViewController {
             default:
                 break
         }
-        self.updateFocusPointOfInterest()
-        self.updateExposurePointOfInterest()
         self.updateDebug()
     }
     private func updateDebug(){
@@ -202,7 +199,7 @@ class CameraViewController : UIViewController {
     private func updateExposureMode(){
         let mode = self.device.exposureMode
         NSLog("updateExposureMode:\(mode)")
-        if mode == AVCaptureExposureMode.AutoExpose {
+        if mode == AVCaptureExposureMode.AutoExpose || mode == AVCaptureExposureMode.Locked{
             self.exposureView.state = ExposureControl.State.Active
         }
     }
@@ -219,10 +216,6 @@ class CameraViewController : UIViewController {
     }
     private func updateExposureTargetOffset(){
     }
-    private func updateExposurePointOfInterest(){
-        self.exposureView.updateExposurePointOfInterest(self.device.exposurePointOfInterest)
-        
-    }
     // MARK: Focus
     private func updateFocusMode(){
         let mode = self.device.focusMode
@@ -234,9 +227,6 @@ class CameraViewController : UIViewController {
     private func updateFocusLensPosition(lensPosition:Float = AVCaptureLensPositionCurrent){
         NSLog("updateFocusLensPosition:%f", lensPosition)
         self.focusView.updateLensPosition(lensPosition)
-    }
-    private func updateFocusPointOfInterest(){
-        self.focusView.updateFocusPointOfInterest(self.device.focusPointOfInterest)
     }
     // MARK: Flash light
     private func updateFlashMode(){

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class FocusControl:UIView {
     enum State:Int,Printable{
@@ -25,6 +26,8 @@ class FocusControl:UIView {
     }
     @IBOutlet var focusView:UIView!
     @IBOutlet var lensPositionLabel:UILabel!
+    @IBOutlet var activeLabel:UILabel!
+    var device:AVCaptureDevice!
     var _state:State!
     var state:State!{
         get{
@@ -38,7 +41,9 @@ class FocusControl:UIView {
             case .Visible:
                 self.hidden = false
                 self.alpha = 0.3
+                self.activeLabel.hidden=true
             case .Active:
+                self.activeLabel.hidden=false
                 self.hidden = false
                 self.alpha = 0.9
                 
@@ -48,6 +53,8 @@ class FocusControl:UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.state = .Unvisible
+        let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+        self.addGestureRecognizer(panGesture)
     }
     // 更新位置
     func updateFocusPointOfInterest(center:CGPoint){
@@ -56,9 +63,32 @@ class FocusControl:UIView {
             let x = superFrame.width * center.x
             let y = superFrame.height * center.y
             self.center = CGPointMake(x, y)
+            var error:NSError?
+            self.device.lockForConfiguration(&error)
+            self.device.focusMode = AVCaptureFocusMode.AutoFocus
+            self.device.focusPointOfInterest = center
+            self.device.unlockForConfiguration()
         }
     }
     func updateLensPosition(lensPosition:Float){
         self.lensPositionLabel.text = lensPosition.format(".1")
+    }
+    func onPanGesture(gesture:UIPanGestureRecognizer){
+        if self.state == .Active {
+            if gesture.state == UIGestureRecognizerState.Began {
+                
+            }
+            else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
+                var error:NSError?
+                let point = gesture.locationInView(self.superview!)
+                let center = CGPoint(x: point.x / self.superview!.frame.size.width,
+                    y: point.y / self.superview!.frame.size.height)
+                self.updateFocusPointOfInterest(center)
+            }
+            else if gesture.state == UIGestureRecognizerState.Changed {
+                let point = gesture.locationInView(self.superview!)
+                self.center = point
+            }
+        }
     }
 }
