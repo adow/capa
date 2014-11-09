@@ -10,18 +10,27 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class CameraViewController : UIViewController,UIGestureRecognizerDelegate{
+class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
     var captureOutput:AVCaptureStillImageOutput!
     var sessionQueue : dispatch_queue_t!
+    lazy var shuttles:[String] = {
+       return ["1","1/2","1/3","1/4","1/6","1/8","1/10","1/15","1/20","1/30","1/45","1/60","1/90",
+        "1/125","1/180","1/250","1/350","1/500","1/750","1/1000"]
+    }()
+    lazy var isos:[String] = {
+       return ["50","64","80","100","125","160","200","250","320","400","500","640"]
+    }()
     // MARK: - UI
     @IBOutlet var flashButton:FlashButton!
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
     @IBOutlet var focusView:FocusControl!
     @IBOutlet var exposureView:ExposureControl!
+    @IBOutlet var shuttlesPickerView:UIPickerView!
+    @IBOutlet var isoPickerView:UIPickerView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -80,15 +89,17 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate{
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
         dispatch_async(self.sessionQueue, { () -> Void in
-            self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
-            self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureTargetBias", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureTargetOffset", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "ISO", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "exposureMode", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "focusMode", options: .New, context: nil)
-            self.device.addObserver(self, forKeyPath: "flashMode", options: .New, context: nil)
-            self.session.startRunning()
+            if self.device != nil {
+                self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
+                self.device.addObserver(self, forKeyPath: "lensPosition", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "exposureTargetBias", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "exposureTargetOffset", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "ISO", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "exposureMode", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "focusMode", options: .New, context: nil)
+                self.device.addObserver(self, forKeyPath: "flashMode", options: .New, context: nil)
+                self.session.startRunning()
+            }
         })
     }
     override func viewDidDisappear(animated:Bool){
@@ -232,5 +243,37 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate{
     private func updateFlashMode(){
         let mode = self.device.flashMode
         NSLog("updateFlashMode:\(mode)")
+    }
+    // MARK: - UIPicketView
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView === shuttlesPickerView {
+            return shuttles.count
+        }
+        else if pickerView == isoPickerView {
+            return isos.count
+        }
+        else {
+            return 3
+        }
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return "1/\(row)"
+    }
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 44.0))
+        label.textAlignment = NSTextAlignment.Center
+        label.textColor = UIColor.whiteColor()
+        if pickerView === shuttlesPickerView {
+            let title = shuttles[row]
+            label.text = "\(title)"
+        }
+        else if pickerView == isoPickerView {
+            let title = isos[row]
+            label.text = "\(title)"
+        }
+        return label
     }
 }
