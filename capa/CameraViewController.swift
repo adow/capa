@@ -16,12 +16,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var device:AVCaptureDevice!
     var captureOutput:AVCaptureStillImageOutput!
     var sessionQueue : dispatch_queue_t!
-    lazy var shuttles:[String] = {
-       return ["1","1/2","1/3","1/4","1/6","1/8","1/10","1/15","1/20","1/30","1/45","1/60","1/90",
-        "1/125","1/180","1/250","1/350","1/500","1/750","1/1000"]
+    lazy var shuttles:[Float] = {
+       return [1,2,3,4,6,8,10,15,20,30,45,60,90,
+        125,180,250,350,500,750,1000]
     }()
-    lazy var isos:[String] = {
-       return ["50","64","80","100","125","160","200","250","320","400","500","640"]
+    lazy var isos:[Float] = {
+       return [50,64,80,100,125,160,200,250,320,400,500,640]
     }()
     // MARK: - UI
     @IBOutlet var flashButton:FlashButton!
@@ -216,10 +216,39 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     private func updateExposureISO(iso:Float = AVCaptureISOCurrent){
         NSLog("updateExposureISO:%f", iso)
+        var min_iso = iso
+        var min_distance:Float = 1000000
+        var to_row = 0
+        let rows =  0..<isos.count
+        for one_row in rows {
+            let one_iso = isos[one_row]
+            let distance = fabsf(one_iso - iso)
+            if (distance < min_distance) {
+                min_distance = distance
+                min_iso = one_iso
+                to_row = one_row
+            }
+        }
+        NSLog("to_row:%d", to_row)
+        self.isoPickerView.selectRow(to_row, inComponent: 0, animated: true)
+        
     }
     private func updateExposureShuttle(duration:CMTime = AVCaptureExposureDurationCurrent){
         let seconds = CMTimeGetSeconds(duration)
         NSLog("updateExposureShuttle:%f", seconds)
+        var min_shuttles = duration
+        var min_distance:Float = 10000000
+        var to_row = 0
+        let rows = 0..<self.shuttles.count
+        for one_row in rows {
+            let one_duration = 1 / self.shuttles[one_row]
+            let distance = fabsf(one_duration - Float(seconds))
+            if distance < min_distance {
+                min_distance = distance
+                to_row = one_row
+            }
+        }
+        self.shuttlesPickerView.selectRow(to_row, inComponent: 0, animated: true)
     }
     private func updateExposureTargetBias(){
         NSLog("updateExposureTargetBias:%f", self.device.exposureTargetBias)
@@ -268,12 +297,26 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         label.textColor = UIColor.whiteColor()
         if pickerView === shuttlesPickerView {
             let title = shuttles[row]
-            label.text = "\(title)"
+            label.text = "1/\(title)"
         }
         else if pickerView == isoPickerView {
             let title = isos[row]
             label.text = "\(title)"
         }
         return label
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        NSLog("didSelectRow:%d", row)
+        let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
+        let row_iso = self.isoPickerView.selectedRowInComponent(0)
+        let iso = self.isos[row_iso]
+        let shuttle = 1 / self.shuttles[row_shuttles]
+        var error:NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.exposureMode = AVCaptureExposureMode.Custom
+        self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000), ISO: iso) { (time) -> Void in
+            
+        }
+        self.device.unlockForConfiguration()
     }
 }
