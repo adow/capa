@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import AssetsLibrary
 
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     // MARK: - AV
@@ -119,6 +120,53 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    // MARK: - Action
+    private func _saveToPhotosAlbum(){
+        if (self.captureOutput != nil){
+            let connection = self.captureOutput.connections[0] as AVCaptureConnection
+            self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
+                let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
+                let image : UIImage=UIImage(data: imageData)!
+                ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!, completionBlock: {
+                    (url,error)-> () in
+                    
+                })
+            })
+        }
+    }
+    private func _saveToWorkspace(){
+        let document = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as String
+        let workspace = document + "/workspace"
+        if !NSFileManager.defaultManager().fileExistsAtPath(workspace) {
+            NSFileManager.defaultManager().createDirectoryAtPath(workspace, withIntermediateDirectories: true, attributes: nil, error: nil)
+        }
+        let bundle =  "\(workspace)/\(NSDate().timeIntervalSince1970).photo"
+        if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {
+            NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
+        }
+        
+        if (self.captureOutput != nil){
+            let connection = self.captureOutput.connections[0] as AVCaptureConnection
+            self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
+                let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
+                let image : UIImage=UIImage(data: imageData)!
+                let original_filename = "\(bundle)/original.jpg"
+                imageData.writeToFile(original_filename,atomically:true)
+                NSLog("save original to workspace:%@", original_filename)
+                
+                let thumbImage = image.resizeImageWithWidth(100.0)
+                let thumbData = UIImageJPEGRepresentation(thumbImage, 1.0)
+                let thumb_filename = "\(bundle)/thumb.jpg"
+                thumbData.writeToFile(thumb_filename, atomically: true)
+                NSLog("save thumb to workspace:%@", thumb_filename)
+            })
+        }
+    }
+    @IBAction func onShuttleButton(sender:UIButton!){
+//        self._saveToPhotosAlbum()
+        self._saveToWorkspace()
+        
     }
     @IBAction func onFlashButton(sender:FlashButton!){
         NSLog("flashButton:%d", sender.stateItem!.value)

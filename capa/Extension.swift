@@ -76,3 +76,19 @@ extension AVCaptureFlashMode : Printable {
         }
     }
 }
+extension UIImage {
+    /// 创建一张按宽度缩小的照片
+    public func resizeImageWithWidth(width:CGFloat) -> UIImage! {
+        let old_width = self.size.width
+        let old_height = self.size.height
+        let height = width * old_height / old_width
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        UIRectFill(CGRect(x: 0.0, y: 0.0, width: width, height: height))
+        self.drawInRect(CGRect(x: 0.0, y: 0.0, width: width, height: height))
+        let new_image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return new_image
+    }
+}
