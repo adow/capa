@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AssetsLibrary
 
 var workspace_path : String!{
 get{
@@ -15,15 +16,56 @@ get{
     return workspace
 }
 }
-struct PhotoModal {
+enum PhotoModalState:Int,Printable{
+    case undefined = 0, use = 1, remove = 2
+    var description:String{
+        switch self {
+        case .undefined:
+            return "undefined"
+        case .use:
+            return "use"
+        case .remove:
+            return "remove"
+        }
+    }
+}
+class PhotoModal {
     let bundlePath :String!
     let thumbPath :String!
     let originalPath :String!
+    var state :PhotoModalState
     var thumgImage:UIImage? {
         return UIImage(contentsOfFile: thumbPath)
     }
     var originalImage:UIImage?{
         return UIImage(contentsOfFile: originalPath)
+    }
+    init(bundlePath:String,thumbPath:String,originalPath:String,state:PhotoModalState){
+        self.bundlePath = bundlePath
+        self.thumbPath = thumbPath
+        self.originalPath = originalPath
+        self.state = state
+        
+    }
+    /// 保存到相机交卷
+    func saveToCameraRoll(){
+        if let image = originalImage {
+            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage,
+                orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
+                completionBlock: {
+                (url,error)-> () in
+                NSLog("save to:%@", url)
+            })
+        }
+    }
+    /// 删除相片文件
+    func remove(){
+        NSLog("remove photo:%@", self.bundlePath)
+        var error : NSError?
+        NSFileManager.defaultManager().removeItemAtPath(self.bundlePath, error: &error)
+        if let error_value = error {
+            NSLog("remove photo error:%@", error_value)
+        }
     }
 }
 func photo_list_in_workspace()->[PhotoModal]!{
@@ -33,8 +75,8 @@ func photo_list_in_workspace()->[PhotoModal]!{
     for one_file in filelist {
         if one_file.hasSuffix(".photo") {
             let photo = PhotoModal(bundlePath: workspace + one_file,
-                thumbPath: workspace + one_file + "/original.jpg",
-                originalPath: workspace + one_file + "/thumb.jpg")
+                thumbPath: workspace + one_file + "/thumb.jpg",
+                originalPath: workspace + one_file + "/original.jpg",state:.undefined)
             photo_list.append(photo)
         }
     }
@@ -58,5 +100,5 @@ func save_to_workspace(imageData:NSData)->PhotoModal{
     thumbData.writeToFile(thumb_filename, atomically: true)
     NSLog("save thumb to workspace:%@", thumb_filename)
     
-    return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename)
+    return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename,state:.undefined)
 }

@@ -208,21 +208,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZD-Xf-MkF">
-                                <rect key="frame" x="16" y="12" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="vwF-cA-l8D"/>
-                                    <constraint firstAttribute="height" constant="30" id="z1p-Vt-Qoo"/>
-                                </constraints>
-                                <state key="normal" title="Back">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onButtonCancel:" destination="6EE-lL-CXt" eventType="touchUpInside" id="1Zn-V9-sTU"/>
-                                </connections>
-                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dVl-YP-u6A">
-                                <rect key="frame" x="0.0" y="40" width="600" height="560"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Sgv-j5-0DF">
                                     <size key="itemSize" width="160" height="160"/>
@@ -245,13 +232,35 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cards" translatesAutoresizingMaskIntoConstraints="NO" id="jZX-zh-qYj" userLabel="thumbImageView">
                                                     <rect key="frame" x="30" y="30" width="100" height="100"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VnK-bM-Rby">
+                                                    <rect key="frame" x="10" y="120" width="46" height="30"/>
+                                                    <state key="normal" title="M">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" title="使用"/>
+                                                    <connections>
+                                                        <action selector="onButton:" destination="ssz-yM-TUD" eventType="touchUpInside" id="jJm-V2-qfq"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oqv-ad-9IE">
+                                                    <rect key="frame" x="110" y="120" width="46" height="30"/>
+                                                    <state key="normal" title="D">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" title="弃用"/>
+                                                    <connections>
+                                                        <action selector="onButton:" destination="ssz-yM-TUD" eventType="touchUpInside" id="XaC-De-fRZ"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <size key="customSize" width="160" height="160"/>
                                         <connections>
+                                            <outlet property="removeMarkButton" destination="Oqv-ad-9IE" id="4vy-ds-fjO"/>
                                             <outlet property="selectedBackgroundView" destination="NvP-gU-PGt" id="eVr-9r-aFJ"/>
                                             <outlet property="thumbImageView" destination="jZX-zh-qYj" id="Wan-Fo-4Pc"/>
+                                            <outlet property="useMarkButton" destination="VnK-bM-Rby" id="Uzt-lN-aYM"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -260,15 +269,36 @@
                                     <outlet property="delegate" destination="6EE-lL-CXt" id="Tx8-gA-Qcm"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mbl-qI-xat">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Back" id="eGr-dk-10a">
+                                        <connections>
+                                            <action selector="onButtonCancel:" destination="6EE-lL-CXt" id="Qkw-nU-n66"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="保存" id="6Hk-Ke-LP2">
+                                        <connections>
+                                            <action selector="savePhotosToCameraRollMarkUse:" destination="6EE-lL-CXt" id="rdc-Rg-h8O"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="删除" id="TLu-EO-iVB">
+                                        <connections>
+                                            <action selector="removePhotosMarkRemove:" destination="6EE-lL-CXt" id="lu6-3d-JhH"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lZD-Xf-MkF" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="topMargin" constant="12" id="7xK-1v-Wsb"/>
-                            <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="lZD-Xf-MkF" secondAttribute="bottom" constant="-2" id="YEv-rd-QEj"/>
+                            <constraint firstItem="mbl-qI-xat" firstAttribute="top" secondItem="dVl-YP-u6A" secondAttribute="bottom" id="9HM-dN-QQc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mbl-qI-xat" secondAttribute="trailing" constant="-16" id="9pi-kZ-W9Z"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="trailing" secondItem="kif-HC-VNE" secondAttribute="trailingMargin" constant="16" id="ejk-vy-sEN"/>
-                            <constraint firstItem="Bvu-WA-w3I" firstAttribute="top" secondItem="dVl-YP-u6A" secondAttribute="bottom" id="oX2-3B-8xy"/>
+                            <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="top" id="i4L-tv-OJ7"/>
+                            <constraint firstItem="Bvu-WA-w3I" firstAttribute="top" secondItem="mbl-qI-xat" secondAttribute="bottom" id="kPL-tT-ohX"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="qV6-mK-33I"/>
-                            <constraint firstItem="lZD-Xf-MkF" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" id="zpD-o5-G75"/>
+                            <constraint firstItem="mbl-qI-xat" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="wwc-1G-02i"/>
                         </constraints>
                     </view>
                     <connections>

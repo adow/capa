@@ -16,8 +16,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.collection.allowsMultipleSelection = true
-        photo_list = photo_list_in_workspace()
-        NSLog("photo_list:%d", photo_list!.count)
+        self.reload_photo_list()
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,7 +24,11 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Dispose of any resources that can be recreated.
     }
     
-
+    private func reload_photo_list(){
+        photo_list = photo_list_in_workspace()
+        NSLog("photo_list:%d", photo_list!.count)
+        self.collection.reloadData()
+    }
     /*
     // MARK: - Navigation
 
@@ -35,12 +38,32 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Pass the selected object to the new view controller.
     }
     */
-    @IBAction func onButtonCancel(sender:UIButton!){
+    // MARK: - Actions
+    @IBAction func onButtonCancel(sender:UIBarButtonItem!){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })
     }
-    
+    @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
+        if let photo_list_value = photo_list {
+            for one_photo in photo_list_value {
+                if one_photo.state == PhotoModalState.use {
+                    one_photo.saveToCameraRoll()
+                }
+            }
+        }
+    }
+    @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
+        if let photo_list_value = photo_list {
+            for one_photo in photo_list_value {
+                if one_photo.state == PhotoModalState.remove {
+                    one_photo.remove()
+                }
+            }
+            self.reload_photo_list()
+        }
+    }
+    // MARK: - UICollectionView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let photo_list_value = photo_list {
             return photo_list_value.count
@@ -53,6 +76,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
         let photo = photo_list![indexPath.row]
         cell.thumbImageView.image = photo.thumgImage
+        cell.photo = photo
         return cell
     }
 }
