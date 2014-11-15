@@ -29,15 +29,19 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         NSLog("photo_list:%d", photo_list!.count)
         self.collection.reloadData()
     }
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "segue_workspace_preview" {
+            let cell = sender as WorkspaceCollectionViewCell
+            let photo = cell.photo
+            let previewViewController = segue.destinationViewController as WorkPreviewViewController
+            previewViewController.photo = photo
+        }
     }
-    */
     // MARK: - Actions
     @IBAction func onButtonCancel(sender:UIBarButtonItem!){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in

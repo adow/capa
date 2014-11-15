@@ -31,6 +31,7 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
                 removeMarkButton.selected = true
             }
         }
+            
         else{
             useMarkButton.selected = false
             removeMarkButton.selected = false

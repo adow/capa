@@ -22,6 +22,7 @@
 		68ACFF8E1A14F2D0009EF955 /* WorkspaceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68ACFF8D1A14F2D0009EF955 /* WorkspaceLayout.swift */; };
 		68ACFF901A14FB12009EF955 /* WorkspaceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */; };
 		68ACFF921A14FD6E009EF955 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68ACFF911A14FD6E009EF955 /* Workspace.swift */; };
+		68ACFF951A1798F0009EF955 /* WorkPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68ACFF941A1798F0009EF955 /* WorkPreviewViewController.swift */; };
 		68D890381A1261DB002D983C /* WorkspaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D890371A1261DB002D983C /* WorkspaceViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		68ACFF8D1A14F2D0009EF955 /* WorkspaceLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceLayout.swift; sourceTree = "<group>"; };
 		68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceCollectionViewCell.swift; sourceTree = "<group>"; };
 		68ACFF911A14FD6E009EF955 /* Workspace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
+		68ACFF941A1798F0009EF955 /* WorkPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkPreviewViewController.swift; sourceTree = "<group>"; };
 		68D890371A1261DB002D983C /* WorkspaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,14 +91,11 @@
 		6884755319E6D7E100F0A416 /* capa */ = {
 			isa = PBXGroup;
 			children = (
+				68ACFF931A1798C0009EF955 /* Workspace */,
 				6871761A1A0277B90008F0F0 /* controls */,
 				6884755619E6D7E100F0A416 /* AppDelegate.swift */,
 				682A3DC919FE3DA200680AAF /* ValuedButton.swift */,
 				68332FEB19F7FEDB006CF89F /* CameraViewController.swift */,
-				68ACFF8D1A14F2D0009EF955 /* WorkspaceLayout.swift */,
-				68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */,
-				68D890371A1261DB002D983C /* WorkspaceViewController.swift */,
-				68ACFF911A14FD6E009EF955 /* Workspace.swift */,
 				6884755A19E6D7E100F0A416 /* Main.storyboard */,
 				6884755D19E6D7E100F0A416 /* Images.xcassets */,
 				6884755F19E6D7E100F0A416 /* LaunchScreen.xib */,
@@ -113,6 +112,18 @@
 				6884755519E6D7E100F0A416 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		68ACFF931A1798C0009EF955 /* Workspace */ = {
+			isa = PBXGroup;
+			children = (
+				68ACFF8D1A14F2D0009EF955 /* WorkspaceLayout.swift */,
+				68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */,
+				68D890371A1261DB002D983C /* WorkspaceViewController.swift */,
+				68ACFF911A14FD6E009EF955 /* Workspace.swift */,
+				68ACFF941A1798F0009EF955 /* WorkPreviewViewController.swift */,
+			);
+			name = Workspace;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +202,7 @@
 				6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */,
 				6871761C1A0277E00008F0F0 /* FocusControl.swift in Sources */,
 				682A3DCA19FE3DA200680AAF /* ValuedButton.swift in Sources */,
+				68ACFF951A1798F0009EF955 /* WorkPreviewViewController.swift in Sources */,
 				68ACFF901A14FB12009EF955 /* WorkspaceCollectionViewCell.swift in Sources */,
 				68ACFF8E1A14F2D0009EF955 /* WorkspaceLayout.swift in Sources */,
 				68D890381A1261DB002D983C /* WorkspaceViewController.swift in Sources */,

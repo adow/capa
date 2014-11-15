@@ -261,6 +261,7 @@
                                             <outlet property="selectedBackgroundView" destination="NvP-gU-PGt" id="eVr-9r-aFJ"/>
                                             <outlet property="thumbImageView" destination="jZX-zh-qYj" id="Wan-Fo-4Pc"/>
                                             <outlet property="useMarkButton" destination="VnK-bM-Rby" id="Uzt-lN-aYM"/>
+                                            <segue destination="zsB-Ow-ftE" kind="show" identifier="segue_workspace_preview" id="61F-UG-muV"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -308,6 +309,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ThL-35-eva" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1184" y="1084"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="Y8h-A0-g0T">
+            <objects>
+                <viewController id="zsB-Ow-ftE" customClass="WorkPreviewViewController" customModule="capa" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mhk-5c-cV6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qr9-Vf-WHR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eCA-13-lpc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZzI-wa-A5q">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwR-f4-E7t">
+                                <rect key="frame" x="16" y="562" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="FY6-LL-ET7"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZVv-kl-FLl"/>
+                                </constraints>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onButtonCancel:" destination="zsB-Ow-ftE" eventType="touchUpInside" id="HXm-wZ-oBC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZzI-wa-A5q" secondAttribute="trailing" constant="-16" id="5cm-Dz-A4D"/>
+                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="ZzI-wa-A5q" secondAttribute="bottom" id="BdV-mc-8uD"/>
+                            <constraint firstItem="ZzI-wa-A5q" firstAttribute="top" secondItem="eCA-13-lpc" secondAttribute="top" id="OmX-Mz-WAS"/>
+                            <constraint firstItem="ZzI-wa-A5q" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" constant="-16" id="bjy-Rf-Ztg"/>
+                            <constraint firstItem="rwR-f4-E7t" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" id="yFU-rf-mac"/>
+                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="rwR-f4-E7t" secondAttribute="bottom" constant="8" id="zuS-6y-5If"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="aHk-Ed-sY2"/>
+                    <connections>
+                        <outlet property="imageView" destination="ZzI-wa-A5q" id="Z9Y-GI-nn8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y1v-Zh-Qfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1890" y="1084"/>
         </scene>
     </scenes>
     <resources>
