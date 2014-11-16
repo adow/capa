@@ -64,6 +64,10 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+                if (layer.connection != nil ){
+                    layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+                }
                 self.focusView.device = self.device
                 self.focusView.center = self.previewView.center
                 self.exposureView.device = self.device
@@ -122,6 +126,30 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+//        if (layer.connection != nil ){
+//            layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
+//        }
+    }
+    override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+//        if (layer.connection != nil ){
+//            layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
+//        }
+    }
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+        if (layer.connection != nil ){
+            if size.width == 320.0 {
+                layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+            }
+            else if size.width == 480.0 {
+                layer.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
+            }
+        }
     }
     // MARK: - Action
     private func _saveToPhotosAlbum(){

@@ -89,7 +89,7 @@
                                         <rect key="frame" x="25" y="517" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="SRe-BI-mZx">
-                                                <variation key="heightClass=compact" constant="57"/>
+                                                <variation key="heightClass=compact" constant="50"/>
                                             </constraint>
                                             <constraint firstAttribute="height" constant="50" id="Zji-eo-u7K"/>
                                         </constraints>
@@ -134,50 +134,55 @@
                                             <segue destination="6EE-lL-CXt" kind="show" id="8a0-QT-yU5"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" customClass="FlashButton" customModule="capa" customModuleProvider="target">
+                                        <rect key="frame" x="278" y="16" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="A9i-0Q-gDj"/>
+                                            <constraint firstAttribute="width" constant="44" id="va1-xp-hfL"/>
+                                        </constraints>
+                                        <state key="normal" image="flash_on">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onFlashButton:" destination="Tlz-qI-jbe" eventType="valueChanged" id="Rgu-4K-ib3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="8" id="30i-gf-1ua"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="33" id="Cc9-oP-mdq"/>
+                                    <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="PLR-qk-674"/>
+                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="93" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="32" id="UEx-hb-eok"/>
-                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="Y7p-3x-CCF"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
-                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="vcZ-N7-Cp8" secondAttribute="trailing" constant="18" id="dkv-kx-WzB"/>
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
                                     <constraint firstAttribute="trailing" secondItem="tJF-8c-KAN" secondAttribute="trailing" constant="8" id="g9n-oK-m0j"/>
-                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="hK9-zK-M6p"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
+                                    <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" id="rh2-VN-WHb"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="25" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="Y7p-3x-CCF"/>
+                                        <exclude reference="BIJ-oF-3IF"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="BIJ-oF-3IF"/>
+                                        <exclude reference="Cc9-oP-mdq"/>
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" customClass="FlashButton" customModule="capa" customModuleProvider="target">
-                                <rect key="frame" x="16" y="40" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="A9i-0Q-gDj"/>
-                                    <constraint firstAttribute="width" constant="44" id="va1-xp-hfL"/>
-                                </constraints>
-                                <state key="normal" image="flash_on">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onFlashButton:" destination="Tlz-qI-jbe" eventType="valueChanged" id="Rgu-4K-ib3"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="CeE-eV-OFd" secondAttribute="trailing" constant="-16" id="7CY-gx-DEP"/>
                             <constraint firstItem="CeE-eV-OFd" firstAttribute="top" secondItem="iwg-11-A0h" secondAttribute="topMargin" id="BES-Rl-HvS"/>
-                            <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="5yl-64-uTP" secondAttribute="bottom" constant="20" id="NEi-bf-LvD"/>
-                            <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="iwg-11-A0h" secondAttribute="leadingMargin" id="Xlm-Sb-gd6"/>
                             <constraint firstItem="CeE-eV-OFd" firstAttribute="leading" secondItem="iwg-11-A0h" secondAttribute="leadingMargin" constant="-16" id="on8-UB-j3r"/>
                             <constraint firstItem="cUO-Sc-HT8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="bottom" id="yuD-zc-c0z"/>
                         </constraints>
