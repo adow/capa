@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import AssetsLibrary
+import CoreMotion
 
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     // MARK: - AV
@@ -36,6 +37,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
     var panGesture : UIPanGestureRecognizer!
+    var motionManager:CMMotionManager!
+    var cameraOriention:AVCaptureVideoOrientation!{
+        /// 设置完之后更新相机方向
+        didSet{
+//            let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+//            if (layer.connection != nil ){
+//                layer.connection.videoOrientation = cameraOriention
+//            }
+        }
+    }
     // MARK: - ViewController
     override func viewDidLoad() {
         session = AVCaptureSession()
@@ -64,10 +75,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-                let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-                if (layer.connection != nil ){
-                    layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-                }
+//                let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+//                if (layer.connection != nil ){
+//                    layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+//                }
+                self.cameraOriention = AVCaptureVideoOrientation.Portrait
                 self.focusView.device = self.device
                 self.focusView.center = self.previewView.center
                 self.exposureView.device = self.device
@@ -106,6 +118,20 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.session.startRunning()
             }
         })
+        
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        motionManager = CMMotionManager()
+        motionManager.accelerometerUpdateInterval = 1.0
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { [unowned self](data, error) -> Void in
+//            NSLog("x:%f,y:%f,z:%f", data.acceleration.x,data.acceleration.y,data.acceleration.z)
+            self.updateCameraOriention(data.acceleration)
+        })
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        motionManager.stopAccelerometerUpdates()
     }
     override func viewDidDisappear(animated:Bool){
         super.viewDidDisappear(animated)
@@ -150,6 +176,32 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 //                layer.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
 //            }
 //        }
+    }
+    private func updateCameraOriention(acceleration:CMAcceleration){
+//        NSLog("accelerationY:%f", accelerationY)
+        var orientation:AVCaptureVideoOrientation!
+        if acceleration.y <= -1.0 && acceleration.y >= -0.5 {
+            orientation = AVCaptureVideoOrientation.Portrait
+        }
+        else if acceleration.y >= -0.5 && acceleration.y <= 0.5 {
+            if acceleration.x > 0.0 {
+                orientation = AVCaptureVideoOrientation.LandscapeLeft
+            }
+            else{
+                orientation = AVCaptureVideoOrientation.LandscapeRight
+            }
+        }
+        else if acceleration.y >= 0.5 && acceleration.y <= 1.0 {
+            orientation = AVCaptureVideoOrientation.PortraitUpsideDown
+        }
+        else{
+            orientation = AVCaptureVideoOrientation.Portrait
+        }
+        if orientation != self.cameraOriention {
+            self.cameraOriention = orientation
+            NSLog("cameraOrientation changed:\(self.cameraOriention)")
+        }
+        
     }
     // MARK: - Action
     private func _saveToPhotosAlbum(){
@@ -269,13 +321,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: Exposure
     private func updateExposureMode(){
         let mode = self.device.exposureMode
-        NSLog("updateExposureMode:\(mode)")
+//        NSLog("updateExposureMode:\(mode)")
         if mode == AVCaptureExposureMode.AutoExpose || mode == AVCaptureExposureMode.Locked{
             self.exposureView.state = ExposureControl.State.Active
         }
     }
     private func updateExposureISO(iso:Float = AVCaptureISOCurrent){
-        NSLog("updateExposureISO:%f", iso)
+//        NSLog("updateExposureISO:%f", iso)
         var min_iso = iso
         var min_distance:Float = 1000000
         var to_row = 0
@@ -289,13 +341,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 to_row = one_row
             }
         }
-        NSLog("to_row:%d", to_row)
+//        NSLog("to_row:%d", to_row)
         self.isoPickerView.selectRow(to_row, inComponent: 0, animated: true)
         
     }
     private func updateExposureShuttle(duration:CMTime = AVCaptureExposureDurationCurrent){
         let seconds = CMTimeGetSeconds(duration)
-        NSLog("updateExposureShuttle:%f", seconds)
+//        NSLog("updateExposureShuttle:%f", seconds)
         var min_shuttles = duration
         var min_distance:Float = 10000000
         var to_row = 0
@@ -311,7 +363,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.shuttlesPickerView.selectRow(to_row, inComponent: 0, animated: true)
     }
     private func updateExposureTargetBias(){
-        NSLog("updateExposureTargetBias:%f", self.device.exposureTargetBias)
+//        NSLog("updateExposureTargetBias:%f", self.device.exposureTargetBias)
         self.exposureView.updateTargetBias(self.device.exposureTargetBias)
     }
     private func updateExposureTargetOffset(){
@@ -319,13 +371,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: Focus
     private func updateFocusMode(){
         let mode = self.device.focusMode
-        NSLog("updateFocusMode:\(mode)")
+//        NSLog("updateFocusMode:\(mode)")
         if mode == AVCaptureFocusMode.AutoFocus {
             self.focusView.state = FocusControl.State.Active
         }
     }
     private func updateFocusLensPosition(lensPosition:Float = AVCaptureLensPositionCurrent){
-        NSLog("updateFocusLensPosition:%f", lensPosition)
+//        NSLog("updateFocusLensPosition:%f", lensPosition)
         self.focusView.updateLensPosition(lensPosition)
     }
     // MARK: Flash light

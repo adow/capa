@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-extension AVCaptureVideoOrientation {
+extension AVCaptureVideoOrientation:Printable {
     init (ui:UIInterfaceOrientation){
         switch ui {
         case .LandscapeLeft:
@@ -23,6 +23,18 @@ extension AVCaptureVideoOrientation {
             self = AVCaptureVideoOrientation.PortraitUpsideDown
         default:
             self = AVCaptureVideoOrientation.Portrait
+        }
+    }
+    public var description:String{
+        switch self{
+        case .LandscapeLeft:
+            return "LandscapeLeft"
+        case .LandscapeRight:
+            return "LandscapeRight"
+        case .Portrait:
+            return "Portrait"
+        case .PortraitUpsideDown:
+            return "PortraitUpsideDown"
         }
     }
 }

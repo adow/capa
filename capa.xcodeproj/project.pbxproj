@@ -11,6 +11,7 @@
 		68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68332FEB19F7FEDB006CF89F /* CameraViewController.swift */; };
 		6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855A6D61A03D72500728244 /* ExposureControl.swift */; };
 		6871761C1A0277E00008F0F0 /* FocusControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6871761B1A0277E00008F0F0 /* FocusControl.swift */; };
+		6880FD9A1A1A397F00BABBE2 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6880FD991A1A397F00BABBE2 /* CoreMotion.framework */; };
 		6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884755619E6D7E100F0A416 /* AppDelegate.swift */; };
 		6884755C19E6D7E100F0A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6884755A19E6D7E100F0A416 /* Main.storyboard */; };
 		6884755E19E6D7E100F0A416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6884755D19E6D7E100F0A416 /* Images.xcassets */; };
@@ -31,6 +32,7 @@
 		68332FEB19F7FEDB006CF89F /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6855A6D61A03D72500728244 /* ExposureControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureControl.swift; path = controls/ExposureControl.swift; sourceTree = "<group>"; };
 		6871761B1A0277E00008F0F0 /* FocusControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusControl.swift; path = controls/FocusControl.swift; sourceTree = "<group>"; };
+		6880FD991A1A397F00BABBE2 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		6884755119E6D7E100F0A416 /* capa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = capa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6884755519E6D7E100F0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6884755619E6D7E100F0A416 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6880FD9A1A1A397F00BABBE2 /* CoreMotion.framework in Frameworks */,
 				6884758319E81DBE00F0A416 /* AssetsLibrary.framework in Frameworks */,
 				6884757919E6DF4200F0A416 /* AVFoundation.framework in Frameworks */,
 			);
@@ -73,6 +76,7 @@
 		6884754819E6D7E100F0A416 = {
 			isa = PBXGroup;
 			children = (
+				6880FD991A1A397F00BABBE2 /* CoreMotion.framework */,
 				6884758219E81DBE00F0A416 /* AssetsLibrary.framework */,
 				6884757819E6DF4200F0A416 /* AVFoundation.framework */,
 				6884755319E6D7E100F0A416 /* capa */,
