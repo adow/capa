@@ -141,15 +141,15 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-        if (layer.connection != nil ){
-            if size.width == 320.0 {
-                layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-            }
-            else if size.width == 480.0 {
-                layer.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
-            }
-        }
+//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
+//        if (layer.connection != nil ){
+//            if size.width == 320.0 {
+//                layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+//            }
+//            else if size.width == 480.0 {
+//                layer.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
+//            }
+//        }
     }
     // MARK: - Action
     private func _saveToPhotosAlbum(){
