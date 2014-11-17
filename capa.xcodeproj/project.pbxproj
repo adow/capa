@@ -73,12 +73,20 @@
 			name = controls;
 			sourceTree = "<group>";
 		};
-		6884754819E6D7E100F0A416 = {
+		6880FD9B1A1A4AF200BABBE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6880FD991A1A397F00BABBE2 /* CoreMotion.framework */,
 				6884758219E81DBE00F0A416 /* AssetsLibrary.framework */,
 				6884757819E6DF4200F0A416 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6884754819E6D7E100F0A416 = {
+			isa = PBXGroup;
+			children = (
+				6880FD9B1A1A4AF200BABBE2 /* Frameworks */,
 				6884755319E6D7E100F0A416 /* capa */,
 				6884755219E6D7E100F0A416 /* Products */,
 			);
