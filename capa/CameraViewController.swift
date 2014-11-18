@@ -221,9 +221,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         
         if (self.captureOutput != nil){
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
-            self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
+            self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                save_to_workspace(imageData)
+                save_to_workspace(imageData,self.cameraOriention)
             })
         }
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import AssetsLibrary
 
 var workspace_path : String!{
@@ -83,7 +84,7 @@ func photo_list_in_workspace()->[PhotoModal]!{
     return photo_list
 }
 
-func save_to_workspace(imageData:NSData)->PhotoModal{
+func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->PhotoModal{
     let workspace = workspace_path
     let bundle =  "\(workspace)\(NSDate().timeIntervalSince1970).photo"
     if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {

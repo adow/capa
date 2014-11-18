@@ -103,4 +103,47 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return new_image
     }
+    private func radius(degree:Double)->Double{
+        return degree * M_PI / 180.0
+    }
+    ///旋转一张图片
+    public func rotate(orientation:UIImageOrientation)->UIImage!{
+        UIGraphicsBeginImageContext(self.size)
+        let context = UIGraphicsGetCurrentContext()
+        if orientation == UIImageOrientation.Right {
+            CGContextRotateCTM(context, CGFloat(self.radius(90.0)))
+        }
+        else if orientation == UIImageOrientation.Left {
+            CGContextRotateCTM(context, CGFloat(self.radius(-90.0)))
+        }
+        else if orientation == UIImageOrientation.Up {
+            CGContextRotateCTM(context, CGFloat(self.radius(90.0)))
+        }
+        self.drawAtPoint(CGPoint(x: 0, y: 0))
+        let new_image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return new_image
+    }
+}
+extension UIImageOrientation:Printable{
+    public var description : String{
+        switch self {
+        case .Down:
+            return "Down"
+        case .DownMirrored:
+            return "DownMirrored"
+        case .Left:
+            return "Left"
+        case .LeftMirrored:
+            return "LeftMirrored"
+        case .Right:
+            return "Right"
+        case .RightMirrored:
+            return "RightMirrored"
+        case .Up:
+            return "Up"
+        case .UpMirrored:
+            return "UpMirrored"
+        }
+    }
 }
