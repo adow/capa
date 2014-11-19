@@ -91,11 +91,29 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->
         NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
     }
     let image : UIImage=UIImage(data: imageData)!
+    var imageOrientation : UIImageOrientation!
+    switch orientation {
+    case .LandscapeLeft:
+        imageOrientation = UIImageOrientation.Right
+    case .LandscapeRight:
+        imageOrientation = UIImageOrientation.Left
+    case .Portrait:
+        imageOrientation = UIImageOrientation.Up
+    case .PortraitUpsideDown:
+        imageOrientation = UIImageOrientation.Down
+    default:
+        imageOrientation = UIImageOrientation.Up
+    }
+    NSLog("imageOrientation:\(imageOrientation)")
+    let originalImage = image.rotate(imageOrientation)
+    let originalData = UIImageJPEGRepresentation(originalImage, 1.0)
     let original_filename = "\(bundle)/original.jpg"
-    imageData.writeToFile(original_filename,atomically:true)
+    originalData.writeToFile(original_filename,atomically:true)
+//    imageData.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
     
-    let thumbImage = image.resizeImageWithWidth(100.0)
+    let thumbImage = originalImage.resizeImageWithWidth(100.0)
+//    let thumbImage = image.resizeImageWithWidth(100.0)
     let thumbData = UIImageJPEGRepresentation(thumbImage, 1.0)
     let thumb_filename = "\(bundle)/thumb.jpg"
     thumbData.writeToFile(thumb_filename, atomically: true)

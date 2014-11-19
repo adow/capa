@@ -101,6 +101,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 
             })
         }
+//        self.testImageRotate()
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -430,5 +431,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             
         }
         self.device.unlockForConfiguration()
+    }
+    /// MARK: - Test
+    func testImageRotate(){
+//        let image = UIImage(named: "cards")
+        let image = UIImage(named: "solar")
+        NSLog("imageOrientation:\(image?.imageOrientation)")
+        let image_rotate = image?.rotate(UIImageOrientation.Right)
+//        let imageView = UIImageView(image: image!)
+        let imageView = UIImageView(image: image_rotate!)
+        self.view.addSubview(imageView)
+        
     }
 }

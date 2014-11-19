@@ -108,17 +108,39 @@ extension UIImage {
     }
     ///旋转一张图片
     public func rotate(orientation:UIImageOrientation)->UIImage!{
-        UIGraphicsBeginImageContext(self.size)
+        let old_width = self.size.width
+        let old_height = self.size.height
+//        let width = self.size.height
+//        let height = self.size.width
+        var width :CGFloat!
+        var height :CGFloat!
+        if orientation == UIImageOrientation.Left || orientation == UIImageOrientation.Right {
+            width = old_height
+            height = old_width
+        }
+        else{
+            width = old_width
+            height = old_height
+        }
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
         let context = UIGraphicsGetCurrentContext()
-        if orientation == UIImageOrientation.Right {
+
+        if orientation == UIImageOrientation.Right {            
             CGContextRotateCTM(context, CGFloat(self.radius(90.0)))
+            CGContextTranslateCTM(context, 0, -old_height)
         }
         else if orientation == UIImageOrientation.Left {
+            
             CGContextRotateCTM(context, CGFloat(self.radius(-90.0)))
+            CGContextTranslateCTM(context, -old_width, 0)
         }
-        else if orientation == UIImageOrientation.Up {
-            CGContextRotateCTM(context, CGFloat(self.radius(90.0)))
+        else if orientation == UIImageOrientation.Down {
+            CGContextTranslateCTM(context, old_width, old_height)
+            CGContextRotateCTM(context, CGFloat(self.radius(-180.0)))
+            
         }
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        UIRectFill(CGRect(x: 0.0, y: 0.0, width: width, height: height))
         self.drawAtPoint(CGPoint(x: 0, y: 0))
         let new_image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
