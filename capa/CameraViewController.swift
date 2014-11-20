@@ -33,6 +33,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var exposureView:ExposureControl!
     @IBOutlet var shuttlesPickerView:UIPickerView!
     @IBOutlet var isoPickerView:UIPickerView!
+    @IBOutlet var workspaceButton:UIButton!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -41,10 +42,33 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var cameraOriention:AVCaptureVideoOrientation!{
         /// 设置完之后更新相机方向
         didSet{
-//            let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-//            if (layer.connection != nil ){
-//                layer.connection.videoOrientation = cameraOriention
-//            }
+            UIView.animateWithDuration(0.5, animations: { [unowned self]() -> Void in
+                switch self.cameraOriention! {
+                case AVCaptureVideoOrientation.Portrait:
+                    self.workspaceButton.transform = CGAffineTransformIdentity
+                    self.focusView.transform = CGAffineTransformIdentity
+                    self.exposureView.transform = CGAffineTransformIdentity
+                    break
+                case .LandscapeLeft:
+                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(-90.0))
+                    self.focusView.transform = CGAffineTransformMakeRotation(radius(-90.0))
+                    self.exposureView.transform = CGAffineTransformMakeRotation(radius(-90.0))
+                    break
+                case .LandscapeRight:
+                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(90.0))
+                    self.focusView.transform = CGAffineTransformMakeRotation(radius(90.0))
+                    self.exposureView.transform = CGAffineTransformMakeRotation(radius(90.0))
+                    break
+                case .PortraitUpsideDown:
+                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(180.0))
+                    self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
+                    self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
+                    break
+                default:
+                    break
+                }
+            })
+            
         }
     }
     // MARK: - ViewController
@@ -178,32 +202,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 //            }
 //        }
     }
-    private func updateCameraOriention(acceleration:CMAcceleration){
-//        NSLog("accelerationY:%f", accelerationY)
-        var orientation:AVCaptureVideoOrientation!
-        if acceleration.y <= -1.0 && acceleration.y >= -0.5 {
-            orientation = AVCaptureVideoOrientation.Portrait
-        }
-        else if acceleration.y >= -0.5 && acceleration.y <= 0.5 {
-            if acceleration.x > 0.0 {
-                orientation = AVCaptureVideoOrientation.LandscapeLeft
-            }
-            else{
-                orientation = AVCaptureVideoOrientation.LandscapeRight
-            }
-        }
-        else if acceleration.y >= 0.5 && acceleration.y <= 1.0 {
-            orientation = AVCaptureVideoOrientation.PortraitUpsideDown
-        }
-        else{
-            orientation = AVCaptureVideoOrientation.Portrait
-        }
-        if orientation != self.cameraOriention {
-            self.cameraOriention = orientation
-            NSLog("cameraOrientation changed:\(self.cameraOriention)")
-        }
-        
-    }
+    
     // MARK: - Action
     private func _saveToPhotosAlbum(){
         if (self.captureOutput != nil){
@@ -276,6 +275,33 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         return true
     }
     // MARK: - Update UI
+    /// 修改屏幕方向
+    private func updateCameraOriention(acceleration:CMAcceleration){
+        //        NSLog("accelerationY:%f", accelerationY)
+        var orientation:AVCaptureVideoOrientation!
+        if acceleration.y <= -1.0 && acceleration.y >= -0.5 {
+            orientation = AVCaptureVideoOrientation.Portrait
+        }
+        else if acceleration.y >= -0.5 && acceleration.y <= 0.5 {
+            if acceleration.x > 0.0 {
+                orientation = AVCaptureVideoOrientation.LandscapeLeft
+            }
+            else{
+                orientation = AVCaptureVideoOrientation.LandscapeRight
+            }
+        }
+        else if acceleration.y >= 0.5 && acceleration.y <= 1.0 {
+            orientation = AVCaptureVideoOrientation.PortraitUpsideDown
+        }
+        else{
+            orientation = AVCaptureVideoOrientation.Portrait
+        }
+        if orientation != self.cameraOriention {
+            self.cameraOriention = orientation
+            NSLog("cameraOrientation changed:\(self.cameraOriention)")
+        }
+        
+    }
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         switch keyPath {
             case "exposureDuration":

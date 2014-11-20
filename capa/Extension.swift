@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 import AVFoundation
-
+func radius(degree:Double)->Double{
+    return degree * M_PI / 180.0
+}
+func radius(degree:CGFloat)->CGFloat{
+    let r = radius(Double(degree))
+    return CGFloat(r)
+}
 extension AVCaptureVideoOrientation:Printable {
     init (ui:UIInterfaceOrientation){
         switch ui {

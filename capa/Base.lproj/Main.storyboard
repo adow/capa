@@ -195,6 +195,7 @@
                         <outlet property="isoPickerView" destination="jGc-oa-ASj" id="48Y-YE-iNK"/>
                         <outlet property="previewView" destination="CeE-eV-OFd" id="7GN-Ls-IrV"/>
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
+                        <outlet property="workspaceButton" destination="tJF-8c-KAN" id="qOf-rM-E9g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wRv-eY-Y2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
