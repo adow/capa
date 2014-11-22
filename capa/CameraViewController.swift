@@ -26,6 +26,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
        return [50,64,80,100,125,160,200,250,320,400,500,640]
     }()
     // MARK: - UI
+    @IBOutlet var shuttleButton:UIButton!
     @IBOutlet var flashButton:FlashButton!
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
@@ -42,7 +43,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var cameraOriention:AVCaptureVideoOrientation!{
         /// 设置完之后更新相机方向
         didSet{
-            UIView.animateWithDuration(0.5, animations: { [unowned self]() -> Void in
+            UIView.animateWithDuration(0.3, animations: { [unowned self]() -> Void in
                 switch self.cameraOriention! {
                 case AVCaptureVideoOrientation.Portrait:
                     self.workspaceButton.transform = CGAffineTransformIdentity
@@ -71,6 +72,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             
         }
     }
+    /// shuttle 按钮在开始时的位置
+    var shuttleButtonCenterStart:CGPoint = CGPoint(x: 0, y: 0)
     // MARK: - ViewController
     override func viewDidLoad() {
         session = AVCaptureSession()
@@ -99,10 +102,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.session.addOutput(self.captureOutput)
             self.session.commitConfiguration()
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-//                let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-//                if (layer.connection != nil ){
-//                    layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-//                }
                 self.cameraOriention = AVCaptureVideoOrientation.Portrait
                 self.focusView.device = self.device
                 self.focusView.center = self.previewView.center
@@ -122,6 +121,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
                 self.previewView.addGestureRecognizer(self.panGesture)
                 
+                let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+                self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
                 
             })
         }
@@ -230,6 +231,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBAction func onShuttleButton(sender:UIButton!){
 //        self._saveToPhotosAlbum()
         self._saveToWorkspace()
+//        NSLog("capture photo")
         
     }
     @IBAction func onFlashButton(sender:FlashButton!){
@@ -249,24 +251,54 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     ///在 Preview 上拖动就可以设置曝光补偿，同时会出现测光点，这时可以修改测光点
     func onPanGesture(gesture:UIPanGestureRecognizer){
-        if gesture.state == UIGestureRecognizerState.Began {
-            var error : NSError?
-            self.device.lockForConfiguration(&error)
-            self.device.exposureMode = AVCaptureExposureMode.Locked
+        /// 在preview 上拖动
+        if gesture.view == self.previewView {
+            if gesture.state == UIGestureRecognizerState.Began {
+                var error : NSError?
+                self.device.lockForConfiguration(&error)
+                self.device.exposureMode = AVCaptureExposureMode.Locked
+            }
+            else if (gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled) {
+                device.unlockForConfiguration()
+            }
+            else if gesture.state == UIGestureRecognizerState.Changed {
+                let move = gesture.translationInView(self.previewView)
+                if fabs(move.y) >= 10 {
+                    var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
+                    bias = min(bias, 8.0)
+                    bias = max(bias, -8.0)
+                    self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
+                        
+                    })
+                }
+            }
         }
-        else if (gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled) {
-            device.unlockForConfiguration()
-        }
-        else if gesture.state == UIGestureRecognizerState.Changed {
-            let move = gesture.translationInView(self.previewView)
-            if fabs(move.y) >= 10 {
-                var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
-                bias = min(bias, 8.0)
-                bias = max(bias, -8.0)
-                self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
-                    
+        else if gesture.view == self.shuttleButton {
+//            NSLog("pan on shuttle")
+            if gesture.state == UIGestureRecognizerState.Began {
+                shuttleButtonCenterStart = shuttleButton.center
+            }
+            else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
+                UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
+                    self.shuttleButton.center = self.shuttleButtonCenterStart
                 })
             }
+            else if gesture.state == UIGestureRecognizerState.Changed {
+                let min_x = CGFloat(0.0)
+                let min_y = self.view.frame.size.height - 100.0
+                let max_x = CGFloat(100.0)
+                let max_y = self.view.frame.size.height + 10.0
+                
+                let move = gesture.translationInView(self.shuttleButton)
+                var x = shuttleButtonCenterStart.x + move.x
+                var y = shuttleButtonCenterStart.y + move.y
+                x = fmin(fmax(x, min_x),max_x)
+                y = fmin(fmax(y, min_y),max_y)
+                let new_center = CGPoint(x: x, y: y)
+                shuttleButton.center = new_center
+            }
+            
+            
         }
     
     }
