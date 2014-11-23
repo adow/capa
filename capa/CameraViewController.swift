@@ -25,6 +25,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     lazy var isos:[Float] = {
        return [50,64,80,100,125,160,200,250,320,400,500,640]
     }()
+    /// 相机的状态，是拍摄还是写入中
     enum CameraState : Int,Printable {
         case preview = 0, writing = 1
         var description:String{
@@ -36,6 +37,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }
         }
     }
+    ///相机的状态
     var cameraState:CameraState!{
         didSet{
             if cameraState == .preview {
@@ -304,20 +306,21 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
         else if gesture.view == self.shuttleButton {
 //            NSLog("pan on shuttle")
-            weak var _self = self
-            func resetShuttleButton()->(){
-                UIView.animateWithDuration(0.1, animations: {() -> Void in
-//                    self.shuttleButton.center = self.shuttleButtonCenterStart
-                    if let self_value = _self {
-                        self_value.shuttleButton.center = self.shuttleButtonCenterStart
-                    }
+            /// 快门按钮回到原位
+            func resetShuttleButton(_weak_self:CameraViewController!,delay:NSTimeInterval = 0.0)->(){
+                UIView.animateWithDuration(0.1, delay: delay,
+                    options: UIViewAnimationOptions.CurveEaseIn,
+                    animations: {() -> Void in
+                    _weak_self.shuttleButton.center = _weak_self.shuttleButtonCenterStart
+                }, completion: { (completed) -> Void in
+                    
                 })
             }
             if gesture.state == UIGestureRecognizerState.Began {
                 shuttleButtonCenterStart = shuttleButton.center
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
-                resetShuttleButton()
+                resetShuttleButton(self)
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let min_x = CGFloat(0.0)
@@ -336,17 +339,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 if move.y >= 40.0 {
                     gesture.removeTarget(self, action: "onPanGesture:")
                     self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
-                    
-//                    let time = dispatch_time(DISPATCH_TIME_NOW,Int64(0.3 * Double(NSEC_PER_SEC)))
-//                    dispatch_after(time, dispatch_get_main_queue(), { [unowned self]() -> Void in
-////                        self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
-//                    })
-                    UIView.animateWithDuration(0.1, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn,
-                        animations: { [unowned self]() -> Void in
-                        self.shuttleButton.center = self.shuttleButtonCenterStart
-                    }, completion: { (completed) -> Void in
-                        
-                    })
+                    resetShuttleButton(self, delay: 0.3)
                     
                 }
             }
