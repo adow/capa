@@ -25,6 +25,29 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     lazy var isos:[Float] = {
        return [50,64,80,100,125,160,200,250,320,400,500,640]
     }()
+    enum CameraState : Int,Printable {
+        case preview = 0, writing = 1
+        var description:String{
+            switch self {
+            case .preview:
+                return "preview"
+            case .writing:
+                return "writing"
+            }
+        }
+    }
+    var cameraState:CameraState!{
+        didSet{
+            if cameraState == .preview {
+                self.view.userInteractionEnabled = true
+                self.writingActivityView.stopAnimating()
+            }
+            else if cameraState == .writing {
+                self.view.userInteractionEnabled = false
+                self.writingActivityView.startAnimating()
+            }
+        }
+    }
     // MARK: - UI
     @IBOutlet var shuttleButton:UIButton!
     @IBOutlet var flashButton:FlashButton!
@@ -35,6 +58,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var shuttlesPickerView:UIPickerView!
     @IBOutlet var isoPickerView:UIPickerView!
     @IBOutlet var workspaceButton:UIButton!
+    @IBOutlet var writingActivityView:UIActivityIndicatorView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -124,7 +148,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.previewView.addGestureRecognizer(self.focusTapGesture)
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
                 self.previewView.addGestureRecognizer(self.panGesture)
-                
                 
                 
             })
@@ -224,12 +247,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
     }
     private func _saveToWorkspace(){
-        
+        self.cameraState = .writing
         if (self.captureOutput != nil){
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 save_to_workspace(imageData,self.cameraOriention)
+                self.cameraState = .preview
             })
         }
     }
@@ -311,11 +335,18 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 
                 if move.y >= 40.0 {
                     gesture.removeTarget(self, action: "onPanGesture:")
-                    let time = dispatch_time(DISPATCH_TIME_NOW,Int64(0.1 * Double(NSEC_PER_SEC)))
-                    dispatch_after(time, dispatch_get_main_queue(), { [unowned self]() -> Void in
-                        self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+                    self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+                    
+//                    let time = dispatch_time(DISPATCH_TIME_NOW,Int64(0.3 * Double(NSEC_PER_SEC)))
+//                    dispatch_after(time, dispatch_get_main_queue(), { [unowned self]() -> Void in
+////                        self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+//                    })
+                    UIView.animateWithDuration(0.1, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn,
+                        animations: { [unowned self]() -> Void in
+                        self.shuttleButton.center = self.shuttleButtonCenterStart
+                    }, completion: { (completed) -> Void in
+                        
                     })
-                    resetShuttleButton()
                     
                 }
             }

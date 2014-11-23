@@ -134,6 +134,9 @@
                                             <action selector="onShuttleButton:" destination="Tlz-qI-jbe" eventType="touchUpInside" id="M8s-pC-t3Y"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
+                                        <rect key="frame" x="40" y="532" width="20" height="20"/>
+                                    </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" userLabel="flashButton" customClass="FlashButton" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="15" y="8" width="44" height="44"/>
                                         <constraints>
@@ -154,6 +157,8 @@
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="23" id="Cc9-oP-mdq"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="93" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="32" id="UEx-hb-eok"/>
@@ -199,6 +204,7 @@
                         <outlet property="shuttleButton" destination="vcZ-N7-Cp8" id="ZaU-Se-lbY"/>
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
                         <outlet property="workspaceButton" destination="tJF-8c-KAN" id="qOf-rM-E9g"/>
+                        <outlet property="writingActivityView" destination="hne-f8-4Ds" id="3uh-mO-N97"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wRv-eY-Y2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
