@@ -121,8 +121,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
                 self.previewView.addGestureRecognizer(self.panGesture)
                 
-                let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-                self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
+                
                 
             })
         }
@@ -154,6 +153,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 //            NSLog("x:%f,y:%f,z:%f", data.acceleration.x,data.acceleration.y,data.acceleration.z)
             self.updateCameraOriention(data.acceleration)
         })
+        let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+        self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
     }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -275,13 +276,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
         else if gesture.view == self.shuttleButton {
 //            NSLog("pan on shuttle")
+            func resetShuttleButton(){
+                UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
+                    self.shuttleButton.center = self.shuttleButtonCenterStart
+                })
+            }
             if gesture.state == UIGestureRecognizerState.Began {
                 shuttleButtonCenterStart = shuttleButton.center
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
-                UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
-                    self.shuttleButton.center = self.shuttleButtonCenterStart
-                })
+//                resetShuttleButton()
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let min_x = CGFloat(0.0)
@@ -296,6 +300,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 y = fmin(fmax(y, min_y),max_y)
                 let new_center = CGPoint(x: x, y: y)
                 shuttleButton.center = new_center
+                
+                if move.y >= 40.0 {
+                    gesture.removeTarget(self, action: "onPanGesture:")
+//                    resetShuttleButton()
+                    let time = dispatch_time(DISPATCH_TIME_NOW,Int64(0.1 * Double(NSEC_PER_SEC)))
+                    dispatch_after(time, dispatch_get_main_queue(), { [unowned self]() -> Void in
+                        self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+                    })
+                    
+                }
             }
             
             

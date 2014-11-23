@@ -118,7 +118,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="6EE-lL-CXt" kind="show" id="8a0-QT-yU5"/>
+                                            <segue destination="6EE-lL-CXt" kind="show" identifier="segue_camera_workspace" id="8a0-QT-yU5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" userLabel="flashButton" customClass="FlashButton" customModule="capa" customModuleProvider="target">
