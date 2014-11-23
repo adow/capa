@@ -305,13 +305,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 let new_center = CGPoint(x: x, y: y)
                 shuttleButton.center = new_center
                 
-                if move.y >= 45.0 {
+                if move.y >= 40.0 {
                     gesture.removeTarget(self, action: "onPanGesture:")
-                    resetShuttleButton()
                     let time = dispatch_time(DISPATCH_TIME_NOW,Int64(0.1 * Double(NSEC_PER_SEC)))
                     dispatch_after(time, dispatch_get_main_queue(), { [unowned self]() -> Void in
                         self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
                     })
+                    resetShuttleButton()
                     
                 }
             }
