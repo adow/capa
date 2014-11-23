@@ -49,21 +49,25 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                     self.workspaceButton.transform = CGAffineTransformIdentity
                     self.focusView.transform = CGAffineTransformIdentity
                     self.exposureView.transform = CGAffineTransformIdentity
+                    self.flashButton.transform = CGAffineTransformIdentity
                     break
                 case .LandscapeLeft:
                     self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     self.exposureView.transform = CGAffineTransformMakeRotation(radius(-90.0))
+                    self.flashButton.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     break
                 case .LandscapeRight:
                     self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(90.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(90.0))
                     self.exposureView.transform = CGAffineTransformMakeRotation(radius(90.0))
+                    self.flashButton.transform = CGAffineTransformMakeRotation(radius(90.0))
                     break
                 case .PortraitUpsideDown:
                     self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(180.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
+                    self.flashButton.transform = CGAffineTransformMakeRotation(radius(180.0))
                     break
                 default:
                     break
