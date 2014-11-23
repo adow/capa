@@ -53,6 +53,7 @@ class FocusControl:UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.state = .Unvisible
+        self.backgroundColor = UIColor.clearColor()
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.addGestureRecognizer(panGesture)
     }
@@ -90,5 +91,16 @@ class FocusControl:UIView {
                 self.center = point
             }
         }
+    }
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSaveGState(context)
+        CGContextClearRect(context, rect)
+        CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextSetLineWidth(context, 1.0)
+        CGContextStrokeRect(context, self.focusView.frame)
+        CGContextRestoreGState(context)
+    
     }
 }
