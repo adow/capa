@@ -53,6 +53,7 @@ class ExposureControl:UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.state = .Unvisible
+        self.backgroundColor = UIColor.clearColor()
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.addGestureRecognizer(panGesture)
     }
@@ -94,5 +95,16 @@ class ExposureControl:UIView {
                 self.center = point
             }
         }
+    }
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSaveGState(context)
+        CGContextClearRect(context, rect)
+        let strokeColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.3)
+        CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+        CGContextSetLineWidth(context, 1.0)
+        CGContextStrokeEllipseInRect(context, self.exposureView.frame)
+        CGContextRestoreGState(context)
     }
 }
