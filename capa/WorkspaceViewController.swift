@@ -48,6 +48,21 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             
         })
     }
+    @IBAction func onButtonAction(sender:UIBarButtonItem!){
+        let alertController = UIAlertController(title: "操作", message: "批量操作照片", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        alertController.addAction(UIAlertAction(title: "将所有标记为 留用 的照片存入相机交卷", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            
+        }))
+        alertController.addAction(UIAlertAction(title: "将所有标记为 弃用 的照片删除", style: UIAlertActionStyle.Destructive, handler: { (action) -> Void in
+            
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+        }))
+        self.presentViewController(alertController, animated: true) { () -> Void in
+            
+        }
+    }
     @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
         if let photo_list_value = photo_list {
             for one_photo in photo_list_value {

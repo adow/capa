@@ -26,7 +26,6 @@ class ExposureControl:UIView {
     }
     @IBOutlet var exposureView:UIView!
     @IBOutlet var biasLabel:UILabel!
-    @IBOutlet var activeLabel:UILabel!
     var device:AVCaptureDevice!
     var _state:State!
     var state:State!{
@@ -41,9 +40,7 @@ class ExposureControl:UIView {
             case .Visible:
                 self.hidden = false
                 self.alpha = 0.3
-                self.activeLabel.hidden=true
             case .Active:
-                self.activeLabel.hidden=false
                 self.hidden = false
                 self.alpha = 0.9
             }
@@ -75,7 +72,12 @@ class ExposureControl:UIView {
         }
     }
     func updateTargetBias(bias:Float){
-        self.biasLabel.text = bias.format(".1")
+        if bias >= 0.0 {
+            self.biasLabel.text = "+" + bias.format(".1")
+        }
+        else{
+            self.biasLabel.text = bias.format(".1")
+        }
     }
     ///修改测光点，停下的时候才会确定最后的测光点并开始用自动测光
     func onPanGesture(gesture:UIPanGestureRecognizer){

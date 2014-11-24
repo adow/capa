@@ -26,7 +26,6 @@ class FocusControl:UIView {
     }
     @IBOutlet var focusView:UIView!
     @IBOutlet var lensPositionLabel:UILabel!
-    @IBOutlet var activeLabel:UILabel!
     var device:AVCaptureDevice!
     var _state:State!
     var state:State!{
@@ -41,9 +40,7 @@ class FocusControl:UIView {
             case .Visible:
                 self.hidden = false
                 self.alpha = 0.3
-                self.activeLabel.hidden=true
             case .Active:
-                self.activeLabel.hidden=false
                 self.hidden = false
                 self.alpha = 0.9
                 
