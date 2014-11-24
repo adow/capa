@@ -105,6 +105,12 @@ class ExposureControl:UIView {
         CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
         CGContextSetLineWidth(context, 1.0)
         CGContextStrokeEllipseInRect(context, self.exposureView.frame)
+        let innerRect = CGRectInset(self.exposureView.frame, 30.0, 30.0)
+        CGContextSetLineWidth(context, 3.0)
+        CGContextStrokeEllipseInRect(context, innerRect)
+        let fillColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.1)
+        CGContextSetFillColorWithColor(context, fillColor.CGColor)
+        CGContextFillEllipseInRect(context, innerRect)
         CGContextRestoreGState(context)
     }
 }

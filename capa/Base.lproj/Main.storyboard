@@ -35,7 +35,7 @@
                                             <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC8-Sw-ZNF">
                                                 <rect key="frame" x="5" y="5" width="90" height="90"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="exposure" translatesAutoresizingMaskIntoConstraints="NO" id="nY7-rd-uUG">
+                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="exposure" translatesAutoresizingMaskIntoConstraints="NO" id="nY7-rd-uUG">
                                                         <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                     </imageView>
                                                 </subviews>
@@ -86,25 +86,14 @@
                                         </connections>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-FZ-7UK" userLabel="shuttlepicker">
-                                        <rect key="frame" x="93" y="461" width="50" height="162"/>
+                                        <rect key="frame" x="103" y="461" width="50" height="162"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="QLa-Y3-2lM"/>
+                                            <constraint firstAttribute="height" constant="162" id="QLa-Y3-2lM"/>
                                             <constraint firstAttribute="width" constant="50" id="WtZ-7b-Z5z"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="dataSource" destination="Tlz-qI-jbe" id="yev-uR-Gho"/>
                                             <outlet property="delegate" destination="Tlz-qI-jbe" id="Q4H-Dq-i1I"/>
-                                        </connections>
-                                    </pickerView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
-                                        <rect key="frame" x="175" y="461" width="50" height="162"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
-                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
-                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
                                         </connections>
                                     </pickerView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJF-8c-KAN">
@@ -150,18 +139,29 @@
                                             <action selector="onFlashButton:" destination="Tlz-qI-jbe" eventType="valueChanged" id="Rgu-4K-ib3"/>
                                         </connections>
                                     </button>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
+                                        <rect key="frame" x="192" y="461" width="50" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
+                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
+                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
+                                        </connections>
+                                    </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="8" id="30i-gf-1ua"/>
+                                    <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="-23" id="30i-gf-1ua"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="23" id="Cc9-oP-mdq"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
-                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="93" id="RgN-ay-7w8"/>
-                                    <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="32" id="UEx-hb-eok"/>
+                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="103" id="RgN-ay-7w8"/>
+                                    <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="39" id="UEx-hb-eok"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
