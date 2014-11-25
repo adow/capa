@@ -11,8 +11,9 @@ import UIKit
 class WorkspaceLayout: UICollectionViewFlowLayout {
     override func prepareLayout() {
         super.prepareLayout()
-        self.itemSize = CGSizeMake(100.0, 100.0)
-        self.minimumLineSpacing = 30.0
+        self.itemSize = CGSizeMake(100 , 150.0)
+        self.minimumLineSpacing = 5.0
+        self.minimumInteritemSpacing = 5.0
         self.scrollDirection = UICollectionViewScrollDirection.Vertical
     }
     override func collectionViewContentSize() -> CGSize {

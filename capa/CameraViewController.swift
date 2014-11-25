@@ -233,7 +233,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 //            }
 //        }
     }
-    
     // MARK: - Action
     private func _saveToPhotosAlbum(){
         if (self.captureOutput != nil){
