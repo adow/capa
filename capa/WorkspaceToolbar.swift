@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 class WorkspaceToolbar : UIView {
+    var photo : PhotoModal?
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.cornerRadius = 3.0

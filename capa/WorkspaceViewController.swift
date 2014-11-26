@@ -108,20 +108,25 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         cell.thumbImageView.image = photo.thumgImage
         cell.photo = photo
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
+        println("\(indexPath.row):\(photo.state)")
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
 //        NSLog("cell frame:%@", NSStringFromCGRect(cell.frame))
         var x = cell.frame.origin.x - (toolbar.frame.size.width - cell.frame.size.width) / 2
         var y = cell.frame.origin.y + cell.frame.size.height
         toolbar.frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
         toolbar.hidden = false
+        let toolbar_m = toolbar as WorkspaceToolbar
+        toolbar_m.photo = cell.photo
 
         var marker_x = cell.frame.origin.x - 10.0
         var marker_y = cell.frame.origin.y - 10.0
         markerView.frame = CGRectMake(marker_x, marker_y,
             markerView.frame.size.width, markerView.frame.size.height)
         markerView.hidden = false
+        let markerView_m = markerView as WorkspaceMarkerView
+        markerView_m.photo = cell.photo
     }
 }

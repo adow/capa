@@ -46,6 +46,7 @@ class PhotoModal {
         self.thumbPath = thumbPath
         self.originalPath = originalPath
         self.state = state
+        self.load_info()
         
     }
     /// 保存到相机交卷
@@ -67,6 +68,33 @@ class PhotoModal {
         if let error_value = error {
             NSLog("remove photo error:%@", error_value)
         }
+    }
+    var info_path :String {
+        return self.bundlePath + "info.json"
+    }
+    ///读取配置文件
+    func load_info(){
+        NSLog("load info:%@", self.info_path)
+        let data = NSData(contentsOfFile: self.info_path)
+        if let data_value = data {
+            let dict = NSJSONSerialization.JSONObjectWithData(data_value, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            let state_raw = dict["state"]?.integerValue
+            if let state_raw_value = state_raw {
+                self.state = PhotoModalState(rawValue: state_raw_value)!
+            }
+            
+        }
+    }
+    ///写入配置文件
+    func write_info(){
+        let dict = ["state":NSNumber(integer: self.state.rawValue)] as NSDictionary
+        let data = NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        data?.writeToFile(self.info_path, atomically: true)
+        NSLog("write info:%@", self.info_path)
+    }
+    func updateState(_state:PhotoModalState){
+        self.state = _state
+        self.write_info()
     }
 }
 func photo_list_in_workspace()->[PhotoModal]!{
