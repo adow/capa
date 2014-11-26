@@ -205,7 +205,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dVl-YP-u6A">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="10" width="600" height="590"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="b0o-NH-7RS" customClass="WorkspaceLayout" customModule="capa" customModuleProvider="target"/>
                                 <cells>
@@ -216,32 +216,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NvP-gU-PGt" userLabel="selectedview">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="170"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VnK-bM-Rby">
-                                                            <rect key="frame" x="-16" y="124" width="46" height="30"/>
-                                                            <state key="normal" title="M">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <state key="selected" title="使用"/>
-                                                            <connections>
-                                                                <action selector="onButton:" destination="ssz-yM-TUD" eventType="touchUpInside" id="jJm-V2-qfq"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oqv-ad-9IE">
-                                                            <rect key="frame" x="80" y="124" width="30" height="30"/>
-                                                            <state key="normal" title="D">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <state key="selected" title="弃用"/>
-                                                            <connections>
-                                                                <action selector="onButton:" destination="ssz-yM-TUD" eventType="touchUpInside" id="XaC-De-fRZ"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cards" translatesAutoresizingMaskIntoConstraints="NO" id="jZX-zh-qYj" userLabel="thumbImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
                                                 </imageView>
@@ -251,11 +225,7 @@
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <size key="customSize" width="100" height="150"/>
                                         <connections>
-                                            <outlet property="removeMarkButton" destination="Oqv-ad-9IE" id="4vy-ds-fjO"/>
-                                            <outlet property="selectedBackgroundView" destination="NvP-gU-PGt" id="eVr-9r-aFJ"/>
                                             <outlet property="thumbImageView" destination="jZX-zh-qYj" id="Wan-Fo-4Pc"/>
-                                            <outlet property="useMarkButton" destination="VnK-bM-Rby" id="Uzt-lN-aYM"/>
-                                            <segue destination="zsB-Ow-ftE" kind="show" identifier="segue_workspace_preview" id="61F-UG-muV"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -269,7 +239,7 @@
                         <constraints>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="bottom" secondItem="Bvu-WA-w3I" secondAttribute="top" id="Fd1-xl-u0I"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="trailing" secondItem="kif-HC-VNE" secondAttribute="trailingMargin" constant="16" id="ejk-vy-sEN"/>
-                            <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="top" id="i4L-tv-OJ7"/>
+                            <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="top" constant="10" id="i4L-tv-OJ7"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="qV6-mK-33I"/>
                         </constraints>
                     </view>
@@ -297,6 +267,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collection" destination="dVl-YP-u6A" id="nfG-Ep-VPD"/>
+                        <segue destination="zsB-Ow-ftE" kind="show" identifier="segue_workspace_preview" id="fCh-WB-UId"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ThL-35-eva" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -369,7 +340,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y1v-Zh-Qfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1793" y="1827"/>
+            <point key="canvasLocation" x="2550" y="1084"/>
         </scene>
     </scenes>
     <resources>

@@ -14,7 +14,7 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBOutlet var removeMarkButton:UIButton!
     var photo:PhotoModal?{
         didSet{
-            updateState()
+            //updateState()
         }
     }
     private func updateState()->(){

@@ -18,7 +18,11 @@ class WorkspaceLayout: UICollectionViewFlowLayout {
     }
     override func collectionViewContentSize() -> CGSize {
         let items = self.collectionView!.numberOfItemsInSection(0)
-        let height = CGFloat(items * 100)
+        var lines = Int(items / 3)
+        if (items % 3) > 0 {
+            lines += 1
+        }
+        let height = CGFloat(lines * (150+5)) + 44.0
         return CGSizeMake(self.collectionView!.frame.size.width, height)
     }
     override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {

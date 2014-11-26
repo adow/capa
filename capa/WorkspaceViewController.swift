@@ -12,11 +12,22 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
 
     @IBOutlet var collection:UICollectionView!
     var photo_list:[PhotoModal]?
+    var toolbar : UIView!
+    var markerView :UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.collection.allowsMultipleSelection = true
+//        self.collection.allowsMultipleSelection = true
         self.reload_photo_list()
+        
+        toolbar = WorkspaceToolbar.toolbar()
+        self.collection.addSubview(toolbar)
+        toolbar.hidden = true
+  
+        markerView = WorkspaceMarkerView.markerView()
+        self.collection.addSubview(markerView)
+        markerView.hidden = true
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,5 +109,19 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         cell.photo = photo
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
         return cell
+    }
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+//        NSLog("cell frame:%@", NSStringFromCGRect(cell.frame))
+        var x = cell.frame.origin.x - (toolbar.frame.size.width - cell.frame.size.width) / 2
+        var y = cell.frame.origin.y + cell.frame.size.height
+        toolbar.frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
+        toolbar.hidden = false
+
+        var marker_x = cell.frame.origin.x - 10.0
+        var marker_y = cell.frame.origin.y - 10.0
+        markerView.frame = CGRectMake(marker_x, marker_y,
+            markerView.frame.size.width, markerView.frame.size.height)
+        markerView.hidden = false
     }
 }
