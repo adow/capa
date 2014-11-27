@@ -8,10 +8,15 @@
 
 import Foundation
 import UIKit
+protocol WorkspaceMarkerViewDelegate : class, NSObjectProtocol {
+    func onMarkUseButton(photo:PhotoModal?)
+    func onMarkNouseButton(photo:PhotoModal?)
+}
 
 class WorkspaceMarkerView:UIView{
     var photo:PhotoModal? = nil
-    weak var collectionView : UICollectionView? = nil
+    weak var delegate : WorkspaceMarkerViewDelegate? = nil
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.backgroundColor = UIColor.clearColor()
@@ -20,14 +25,10 @@ class WorkspaceMarkerView:UIView{
         NSLog("test button")
     }
     @IBAction func onMarkUse(sender:UIButton){
-        NSLog("mark useful")
-        photo?.updateState(PhotoModalState.use)
-        self.collectionView?.reloadData()
+        self.delegate?.onMarkUseButton(self.photo)
     }
     @IBAction func onMarkOnuse(sender:UIButton){
-        NSLog("mark nouse")
-        photo?.updateState(PhotoModalState.remove)
-        self.collectionView?.reloadData()
+        self.delegate?.onMarkNouseButton(self.photo)
     }
     class func markerView()->UIView{
         return NSBundle.mainBundle().loadNibNamed("WorkspaceMarkerView", owner: self, options: nil)[0] as UIView

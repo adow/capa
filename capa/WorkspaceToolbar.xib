@@ -16,34 +16,34 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onSaveToCameraRoll:" destination="9e9-ru-0rA" eventType="touchUpInside" id="BiA-fP-Y7q"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="CfR-Ty-VjE"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jYn-p2-huJ">
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jYn-p2-huJ">
                     <rect key="frame" x="45" y="8" width="46" height="30"/>
                     <state key="normal" title="查看">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onSaveToCameraRoll:" destination="9e9-ru-0rA" eventType="touchUpInside" id="vLB-45-gfp"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="6ex-C0-P5K"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiR-1O-k6n">
+                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiR-1O-k6n">
                     <rect key="frame" x="153" y="8" width="46" height="30"/>
                     <state key="normal" title="信息">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onSaveToCameraRoll:" destination="9e9-ru-0rA" eventType="touchUpInside" id="NMK-Pz-tRx"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="E8t-GG-LoB"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-4J-ep3">
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-4J-ep3">
                     <rect key="frame" x="99" y="8" width="46" height="30"/>
                     <state key="normal" title="分享">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onSaveToCameraRoll:" destination="9e9-ru-0rA" eventType="touchUpInside" id="Km1-jm-nLt"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="nrI-5B-RTZ"/>
                     </connections>
                 </button>
             </subviews>

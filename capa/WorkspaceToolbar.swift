@@ -8,8 +8,12 @@
 
 import Foundation
 import UIKit
+protocol WorkspaceToolbarDelegate:class,NSObjectProtocol {
+    func onToolbarItem(photo:PhotoModal?,itemButton:UIButton)
+}
 class WorkspaceToolbar : UIView {
     var photo : PhotoModal?
+    weak var delegate : WorkspaceToolbarDelegate? = nil
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.cornerRadius = 3.0
@@ -20,7 +24,7 @@ class WorkspaceToolbar : UIView {
     class func toolbar()->UIView{
         return NSBundle.mainBundle().loadNibNamed("WorkspaceToolbar", owner: self, options: nil)[0] as UIView
     }
-    @IBAction func onSaveToCameraRoll(sender:UIButton){
-        NSLog("save to camera rool")
+    @IBAction func onButtonItem(sender:UIButton){
+        self.delegate?.onToolbarItem(self.photo, itemButton: sender)
     }
 }

@@ -8,8 +8,7 @@
 
 import UIKit
 
-class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate {
-
+class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceMarkerViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet var collection:UICollectionView!
     var photo_list:[PhotoModal]?
     var toolbar : UIView!
@@ -22,10 +21,12 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.reload_photo_list()
         
         toolbar = WorkspaceToolbar.toolbar()
+        (toolbar as WorkspaceToolbar).delegate = self
         self.collection.addSubview(toolbar)
         toolbar.hidden = true
   
         markerView = WorkspaceMarkerView.markerView()
+        (markerView as WorkspaceMarkerView).delegate = self
         self.collection.addSubview(markerView)
         markerView.hidden = true
 
@@ -48,8 +49,9 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "segue_workspace_preview" {
-            let cell = sender as WorkspaceCollectionViewCell
-            let photo = cell.photo
+//            let cell = sender as WorkspaceCollectionViewCell
+//            let photo = cell.photo
+            let photo = self.editing_photo!
             let previewViewController = segue.destinationViewController as WorkPreviewViewController
             previewViewController.photo = photo
         }
@@ -134,7 +136,24 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         markerView.hidden = false
         let markerView_m = markerView as WorkspaceMarkerView
         markerView_m.photo = cell.photo
-        markerView_m.collectionView = collectionView
         collectionView.reloadData()
+    }
+    /// MARK: - WorkspaceMarkerViewDelegate
+    func onMarkUseButton(photo: PhotoModal?) {
+        NSLog("mark useful")
+        photo?.state = .use
+        self.collection.reloadData()
+    }
+    func onMarkNouseButton(photo: PhotoModal?) {
+        NSLog("mark no use")
+        photo?.state = .remove
+        self.collection.reloadData()
+    }
+    /// MARK: - WorkspaceToolbarDelegate
+    func onToolbarItem(photo: PhotoModal?, itemButton: UIButton) {
+        NSLog("on toolbar:%d",itemButton.tag)
+        if itemButton.tag == 1 {
+            self.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
+        }
     }
 }
