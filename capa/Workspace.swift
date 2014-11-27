@@ -35,6 +35,7 @@ class PhotoModal {
     let thumbPath :String!
     let originalPath :String!
     var state :PhotoModalState
+    var editing:Bool = false
     var thumgImage:UIImage? {
         return UIImage(contentsOfFile: thumbPath)
     }
@@ -70,7 +71,7 @@ class PhotoModal {
         }
     }
     var info_path :String {
-        return self.bundlePath + "info.json"
+        return self.bundlePath + "/info.json"
     }
     ///读取配置文件
     func load_info(){

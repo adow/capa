@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 class WorkspaceMarkerView:UIView{
-    var photo:PhotoModal?
+    var photo:PhotoModal? = nil
+    weak var collectionView : UICollectionView? = nil
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.backgroundColor = UIColor.clearColor()
@@ -21,10 +22,12 @@ class WorkspaceMarkerView:UIView{
     @IBAction func onMarkUse(sender:UIButton){
         NSLog("mark useful")
         photo?.updateState(PhotoModalState.use)
+        self.collectionView?.reloadData()
     }
     @IBAction func onMarkOnuse(sender:UIButton){
         NSLog("mark nouse")
         photo?.updateState(PhotoModalState.remove)
+        self.collectionView?.reloadData()
     }
     class func markerView()->UIView{
         return NSBundle.mainBundle().loadNibNamed("WorkspaceMarkerView", owner: self, options: nil)[0] as UIView

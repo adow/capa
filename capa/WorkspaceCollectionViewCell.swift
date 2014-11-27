@@ -12,9 +12,30 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBOutlet var thumbImageView:UIImageView!
     @IBOutlet var useMarkButton:UIButton!
     @IBOutlet var removeMarkButton:UIButton!
+    @IBOutlet var markImageView:UIImageView!
     var photo:PhotoModal?{
         didSet{
             //updateState()
+            if let photo_value = photo {
+                switch photo_value.state {
+                case .undefined:
+                    markImageView.image = nil
+                case .use:
+                    markImageView.image = UIImage(named: "mark-use")
+                case .remove:
+                    markImageView.image = UIImage(named: "mark-nouse2")
+                }
+                if photo_value.editing {
+                    self.markImageView.hidden = true
+                }
+                else{
+                    self.markImageView.hidden = false
+                }
+            }
+            else{
+                markImageView.image = nil
+            }
+            
         }
     }
     private func updateState()->(){

@@ -14,6 +14,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var photo_list:[PhotoModal]?
     var toolbar : UIView!
     var markerView :UIView!
+    var editing_photo : PhotoModal? = nil ///正在编辑的照片
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -108,14 +109,19 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         cell.thumbImageView.image = photo.thumgImage
         cell.photo = photo
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
-        println("\(indexPath.row):\(photo.state)")
+//        println("\(indexPath.row):\(photo.state)")
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
 //        NSLog("cell frame:%@", NSStringFromCGRect(cell.frame))
+        editing_photo?.editing = false ///把原来的状态修改
+        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
+        editing_photo = cell.photo
+        editing_photo?.editing = true
         var x = cell.frame.origin.x - (toolbar.frame.size.width - cell.frame.size.width) / 2
         var y = cell.frame.origin.y + cell.frame.size.height
+        x = fmax(x, 0)
+        x = fmin(x, collectionView.frame.size.width - toolbar.frame.size.width)
         toolbar.frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
         toolbar.hidden = false
         let toolbar_m = toolbar as WorkspaceToolbar
@@ -128,5 +134,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         markerView.hidden = false
         let markerView_m = markerView as WorkspaceMarkerView
         markerView_m.photo = cell.photo
+        markerView_m.collectionView = collectionView
+        collectionView.reloadData()
     }
 }
