@@ -68,7 +68,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             
         }))
         alertController.addAction(UIAlertAction(title: "将所有标记为 弃用 的照片删除", style: UIAlertActionStyle.Destructive, handler: { (action) -> Void in
-            
+            self.removePhotosMarkRemove(nil)
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
             
@@ -87,14 +87,28 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
+        var delete_index_path = [NSIndexPath]()
+        var delete_photo_list = [PhotoModal]()
         if let photo_list_value = photo_list {
-            for one_photo in photo_list_value {
+            for a  in 0..<photo_list_value.count {
+                let one_photo = photo_list_value[a]
                 if one_photo.state == PhotoModalState.remove {
-                    one_photo.remove()
+                    delete_index_path.append(NSIndexPath(forRow: a, inSection: 0))
+                    delete_photo_list.append(one_photo)
                 }
             }
-            self.reload_photo_list()
         }
+        self.collection.performBatchUpdates({ () -> Void in
+            for one_photo in delete_photo_list {
+                let index = find(self.photo_list!,one_photo)
+                NSLog("remove phot index:%d", index!)
+                self.photo_list?.removeAtIndex(index!)
+            }
+            
+            self.collection.deleteItemsAtIndexPaths(delete_index_path)
+        }, completion: { (completed) -> Void in
+            
+        })
     }
     // MARK: - UICollectionView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -175,3 +175,19 @@ extension UIImageOrientation:Printable{
         }
     }
 }
+
+extension Array {
+    mutating func removeObject<U: Equatable>(object: U) {
+        var index: Int?
+        for (idx, objectToCompare) in enumerate(self) {
+            if let to = objectToCompare as? U {
+                if object == to {
+                    index = idx
+                }
+            }
+        }
+        if let index_value = index {
+            self.removeAtIndex(index_value)
+        }
+    }
+}

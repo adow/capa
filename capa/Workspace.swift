@@ -30,7 +30,10 @@ enum PhotoModalState:Int,Printable{
         }
     }
 }
-class PhotoModal {
+func == (left:PhotoModal,right:PhotoModal) -> Bool{
+    return left.bundlePath == right.bundlePath
+}
+class PhotoModal:Equatable {
     let bundlePath :String!
     let thumbPath :String!
     let originalPath :String!
@@ -50,6 +53,8 @@ class PhotoModal {
         self.load_info()
         
     }
+    
+    
     /// 保存到相机交卷
     func saveToCameraRoll(){
         if let image = originalImage {
