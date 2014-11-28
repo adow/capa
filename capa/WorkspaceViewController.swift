@@ -87,28 +87,42 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
-        var delete_index_path = [NSIndexPath]()
         var delete_photo_list = [PhotoModal]()
         if let photo_list_value = photo_list {
-            for a  in 0..<photo_list_value.count {
-                let one_photo = photo_list_value[a]
-                if one_photo.state == PhotoModalState.remove {
-                    delete_index_path.append(NSIndexPath(forRow: a, inSection: 0))
+            for one_photo in photo_list_value {
+                if one_photo.state == .remove {
                     delete_photo_list.append(one_photo)
                 }
             }
         }
-        self.collection.performBatchUpdates({ () -> Void in
-            for one_photo in delete_photo_list {
-                let index = find(self.photo_list!,one_photo)
-                NSLog("remove phot index:%d", index!)
-                self.photo_list?.removeAtIndex(index!)
-            }
+        self.removePhotos(delete_photo_list)
+    }
+    ///批量删除照片
+    private func removePhotos(photos:[PhotoModal]){
+        if var photo_list_value = photo_list {
+            self.collection.performBatchUpdates({ () -> Void in
+                var delete_index_path = [NSIndexPath]()
+                for one_photo in photos {
+                    let index = find(self.photo_list!,one_photo)
+                    if let index_value = index{
+                        let indexPath = NSIndexPath(forRow: index_value, inSection: 0)
+                        delete_index_path.append(indexPath)
+                    }
+                }
+                for one_photo in photos {
+                    let index = find(self.photo_list!,one_photo)
+                    if let index_value = index {
+                        NSLog("remove photo index:%d", index_value)
+                        self.photo_list?.removeAtIndex(index_value)
+                    }
+                }
+                self.collection.deleteItemsAtIndexPaths(delete_index_path)
+            }, completion: { (completed) -> Void in
+                
+            })
             
-            self.collection.deleteItemsAtIndexPaths(delete_index_path)
-        }, completion: { (completed) -> Void in
-            
-        })
+        }
+        
     }
     // MARK: - UICollectionView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
