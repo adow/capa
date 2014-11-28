@@ -14,6 +14,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var toolbar : UIView!
     var markerView :UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
+    var hud:MBProgressHUD? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -78,15 +79,21 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
+        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         if let photo_list_value = photo_list {
+            var delete_photo_list = [PhotoModal]()
             for one_photo in photo_list_value {
                 if one_photo.state == PhotoModalState.use {
-                    one_photo.saveToCameraRoll()
+                    one_photo.saveToCameraRoll() ///保存到相册
+                    delete_photo_list.append(one_photo) ///标记为删除
                 }
             }
+            self.removePhotos(delete_photo_list)///删除这些照片
         }
+        
     }
     @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
+        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         var delete_photo_list = [PhotoModal]()
         if let photo_list_value = photo_list {
             for one_photo in photo_list_value {
@@ -100,7 +107,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     ///批量删除照片
     private func removePhotos(photos:[PhotoModal]){
         if var photo_list_value = photo_list {
-            self.collection.performBatchUpdates({ () -> Void in
+            self.collection.performBatchUpdates({ [unowned self]() -> Void in
                 var delete_index_path = [NSIndexPath]()
                 for one_photo in photos {
                     let index = find(self.photo_list!,one_photo)
@@ -115,14 +122,17 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                         NSLog("remove photo index:%d", index_value)
                         self.photo_list?.removeAtIndex(index_value)
                     }
+                    //TODO: one_photo.remove()
                 }
                 self.collection.deleteItemsAtIndexPaths(delete_index_path)
-            }, completion: { (completed) -> Void in
-                
+            }, completion: { [unowned self](completed) -> Void in
+//                self.hud?.hide?(true, afterDelay: 1.0)
+                if let hud_value = self.hud {
+                    hud_value.hide(true,afterDelay:1.0)
+                }
             })
             
         }
-        
     }
     // MARK: - UICollectionView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
