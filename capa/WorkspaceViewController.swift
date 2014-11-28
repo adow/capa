@@ -190,7 +190,15 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     /// MARK: - WorkspaceToolbarDelegate
     func onToolbarItem(photo: PhotoModal?, itemButton: UIButton) {
         NSLog("on toolbar:%d",itemButton.tag)
-        if itemButton.tag == 1 {
+        if itemButton.tag == 0 {
+            if let photo_value = photo {
+                hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                photo_value.saveToCameraRoll()
+                self.removePhotos([photo_value,])
+                hud?.hide(true,afterDelay:1.0)
+            }
+        }
+        else if itemButton.tag == 1 {
             self.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
         }
     }
