@@ -266,6 +266,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="ZME-El-mes">
                             <connections>
                                 <action selector="onButtonAction:" destination="6EE-lL-CXt" id="PZi-H4-5OB"/>
+                                <segue destination="zsB-Ow-ftE" kind="show" id="Qww-2r-Zsg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -306,43 +307,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZzI-wa-A5q">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwR-f4-E7t">
-                                <rect key="frame" x="16" y="562" width="46" height="30"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aFY-d1-ttE">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="original" translatesAutoresizingMaskIntoConstraints="NO" id="tFc-zW-ZTt">
+                                        <rect key="frame" x="250" y="201" width="100" height="178"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="178" id="DC5-ZB-0d3"/>
+                                            <constraint firstAttribute="width" constant="100" id="zpE-WE-sDX"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="FY6-LL-ET7"/>
-                                    <constraint firstAttribute="height" constant="30" id="ZVv-kl-FLl"/>
+                                    <constraint firstItem="tFc-zW-ZTt" firstAttribute="trailing" secondItem="aFY-d1-ttE" secondAttribute="trailing" constant="-250" id="eD2-qo-bsa" userLabel="right"/>
+                                    <constraint firstItem="tFc-zW-ZTt" firstAttribute="top" secondItem="aFY-d1-ttE" secondAttribute="top" constant="201" id="ntN-Ie-R8O" userLabel="top"/>
+                                    <constraint firstItem="tFc-zW-ZTt" firstAttribute="bottom" secondItem="aFY-d1-ttE" secondAttribute="bottom" constant="-201" id="uAy-Pf-9NQ" userLabel="bottom"/>
+                                    <constraint firstItem="tFc-zW-ZTt" firstAttribute="leading" secondItem="aFY-d1-ttE" secondAttribute="leading" constant="250" id="xV9-8n-XjG" userLabel="left"/>
                                 </constraints>
-                                <state key="normal" title="Back">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                                 <connections>
-                                    <action selector="onButtonCancel:" destination="zsB-Ow-ftE" eventType="touchUpInside" id="HXm-wZ-oBC"/>
+                                    <outlet property="delegate" destination="zsB-Ow-ftE" id="6Z3-Yz-22A"/>
+                                    <outletCollection property="gestureRecognizers" destination="plI-re-QlM" appends="YES" id="Bq7-ts-Y2v"/>
                                 </connections>
-                            </button>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="ZzI-wa-A5q" secondAttribute="trailing" constant="-16" id="5cm-Dz-A4D"/>
-                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="ZzI-wa-A5q" secondAttribute="bottom" id="BdV-mc-8uD"/>
-                            <constraint firstItem="ZzI-wa-A5q" firstAttribute="top" secondItem="eCA-13-lpc" secondAttribute="top" id="OmX-Mz-WAS"/>
-                            <constraint firstItem="ZzI-wa-A5q" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" constant="-16" id="bjy-Rf-Ztg"/>
-                            <constraint firstItem="rwR-f4-E7t" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" id="yFU-rf-mac"/>
-                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="rwR-f4-E7t" secondAttribute="bottom" constant="8" id="zuS-6y-5If"/>
+                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="aFY-d1-ttE" secondAttribute="bottom" id="4uJ-X7-Qoy"/>
+                            <constraint firstItem="aFY-d1-ttE" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" constant="-16" id="5NE-3g-R6n"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aFY-d1-ttE" secondAttribute="trailing" constant="-16" id="H2z-HE-z8Q"/>
+                            <constraint firstItem="aFY-d1-ttE" firstAttribute="top" secondItem="eCA-13-lpc" secondAttribute="topMargin" constant="20" id="wFh-52-XKR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="照片" id="aHk-Ed-sY2">
                         <barButtonItem key="backBarButtonItem" title="工作区" id="C7S-Mb-Fvf"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="imageView" destination="ZzI-wa-A5q" id="Z9Y-GI-nn8"/>
+                        <outlet property="imageView" destination="tFc-zW-ZTt" id="tb8-DR-Ndx"/>
+                        <outlet property="imageViewConstraintBottom" destination="uAy-Pf-9NQ" id="Gw0-eP-VWa"/>
+                        <outlet property="imageViewConstraintHeight" destination="DC5-ZB-0d3" id="vms-vl-k8K"/>
+                        <outlet property="imageViewConstraintLeft" destination="xV9-8n-XjG" id="4z1-Vu-ESw"/>
+                        <outlet property="imageViewConstraintRight" destination="eD2-qo-bsa" id="0k9-Mu-Qoo"/>
+                        <outlet property="imageViewConstraintTop" destination="ntN-Ie-R8O" id="KLV-YO-C76"/>
+                        <outlet property="imageViewConstraintWidth" destination="zpE-WE-sDX" id="xJw-vY-LKt"/>
+                        <outlet property="scrollView" destination="aFY-d1-ttE" id="MRj-bi-yAS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y1v-Zh-Qfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="plI-re-QlM">
+                    <connections>
+                        <action selector="onTapGesture:" destination="zsB-Ow-ftE" id="Ng1-Kr-iY7"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2550" y="1084"/>
         </scene>
@@ -351,6 +368,10 @@
         <image name="cards" width="120" height="120"/>
         <image name="flash_on" width="44" height="44"/>
         <image name="mark-use" width="29" height="29"/>
+        <image name="original" width="1080" height="1920"/>
         <image name="shutterButton" width="54" height="54"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Qww-2r-Zsg"/>
+    </inferredMetricsTieBreakers>
 </document>
