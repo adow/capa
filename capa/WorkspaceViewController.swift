@@ -9,7 +9,8 @@
 import UIKit
 
 class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceMarkerViewDelegate,WorkspaceToolbarDelegate {
-    @IBOutlet var collection:UICollectionView!
+    @IBOutlet weak var collection:UICollectionView!
+    @IBOutlet weak var filterSegment:UISegmentedControl!
     var photo_list:[PhotoModal]?
     var toolbar : UIView!
     var markerView :UIView!
@@ -39,7 +40,15 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     
     private func reload_photo_list(){
-        photo_list = photo_list_in_workspace()
+        if self.filterSegment.selectedSegmentIndex == 0 {
+            photo_list = photo_list_in_workspace()
+        }
+        else {
+            let state = PhotoModalState(rawValue: self.filterSegment.selectedSegmentIndex)
+            if let state_value = state {
+                photo_list = photo_list_in_workspace(state: state)
+            }
+        }
         NSLog("photo_list:%d", photo_list!.count)
         self.collection.reloadData()
     }
@@ -103,6 +112,11 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             }
         }
         self.removePhotos(delete_photo_list)
+    }
+    @IBAction func onFilterSegment(sender:UISegmentedControl!){
+        self.reload_photo_list()
+        toolbar.hidden = true
+        markerView.hidden = true
     }
     ///批量删除照片
     private func removePhotos(photos:[PhotoModal]){

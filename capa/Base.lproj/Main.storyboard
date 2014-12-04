@@ -262,6 +262,9 @@
                                 <segment title="留用"/>
                                 <segment title="弃用"/>
                             </segments>
+                            <connections>
+                                <action selector="onFilterSegment:" destination="6EE-lL-CXt" eventType="valueChanged" id="WQb-Ew-Z6u"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="ZME-El-mes">
                             <connections>
@@ -272,6 +275,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collection" destination="dVl-YP-u6A" id="nfG-Ep-VPD"/>
+                        <outlet property="filterSegment" destination="Key-A2-Bt9" id="CS6-x2-S69"/>
                         <segue destination="zsB-Ow-ftE" kind="show" identifier="segue_workspace_preview" id="fCh-WB-UId"/>
                     </connections>
                 </viewController>

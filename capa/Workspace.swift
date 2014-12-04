@@ -103,7 +103,7 @@ class PhotoModal:Equatable {
         self.write_info()
     }
 }
-func photo_list_in_workspace()->[PhotoModal]!{
+func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     let workspace = workspace_path
     let filelist = NSFileManager.defaultManager().contentsOfDirectoryAtPath(workspace, error: nil) as [String]?
     var photo_list = [PhotoModal]()
@@ -113,7 +113,9 @@ func photo_list_in_workspace()->[PhotoModal]!{
                 let photo = PhotoModal(bundlePath: workspace + one_file,
                     thumbPath: workspace + one_file + "/thumb.jpg",
                     originalPath: workspace + one_file + "/original.jpg",state:.undefined)
-                photo_list.append(photo)
+                if state == nil ||  photo.state == state {
+                    photo_list.append(photo)
+                }
             }
         }        
     }
