@@ -88,7 +88,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="tKa-L4-vgE" kind="show" identifier="segue_camera_workspace" id="OJu-mV-eeJ"/>
+                                            <segue destination="tKa-L4-vgE" kind="presentation" identifier="segue_camera_workspace" id="OJu-mV-eeJ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-N7-Cp8" userLabel="shuttleButton">
@@ -283,10 +283,10 @@
             </objects>
             <point key="canvasLocation" x="1793" y="1084"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Workspace Navigation View Controller-->
         <scene sceneID="pFj-Zx-UgD">
             <objects>
-                <navigationController id="tKa-L4-vgE" sceneMemberID="viewController">
+                <navigationController id="tKa-L4-vgE" customClass="WorkspaceNavigationViewController" customModule="capa" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Brn-jk-akw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

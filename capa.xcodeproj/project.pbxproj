@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680323571A33411500250092 /* WorkspaceNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680323561A33411500250092 /* WorkspaceNavigationViewController.swift */; };
+		6803235A1A3341DF00250092 /* CameraTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680323591A3341DF00250092 /* CameraTransition.swift */; };
 		682A3DCA19FE3DA200680AAF /* ValuedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A3DC919FE3DA200680AAF /* ValuedButton.swift */; };
 		68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68332FEB19F7FEDB006CF89F /* CameraViewController.swift */; };
 		6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855A6D61A03D72500728244 /* ExposureControl.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		680323561A33411500250092 /* WorkspaceNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceNavigationViewController.swift; sourceTree = "<group>"; };
+		680323591A3341DF00250092 /* CameraTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraTransition.swift; path = transition/CameraTransition.swift; sourceTree = "<group>"; };
 		682A3DC919FE3DA200680AAF /* ValuedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValuedButton.swift; sourceTree = "<group>"; };
 		68332FEB19F7FEDB006CF89F /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6855A6D61A03D72500728244 /* ExposureControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureControl.swift; path = controls/ExposureControl.swift; sourceTree = "<group>"; };
@@ -76,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		680323581A33419400250092 /* transition */ = {
+			isa = PBXGroup;
+			children = (
+				680323591A3341DF00250092 /* CameraTransition.swift */,
+			);
+			name = transition;
+			sourceTree = "<group>";
+		};
 		6871761A1A0277B90008F0F0 /* controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +128,7 @@
 		6884755319E6D7E100F0A416 /* capa */ = {
 			isa = PBXGroup;
 			children = (
+				680323581A33419400250092 /* transition */,
 				68ACFF931A1798C0009EF955 /* Workspace */,
 				6871761A1A0277B90008F0F0 /* controls */,
 				6884755619E6D7E100F0A416 /* AppDelegate.swift */,
@@ -161,6 +174,7 @@
 				68C5212F1A24B43D00E33670 /* WorkspaceToolbar.swift */,
 				68C521381A25C94100E33670 /* WorkspaceMarkerView.xib */,
 				68C5213A1A25C9D900E33670 /* WorkspaceMarkerView.swift */,
+				680323561A33411500250092 /* WorkspaceNavigationViewController.swift */,
 			);
 			name = Workspace;
 			sourceTree = "<group>";
@@ -237,8 +251,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				680323571A33411500250092 /* WorkspaceNavigationViewController.swift in Sources */,
 				68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */,
 				6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */,
+				6803235A1A3341DF00250092 /* CameraTransition.swift in Sources */,
 				6884757719E6DE9400F0A416 /* CPPreviewView.swift in Sources */,
 				6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */,
 				68C521301A24B43D00E33670 /* WorkspaceToolbar.swift in Sources */,

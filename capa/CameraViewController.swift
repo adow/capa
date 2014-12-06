@@ -106,6 +106,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var shuttleButtonCenterStart:CGPoint = CGPoint(x: 0, y: 0)
     // MARK: - ViewController
     override func viewDidLoad() {
+        self.view.layer.anchorPoint = CGPoint(x: 0.5, y:1.0)
+        self.view.frame = CGRectOffset(self.view.frame,
+            0.0,
+            0.5 * self.view.frame.size.height)
+        let anchor = CGPoint(x: 0.0, y: self.view.frame.size.height / 2)
         session = AVCaptureSession()
         self.previewView.session=session
         self.sessionQueue=dispatch_queue_create("capture session",DISPATCH_QUEUE_SERIAL)
