@@ -269,7 +269,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="ZME-El-mes">
                             <connections>
                                 <action selector="onButtonAction:" destination="6EE-lL-CXt" id="PZi-H4-5OB"/>
-                                <segue destination="zsB-Ow-ftE" kind="show" id="Qww-2r-Zsg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -335,17 +334,52 @@
                                     <outletCollection property="gestureRecognizers" destination="plI-re-QlM" appends="YES" id="Bq7-ts-Y2v"/>
                                 </connections>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Amr-vf-34D">
+                                <rect key="frame" x="315" y="550" width="29" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="29" id="VdN-aF-JJt"/>
+                                    <constraint firstAttribute="height" constant="29" id="gCq-Hg-562"/>
+                                </constraints>
+                                <state key="normal" image="mark-nouse2">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onButtonMarkRemove:" destination="zsB-Ow-ftE" eventType="touchUpInside" id="2Ej-Ub-2AQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbk-ii-GnV">
+                                <rect key="frame" x="255.5" y="550" width="29" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="29" id="SOv-tS-g03"/>
+                                    <constraint firstAttribute="height" constant="29" id="yoR-eh-CZw"/>
+                                </constraints>
+                                <state key="normal" image="mark-use">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onButtonMarkUse:" destination="zsB-Ow-ftE" eventType="touchUpInside" id="23s-S4-7dM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="aFY-d1-ttE" secondAttribute="bottom" id="4uJ-X7-Qoy"/>
                             <constraint firstItem="aFY-d1-ttE" firstAttribute="leading" secondItem="eCA-13-lpc" secondAttribute="leadingMargin" constant="-16" id="5NE-3g-R6n"/>
+                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="Amr-vf-34D" secondAttribute="bottom" constant="21" id="8Ld-II-apI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aFY-d1-ttE" secondAttribute="trailing" constant="-16" id="H2z-HE-z8Q"/>
+                            <constraint firstAttribute="centerX" secondItem="bbk-ii-GnV" secondAttribute="centerX" constant="30" id="HPM-YF-Svi"/>
+                            <constraint firstItem="Qr9-Vf-WHR" firstAttribute="top" secondItem="bbk-ii-GnV" secondAttribute="bottom" constant="21" id="Z1o-HQ-YYk"/>
+                            <constraint firstAttribute="centerX" secondItem="Amr-vf-34D" secondAttribute="centerX" constant="-30" id="aId-6Q-4Wz"/>
                             <constraint firstItem="aFY-d1-ttE" firstAttribute="top" secondItem="eCA-13-lpc" secondAttribute="topMargin" constant="20" id="wFh-52-XKR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="照片" id="aHk-Ed-sY2">
                         <barButtonItem key="backBarButtonItem" title="工作区" id="C7S-Mb-Fvf"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="paf-wQ-oCw">
+                            <connections>
+                                <action selector="onButtonAction:" destination="zsB-Ow-ftE" id="HfU-xp-tp8"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="tFc-zW-ZTt" id="tb8-DR-Ndx"/>
@@ -371,11 +405,9 @@
     <resources>
         <image name="cards" width="120" height="120"/>
         <image name="flash_on" width="44" height="44"/>
+        <image name="mark-nouse2" width="19" height="19"/>
         <image name="mark-use" width="29" height="29"/>
         <image name="original" width="1080" height="1920"/>
         <image name="shutterButton" width="54" height="54"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Qww-2r-Zsg"/>
-    </inferredMetricsTieBreakers>
 </document>

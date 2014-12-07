@@ -62,7 +62,7 @@ class PhotoModal:Equatable {
                 orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
                 completionBlock: {
                 (url,error)-> () in
-                NSLog("save to:%@", url)
+//                NSLog("save to:%@", url)
             })
         }
     }

@@ -172,7 +172,6 @@ class WorkPreviewViewController: UIViewController,UIScrollViewDelegate {
         })
         
     }
-    
     ///MARK: - UIScrollViewDelegate
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return self.imageView
@@ -180,5 +179,39 @@ class WorkPreviewViewController: UIViewController,UIScrollViewDelegate {
     func scrollViewDidZoom(scrollView: UIScrollView) {
         self.updateConstraints()
         
+    }
+    ///MARK: - Action
+    @IBAction func onButtonAction(sender:UIBarButtonItem){
+        let actionController = UIAlertController(title: "操作", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        actionController.addAction(UIAlertAction(title: "保存到交卷", style: UIAlertActionStyle.Default, handler: { [unowned self](action) -> Void in
+            if let photo_value = self.photo {
+                //photo_value.saveToCameraRoll()
+                //photo_value.remove()
+                let workspaceViewController = self.navigationController?.childViewControllers[0] as WorkspaceViewController?
+                self.navigationController?.popViewControllerAnimated(true)
+                workspaceViewController?.savePhotos([photo_value,])
+            }
+        }))
+        actionController.addAction(UIAlertAction(title: "删除照片", style: UIAlertActionStyle.Destructive, handler: { (action) -> Void in
+            if let photo_value = self.photo {
+//                photo_value.remove()
+                let workspaceViewController = self.navigationController?.childViewControllers[0] as WorkspaceViewController?
+                self.navigationController?.popViewControllerAnimated(true)
+                workspaceViewController?.removePhotos([photo_value,])
+                
+            }
+        }))
+        actionController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+        }))
+        self.presentViewController(actionController, animated: true) { () -> Void in
+            
+        }
+    }
+    @IBAction func onButtonMarkUse(sender:UIButton!){
+        self.photo?.updateState(.use)
+    }
+    @IBAction func onButtonMarkRemove(sender:UIButton!){
+        self.photo?.updateState(.remove)
     }
 }

@@ -11,7 +11,7 @@ import UIKit
 class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceMarkerViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet weak var collection:UICollectionView!
     @IBOutlet weak var filterSegment:UISegmentedControl!
-    var photo_list:[PhotoModal]?
+    var photo_list:[PhotoModal]? = [PhotoModal]()
     var toolbar : UIView!
     var markerView :UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
@@ -20,7 +20,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 //        self.collection.allowsMultipleSelection = true
-        self.reload_photo_list()
+        
         
         toolbar = WorkspaceToolbar.toolbar()
         (toolbar as WorkspaceToolbar).delegate = self
@@ -31,7 +31,19 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         (markerView as WorkspaceMarkerView).delegate = self
         self.collection.addSubview(markerView)
         markerView.hidden = true
+        
+        self.reload_photo_list()
 
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+//        self.reload_photo_list()
+        toolbar.hidden = true
+        markerView.hidden = true
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //self.reload_photo_list()
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,13 +52,23 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     
     private func reload_photo_list(){
+        toolbar.hidden = true
+        markerView.hidden = true
+        editing_photo = nil
+        photo_list?.removeAll(keepCapacity: true)
         if self.filterSegment.selectedSegmentIndex == 0 {
-            photo_list = photo_list_in_workspace()
+//            photo_list = photo_list_in_workspace()
+            for one_photo in photo_list_in_workspace() {
+                photo_list?.append(one_photo)
+            }
         }
         else {
             let state = PhotoModalState(rawValue: self.filterSegment.selectedSegmentIndex)
             if let state_value = state {
-                photo_list = photo_list_in_workspace(state: state)
+//                photo_list = photo_list_in_workspace(state: state)
+                for one_photo in photo_list_in_workspace(state: state){
+                    photo_list?.append(one_photo)
+                }
             }
         }
         NSLog("photo_list:%d", photo_list!.count)
@@ -88,21 +110,20 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
-        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         if let photo_list_value = photo_list {
-            var delete_photo_list = [PhotoModal]()
+            var save_photo_list = [PhotoModal]()
             for one_photo in photo_list_value {
                 if one_photo.state == PhotoModalState.use {
-                    one_photo.saveToCameraRoll() ///保存到相册
-                    delete_photo_list.append(one_photo) ///标记为删除
+//                    one_photo.saveToCameraRoll() ///保存到相册
+                    save_photo_list.append(one_photo) ///标记为删除
                 }
             }
-            self.removePhotos(delete_photo_list)///删除这些照片
+//            self.removePhotos(delete_photo_list)///删除这些照片
+            self.savePhotos(save_photo_list)
         }
         
     }
     @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
-        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         var delete_photo_list = [PhotoModal]()
         if let photo_list_value = photo_list {
             for one_photo in photo_list_value {
@@ -118,9 +139,21 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         toolbar.hidden = true
         markerView.hidden = true
     }
+    func savePhotos(photos:[PhotoModal]){
+        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        for one_photo in photos {
+            one_photo.saveToCameraRoll()
+        }
+        hud?.hide(true)
+//        if let hud_value = self.hud {
+//            hud_value.hide(true)
+//        }
+        self.removePhotos(photos)///保存之后删除这些照片
+    }
     ///批量删除照片
-    private func removePhotos(photos:[PhotoModal]){
+    func removePhotos(photos:[PhotoModal]){
         if var photo_list_value = photo_list {
+            hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             self.collection.performBatchUpdates({ [unowned self]() -> Void in
                 var delete_index_path = [NSIndexPath]()
                 for one_photo in photos {
@@ -140,9 +173,9 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                 }
                 self.collection.deleteItemsAtIndexPaths(delete_index_path)
             }, completion: { [unowned self](completed) -> Void in
-//                self.hud?.hide?(true, afterDelay: 1.0)
+//                self.hud?.hide(true, afterDelay: 1.0)
                 if let hud_value = self.hud {
-                    hud_value.hide(true,afterDelay:1.0)
+                    hud_value.hide(true)
                 }
             })
             
