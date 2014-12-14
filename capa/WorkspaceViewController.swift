@@ -15,6 +15,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var toolbar : UIView!
     var markerView :UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
+    var editing_index : NSIndexPath? = nil ///正在编辑的位置
     var hud:MBProgressHUD? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,8 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
 //            let photo = cell.photo
             let photo = self.editing_photo!
             let previewViewController = segue.destinationViewController as WorkPreviewViewController
-            previewViewController.photo = photo
+            previewViewController.photo_list = self.photo_list
+            previewViewController.photoIndex = self.editing_index!.row
         }
     }
     // MARK: - Actions
@@ -201,6 +203,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 //        NSLog("cell frame:%@", NSStringFromCGRect(cell.frame))
+        self.editing_index = indexPath
         editing_photo?.editing = false ///把原来的状态修改
         let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
         editing_photo = cell.photo

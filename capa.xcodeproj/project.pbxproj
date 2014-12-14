@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		680323571A33411500250092 /* WorkspaceNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680323561A33411500250092 /* WorkspaceNavigationViewController.swift */; };
 		6803235A1A3341DF00250092 /* CameraTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680323591A3341DF00250092 /* CameraTransition.swift */; };
+		682498981A3DC831007F869E /* WorkPreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682498971A3DC831007F869E /* WorkPreviewCollectionViewCell.swift */; };
+		6824989A1A3DD3B4007F869E /* WorkPreviewCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682498991A3DD3B4007F869E /* WorkPreviewCollectionLayout.swift */; };
 		682A3DCA19FE3DA200680AAF /* ValuedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A3DC919FE3DA200680AAF /* ValuedButton.swift */; };
 		68332FEC19F7FEDB006CF89F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68332FEB19F7FEDB006CF89F /* CameraViewController.swift */; };
 		6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855A6D61A03D72500728244 /* ExposureControl.swift */; };
@@ -37,6 +39,8 @@
 /* Begin PBXFileReference section */
 		680323561A33411500250092 /* WorkspaceNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceNavigationViewController.swift; sourceTree = "<group>"; };
 		680323591A3341DF00250092 /* CameraTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraTransition.swift; path = transition/CameraTransition.swift; sourceTree = "<group>"; };
+		682498971A3DC831007F869E /* WorkPreviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkPreviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		682498991A3DD3B4007F869E /* WorkPreviewCollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkPreviewCollectionLayout.swift; sourceTree = "<group>"; };
 		682A3DC919FE3DA200680AAF /* ValuedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValuedButton.swift; sourceTree = "<group>"; };
 		68332FEB19F7FEDB006CF89F /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6855A6D61A03D72500728244 /* ExposureControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureControl.swift; path = controls/ExposureControl.swift; sourceTree = "<group>"; };
@@ -169,12 +173,14 @@
 				68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */,
 				68D890371A1261DB002D983C /* WorkspaceViewController.swift */,
 				68ACFF911A14FD6E009EF955 /* Workspace.swift */,
-				68ACFF941A1798F0009EF955 /* WorkPreviewViewController.swift */,
 				68C5212D1A24B30600E33670 /* WorkspaceToolbar.xib */,
 				68C5212F1A24B43D00E33670 /* WorkspaceToolbar.swift */,
 				68C521381A25C94100E33670 /* WorkspaceMarkerView.xib */,
 				68C5213A1A25C9D900E33670 /* WorkspaceMarkerView.swift */,
 				680323561A33411500250092 /* WorkspaceNavigationViewController.swift */,
+				68ACFF941A1798F0009EF955 /* WorkPreviewViewController.swift */,
+				682498971A3DC831007F869E /* WorkPreviewCollectionViewCell.swift */,
+				682498991A3DD3B4007F869E /* WorkPreviewCollectionLayout.swift */,
 			);
 			name = Workspace;
 			sourceTree = "<group>";
@@ -260,9 +266,11 @@
 				68C521301A24B43D00E33670 /* WorkspaceToolbar.swift in Sources */,
 				6871761C1A0277E00008F0F0 /* FocusControl.swift in Sources */,
 				682A3DCA19FE3DA200680AAF /* ValuedButton.swift in Sources */,
+				6824989A1A3DD3B4007F869E /* WorkPreviewCollectionLayout.swift in Sources */,
 				6890DF681A285A13007E0BF2 /* MBProgressHUD.m in Sources */,
 				68ACFF951A1798F0009EF955 /* WorkPreviewViewController.swift in Sources */,
 				68ACFF901A14FB12009EF955 /* WorkspaceCollectionViewCell.swift in Sources */,
+				682498981A3DC831007F869E /* WorkPreviewCollectionViewCell.swift in Sources */,
 				68ACFF8E1A14F2D0009EF955 /* WorkspaceLayout.swift in Sources */,
 				68C5213B1A25C9D900E33670 /* WorkspaceMarkerView.swift in Sources */,
 				68D890381A1261DB002D983C /* WorkspaceViewController.swift in Sources */,
