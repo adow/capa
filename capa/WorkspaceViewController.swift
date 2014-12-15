@@ -251,5 +251,18 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         else if itemButton.tag == 1 {
             self.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
         }
+        else if itemButton.tag == 2 {
+            photo!.state = PhotoModalState.use
+            self.collection.reloadData()
+        }
+        else if itemButton.tag == 3 {
+            photo!.state = PhotoModalState.remove
+            self.collection.reloadData()
+        }
+        else if itemButton.tag == 4 {
+            if let photo_value = photo {
+                self.removePhotos([photo_value,])
+            }
+        }
     }
 }
