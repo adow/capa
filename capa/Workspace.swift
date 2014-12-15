@@ -54,15 +54,18 @@ class PhotoModal:Equatable {
         
     }
     
-    
+    typealias CallBack = ()->()
     /// 保存到相机交卷
-    func saveToCameraRoll(){
+    func saveToCameraRoll(callback:CallBack? = nil){
         if let image = originalImage {
             ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage,
                 orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
                 completionBlock: {
                 (url,error)-> () in
 //                NSLog("save to:%@", url)
+                    if let callback_value = callback {
+                        callback_value()
+                    }
             })
         }
     }

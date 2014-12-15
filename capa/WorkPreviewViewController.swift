@@ -81,4 +81,29 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
             self.buttonRemove.selected = false
         }
     }
+    @IBAction func onButtonDelete(sender:UIButton!){
+        let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
+        self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+            self.photo_list.removeAtIndex(self.photoIndex)
+            self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+        }, completion: { (completed) -> Void in
+            
+        })
+    }
+    ///保存到相册然后删除
+    @IBAction func onButtonSave(sender:UIButton!){
+        let photo = self.photo_list[self.photoIndex]
+        photo.saveToCameraRoll { [unowned self]() -> () in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
+                self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                    self.photo_list.removeAtIndex(self.photoIndex)
+                    self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+                    }, completion: { (completed) -> Void in
+                        
+                })
+            })
+        }
+    }
+    
 }

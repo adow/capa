@@ -408,6 +408,9 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="selected" image="mark-remove-hightlight"/>
+                                        <connections>
+                                            <action selector="onButtonDelete:" destination="deI-4t-3JP" eventType="touchUpInside" id="Rmb-Fy-WQt"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRr-Gk-PHO" userLabel="ButtonUse">
                                         <rect key="frame" x="196.5" y="7" width="29" height="29"/>
@@ -419,7 +422,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="onButtonState:" destination="deI-4t-3JP" eventType="touchUpInside" id="4zh-8E-Jso"/>
+                                            <action selector="onButtonSave:" destination="deI-4t-3JP" eventType="touchUpInside" id="JeK-U1-8dF"/>
                                         </connections>
                                     </button>
                                 </subviews>
