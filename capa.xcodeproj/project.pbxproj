@@ -169,10 +169,10 @@
 		68ACFF931A1798C0009EF955 /* Workspace */ = {
 			isa = PBXGroup;
 			children = (
+				68ACFF911A14FD6E009EF955 /* Workspace.swift */,
 				68ACFF8D1A14F2D0009EF955 /* WorkspaceLayout.swift */,
 				68ACFF8F1A14FB12009EF955 /* WorkspaceCollectionViewCell.swift */,
 				68D890371A1261DB002D983C /* WorkspaceViewController.swift */,
-				68ACFF911A14FD6E009EF955 /* Workspace.swift */,
 				68C5212D1A24B30600E33670 /* WorkspaceToolbar.xib */,
 				68C5212F1A24B43D00E33670 /* WorkspaceToolbar.swift */,
 				68C521381A25C94100E33670 /* WorkspaceMarkerView.xib */,

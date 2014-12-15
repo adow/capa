@@ -7,47 +7,56 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="9e9-ru-0rA" customClass="WorkspaceToolbar" customModule="capa" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="260" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HD4-gD-pjb">
-                    <rect key="frame" x="0.0" y="8" width="46" height="30"/>
-                    <state key="normal" title="保存">
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvc-ts-3nv" userLabel="mark-use">
+                    <rect key="frame" x="115" y="8" width="30" height="30"/>
+                    <state key="normal" image="mark-use">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="CfR-Ty-VjE"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="88t-FC-XB2"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jYn-p2-huJ">
-                    <rect key="frame" x="45" y="8" width="46" height="30"/>
-                    <state key="normal" title="查看">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hh-VB-bfz" userLabel="save">
+                    <rect key="frame" x="8" y="8" width="30" height="30"/>
+                    <state key="normal" image="download">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="6ex-C0-P5K"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="csf-vG-7nx"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiR-1O-k6n">
-                    <rect key="frame" x="153" y="8" width="46" height="30"/>
-                    <state key="normal" title="信息">
+                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZsS-A8-pDk" userLabel="mark-remove">
+                    <rect key="frame" x="170" y="8" width="30" height="30"/>
+                    <state key="normal" image="mark-remove">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="E8t-GG-LoB"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="ifD-6X-5Bu"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-4J-ep3">
-                    <rect key="frame" x="99" y="8" width="46" height="30"/>
-                    <state key="normal" title="分享">
+                <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DXt-gC-yOx" userLabel="remove">
+                    <rect key="frame" x="222" y="8" width="30" height="30"/>
+                    <state key="normal" image="remove">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="nrI-5B-RTZ"/>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="fS6-mp-j8b"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pZP-nI-gD6" userLabel="view">
+                    <rect key="frame" x="61" y="8" width="30" height="30"/>
+                    <state key="normal" image="write">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="yNA-Y6-sTX"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -56,4 +65,11 @@
             <point key="canvasLocation" x="321" y="-125"/>
         </view>
     </objects>
+    <resources>
+        <image name="download" width="132" height="132"/>
+        <image name="mark-remove" width="132" height="132"/>
+        <image name="mark-use" width="132" height="132"/>
+        <image name="remove" width="132" height="132"/>
+        <image name="write" width="132" height="132"/>
+    </resources>
 </document>

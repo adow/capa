@@ -41,6 +41,6 @@
     </objects>
     <resources>
         <image name="mark-nouse2" width="19" height="19"/>
-        <image name="mark-use" width="29" height="29"/>
+        <image name="mark-use" width="132" height="132"/>
     </resources>
 </document>

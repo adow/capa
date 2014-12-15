@@ -195,7 +195,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
         let photo = photo_list![indexPath.row]
-        cell.thumbImageView.image = photo.thumgImage
+        cell.thumbImageView.image = photo.originalImage
         cell.photo = photo
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
 //        println("\(indexPath.row):\(photo.state)")
@@ -209,7 +209,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         editing_photo = cell.photo
         editing_photo?.editing = true
         var x = cell.frame.origin.x - (toolbar.frame.size.width - cell.frame.size.width) / 2
-        var y = cell.frame.origin.y + cell.frame.size.height
+        var y = cell.frame.origin.y + cell.frame.size.height + 3.0
         x = fmax(x, 0)
         x = fmin(x, collectionView.frame.size.width - toolbar.frame.size.width)
         toolbar.frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
@@ -217,13 +217,13 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         let toolbar_m = toolbar as WorkspaceToolbar
         toolbar_m.photo = cell.photo
 
-        var marker_x = cell.frame.origin.x - 10.0
-        var marker_y = cell.frame.origin.y - 10.0
-        markerView.frame = CGRectMake(marker_x, marker_y,
-            markerView.frame.size.width, markerView.frame.size.height)
-        markerView.hidden = false
-        let markerView_m = markerView as WorkspaceMarkerView
-        markerView_m.photo = cell.photo
+//        var marker_x = cell.frame.origin.x - 10.0
+//        var marker_y = cell.frame.origin.y - 10.0
+//        markerView.frame = CGRectMake(marker_x, marker_y,
+//            markerView.frame.size.width, markerView.frame.size.height)
+//        markerView.hidden = false
+//        let markerView_m = markerView as WorkspaceMarkerView
+//        markerView_m.photo = cell.photo
         collectionView.reloadData()
     }
     /// MARK: - WorkspaceMarkerViewDelegate
