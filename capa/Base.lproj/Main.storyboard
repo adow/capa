@@ -371,38 +371,68 @@
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VU8-SE-nWL" userLabel="ButtonUse">
-                                        <rect key="frame" x="265.5" y="7" width="29" height="29"/>
+                                        <rect key="frame" x="255" y="7" width="29" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="MyJ-nA-o1V"/>
                                             <constraint firstAttribute="width" constant="29" id="cEX-XD-Syj"/>
                                         </constraints>
-                                        <state key="normal" image="mark-use">
+                                        <state key="normal" image="mark-use-normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="mark-use-highlight"/>
                                         <connections>
                                             <action selector="onButtonState:" destination="deI-4t-3JP" eventType="touchUpInside" id="DrH-1g-I9X"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0d4-c2-yRa" userLabel="ButtonRemove">
-                                        <rect key="frame" x="305.5" y="7" width="29" height="29"/>
+                                        <rect key="frame" x="315" y="7" width="29" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="99R-6f-mx3"/>
                                             <constraint firstAttribute="width" constant="29" id="oFs-Nd-3eB"/>
                                         </constraints>
-                                        <state key="normal" image="mark-nouse2">
+                                        <state key="normal" image="mark-remove-normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="mark-remove-hightlight"/>
                                         <connections>
                                             <action selector="onButtonState:" destination="deI-4t-3JP" eventType="touchUpInside" id="WfA-gP-VTF"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpp-zQ-k6N" userLabel="ButtonRemove">
+                                        <rect key="frame" x="371" y="7" width="29" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="29" id="4xf-F1-cJY"/>
+                                            <constraint firstAttribute="width" constant="29" id="kE0-QV-sl4"/>
+                                        </constraints>
+                                        <state key="normal" image="remove">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" image="mark-remove-hightlight"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRr-Gk-PHO" userLabel="ButtonUse">
+                                        <rect key="frame" x="196.5" y="7" width="29" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="29" id="FGP-Kk-T4a"/>
+                                            <constraint firstAttribute="width" constant="29" id="HrA-uI-xat"/>
+                                        </constraints>
+                                        <state key="normal" image="download">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onButtonState:" destination="deI-4t-3JP" eventType="touchUpInside" id="4zh-8E-Jso"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="VU8-SE-nWL" secondAttribute="centerX" constant="20" id="9zV-yh-xTF"/>
-                                    <constraint firstAttribute="centerX" secondItem="0d4-c2-yRa" secondAttribute="centerX" constant="-20" id="E5L-GE-lbn"/>
+                                    <constraint firstAttribute="centerX" secondItem="VU8-SE-nWL" secondAttribute="centerX" constant="30" id="9zV-yh-xTF"/>
+                                    <constraint firstAttribute="centerX" secondItem="0d4-c2-yRa" secondAttribute="centerX" constant="-30" id="E5L-GE-lbn"/>
+                                    <constraint firstItem="0d4-c2-yRa" firstAttribute="centerY" secondItem="Kpp-zQ-k6N" secondAttribute="centerY" id="F1T-5x-IzX"/>
+                                    <constraint firstItem="VU8-SE-nWL" firstAttribute="leading" secondItem="IRr-Gk-PHO" secondAttribute="trailing" constant="30" id="Hmm-k9-C0N"/>
+                                    <constraint firstItem="IRr-Gk-PHO" firstAttribute="centerY" secondItem="VU8-SE-nWL" secondAttribute="centerY" id="MRV-8A-oRk"/>
                                     <constraint firstAttribute="centerY" secondItem="VU8-SE-nWL" secondAttribute="centerY" id="RML-ol-GWc"/>
                                     <constraint firstAttribute="height" constant="44" id="dJc-NR-iib"/>
+                                    <constraint firstItem="Kpp-zQ-k6N" firstAttribute="leading" secondItem="0d4-c2-yRa" secondAttribute="trailing" constant="26.5" id="gJe-0y-dSR"/>
                                     <constraint firstAttribute="centerY" secondItem="0d4-c2-yRa" secondAttribute="centerY" id="ykf-Ra-P5N"/>
                                 </constraints>
                             </view>
@@ -451,10 +481,15 @@
     </scenes>
     <resources>
         <image name="cards" width="120" height="120"/>
+        <image name="download" width="132" height="132"/>
         <image name="flash_on" width="44" height="44"/>
-        <image name="mark-nouse2" width="19" height="19"/>
-        <image name="mark-use" width="29" height="29"/>
+        <image name="mark-remove-hightlight" width="132" height="132"/>
+        <image name="mark-remove-normal" width="132" height="132"/>
+        <image name="mark-use" width="132" height="132"/>
+        <image name="mark-use-highlight" width="132" height="132"/>
+        <image name="mark-use-normal" width="132" height="132"/>
         <image name="original" width="1080" height="1920"/>
+        <image name="remove" width="132" height="132"/>
         <image name="shutterButton" width="54" height="54"/>
     </resources>
 </document>

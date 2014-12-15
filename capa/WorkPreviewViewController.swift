@@ -64,20 +64,21 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         else if sender === self.buttonRemove {
             photo.state = PhotoModalState.remove
         }
+        self.updateToolbar()
     }
     private func updateToolbar(){
         let photo = self.photo_list[self.photoIndex]
         if photo.state == PhotoModalState.use {
-            self.buttonUse.highlighted = true
+            self.buttonUse.selected = true
         }
         else{
-            self.buttonUse.highlighted = false
+            self.buttonUse.selected = false
         }
         if photo.state == PhotoModalState.remove {
-            self.buttonRemove.highlighted = true
+            self.buttonRemove.selected = true
         }
         else{
-            self.buttonRemove.highlighted = false
+            self.buttonRemove.selected = false
         }
     }
 }
