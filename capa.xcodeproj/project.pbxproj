@@ -33,6 +33,8 @@
 		68C521301A24B43D00E33670 /* WorkspaceToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C5212F1A24B43D00E33670 /* WorkspaceToolbar.swift */; };
 		68C521391A25C94100E33670 /* WorkspaceMarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68C521381A25C94100E33670 /* WorkspaceMarkerView.xib */; };
 		68C5213B1A25C9D900E33670 /* WorkspaceMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C5213A1A25C9D900E33670 /* WorkspaceMarkerView.swift */; };
+		68CB14D31A4086B000DD0AF4 /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CB14D21A4086B000DD0AF4 /* SettingsNavigationController.swift */; };
+		68CB14D51A40876B00DD0AF4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CB14D41A40876B00DD0AF4 /* SettingsViewController.swift */; };
 		68D890381A1261DB002D983C /* WorkspaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D890371A1261DB002D983C /* WorkspaceViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		68C5212F1A24B43D00E33670 /* WorkspaceToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceToolbar.swift; sourceTree = "<group>"; };
 		68C521381A25C94100E33670 /* WorkspaceMarkerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkspaceMarkerView.xib; sourceTree = "<group>"; };
 		68C5213A1A25C9D900E33670 /* WorkspaceMarkerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceMarkerView.swift; sourceTree = "<group>"; };
+		68CB14D21A4086B000DD0AF4 /* SettingsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsNavigationController.swift; path = Settings/SettingsNavigationController.swift; sourceTree = "<group>"; };
+		68CB14D41A40876B00DD0AF4 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		68D890371A1261DB002D983C /* WorkspaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,15 @@
 				680323591A3341DF00250092 /* CameraTransition.swift */,
 			);
 			name = transition;
+			sourceTree = "<group>";
+		};
+		68421AE11A4085600008F575 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				68CB14D21A4086B000DD0AF4 /* SettingsNavigationController.swift */,
+				68CB14D41A40876B00DD0AF4 /* SettingsViewController.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		6871761A1A0277B90008F0F0 /* controls */ = {
@@ -132,6 +145,7 @@
 		6884755319E6D7E100F0A416 /* capa */ = {
 			isa = PBXGroup;
 			children = (
+				68421AE11A4085600008F575 /* Settings */,
 				680323581A33419400250092 /* transition */,
 				68ACFF931A1798C0009EF955 /* Workspace */,
 				6871761A1A0277B90008F0F0 /* controls */,
@@ -262,7 +276,9 @@
 				6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */,
 				6803235A1A3341DF00250092 /* CameraTransition.swift in Sources */,
 				6884757719E6DE9400F0A416 /* CPPreviewView.swift in Sources */,
+				68CB14D51A40876B00DD0AF4 /* SettingsViewController.swift in Sources */,
 				6855A6D71A03D72500728244 /* ExposureControl.swift in Sources */,
+				68CB14D31A4086B000DD0AF4 /* SettingsNavigationController.swift in Sources */,
 				68C521301A24B43D00E33670 /* WorkspaceToolbar.swift in Sources */,
 				6871761C1A0277E00008F0F0 /* FocusControl.swift in Sources */,
 				682A3DCA19FE3DA200680AAF /* ValuedButton.swift in Sources */,
