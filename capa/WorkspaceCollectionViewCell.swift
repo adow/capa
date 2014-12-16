@@ -21,16 +21,16 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
                 case .undefined:
                     markImageView.image = nil
                 case .use:
-                    markImageView.image = UIImage(named: "mark-use")
+                    markImageView.image = UIImage(named: "mark-use-highlight")
                 case .remove:
-                    markImageView.image = UIImage(named: "mark-nouse2")
+                    markImageView.image = UIImage(named: "mark-remove-hightlight")
                 }
-                if photo_value.editing {
-                    self.markImageView.hidden = true
-                }
-                else{
-                    self.markImageView.hidden = false
-                }
+//                if photo_value.editing {
+//                    self.markImageView.hidden = true
+//                }
+//                else{
+//                    self.markImageView.hidden = false
+//                }
             }
             else{
                 markImageView.image = nil

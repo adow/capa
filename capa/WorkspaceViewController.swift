@@ -216,14 +216,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         toolbar.hidden = false
         let toolbar_m = toolbar as WorkspaceToolbar
         toolbar_m.photo = cell.photo
-
-//        var marker_x = cell.frame.origin.x - 10.0
-//        var marker_y = cell.frame.origin.y - 10.0
-//        markerView.frame = CGRectMake(marker_x, marker_y,
-//            markerView.frame.size.width, markerView.frame.size.height)
-//        markerView.hidden = false
-//        let markerView_m = markerView as WorkspaceMarkerView
-//        markerView_m.photo = cell.photo
         collectionView.reloadData()
     }
     /// MARK: - WorkspaceMarkerViewDelegate

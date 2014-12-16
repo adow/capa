@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,9 +12,10 @@
             <subviews>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvc-ts-3nv" userLabel="mark-use">
                     <rect key="frame" x="115" y="8" width="30" height="30"/>
-                    <state key="normal" image="mark-use">
+                    <state key="normal" image="mark-use-normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="selected" image="mark-use-highlight"/>
                     <connections>
                         <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="88t-FC-XB2"/>
                     </connections>
@@ -30,9 +31,10 @@
                 </button>
                 <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZsS-A8-pDk" userLabel="mark-remove">
                     <rect key="frame" x="170" y="8" width="30" height="30"/>
-                    <state key="normal" image="mark-remove">
+                    <state key="normal" image="mark-remove-normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="selected" image="mark-remove-hightlight"/>
                     <connections>
                         <action selector="onButtonItem:" destination="9e9-ru-0rA" eventType="touchUpInside" id="ifD-6X-5Bu"/>
                     </connections>
@@ -62,13 +64,19 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="buttonMarkRemove" destination="ZsS-A8-pDk" id="3ZL-D2-j5s"/>
+                <outlet property="buttonMarkUse" destination="fvc-ts-3nv" id="cxU-8v-vxu"/>
+            </connections>
             <point key="canvasLocation" x="321" y="-125"/>
         </view>
     </objects>
     <resources>
         <image name="download" width="132" height="132"/>
-        <image name="mark-remove" width="132" height="132"/>
-        <image name="mark-use" width="132" height="132"/>
+        <image name="mark-remove-hightlight" width="132" height="132"/>
+        <image name="mark-remove-normal" width="132" height="132"/>
+        <image name="mark-use-highlight" width="132" height="132"/>
+        <image name="mark-use-normal" width="132" height="132"/>
         <image name="remove" width="132" height="132"/>
         <image name="write" width="132" height="132"/>
     </resources>
