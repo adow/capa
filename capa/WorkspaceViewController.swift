@@ -194,6 +194,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
+        cell.viewController = self
         let photo = photo_list![indexPath.row]
         cell.thumbImageView.image = photo.thumgImage!
         cell.photo = photo

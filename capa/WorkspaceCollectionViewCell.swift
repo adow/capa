@@ -13,6 +13,8 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBOutlet var useMarkButton:UIButton!
     @IBOutlet var removeMarkButton:UIButton!
     @IBOutlet var markImageView:UIImageView!
+    weak var viewController:WorkspaceViewController!
+    var tapGesture:UITapGestureRecognizer?
     var photo:PhotoModal?{
         didSet{
             //updateState()
@@ -25,17 +27,21 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
                 case .remove:
                     markImageView.image = UIImage(named: "mark-remove-hightlight")
                 }
-//                if photo_value.editing {
-//                    self.markImageView.hidden = true
-//                }
-//                else{
-//                    self.markImageView.hidden = false
-//                }
             }
             else{
                 markImageView.image = nil
             }
             
+        }
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if tapGesture == nil {
+            tapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+            tapGesture?.numberOfTapsRequired = 2
+            tapGesture?.cancelsTouchesInView = true
+            tapGesture?.delaysTouchesBegan = true
+            self.addGestureRecognizer(tapGesture!)
         }
     }
     private func updateState()->(){
@@ -78,5 +84,8 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
         }
         self.updateState()
         
+    }
+    @IBAction func onTapGesture(gesture:UITapGestureRecognizer){
+        self.viewController.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
     }
 }
