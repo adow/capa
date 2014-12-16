@@ -153,8 +153,7 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->
 //    imageData.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
     
-    let thumbImage = originalImage.resizeImageWithWidth(100.0)
-//    let thumbImage = image.resizeImageWithWidth(100.0)
+    let thumbImage = originalImage.resizeImageWithTarget(100.0)
     let thumbData = UIImageJPEGRepresentation(thumbImage, 1.0)
     let thumb_filename = "\(bundle)/thumb.jpg"
     thumbData.writeToFile(thumb_filename, atomically: true)

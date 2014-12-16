@@ -109,6 +109,29 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return new_image
     }
+    ///指定一个值为小的一边，然后缩放
+    public func resizeImageWithTarget(value:CGFloat)->UIImage!{
+        let old_width = self.size.width
+        let old_height = self.size.height
+        var width:CGFloat = 0.0
+        var height:CGFloat = 0.0
+        if old_height > old_width {
+            width = value
+            height = width * old_height / old_width
+        }
+        else {
+            height = value
+            width = height * old_width / old_height
+        }
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        UIRectFill(CGRect(x: 0.0, y: 0.0, width: width, height: height))
+        self.drawInRect(CGRect(x: 0.0, y: 0.0, width: width, height: height))
+        let new_image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return new_image
+    }
     private func radius(degree:Double)->Double{
         return degree * M_PI / 180.0
     }
