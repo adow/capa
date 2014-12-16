@@ -296,7 +296,6 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L0J-a6-iYa">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="Tu4-Yk-SMK" customClass="WorkPreviewCollectionLayout" customModule="capa" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photo-cell" id="Ybc-zt-xls" customClass="WorkPreviewCollectionViewCell" customModule="capa" customModuleProvider="target">
@@ -307,13 +306,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DqD-QV-EHc">
-                                                    <rect key="frame" x="10" y="10" width="280" height="280"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                     <subviews>
                                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="t9r-Td-Xva">
-                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="original" translatesAutoresizingMaskIntoConstraints="NO" id="L8c-8w-02X">
-                                                                    <rect key="frame" x="90" y="90" width="100" height="100"/>
+                                                                    <rect key="frame" x="100" y="100" width="100" height="100"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="100" id="EPu-AT-Inj"/>
                                                                         <constraint firstAttribute="height" constant="100" id="e8n-cv-z43"/>
@@ -322,10 +321,10 @@
                                                             </subviews>
                                                             <gestureRecognizers/>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="L8c-8w-02X" secondAttribute="bottom" constant="90" id="BVv-YA-TeP" userLabel="bottom"/>
-                                                                <constraint firstItem="L8c-8w-02X" firstAttribute="leading" secondItem="t9r-Td-Xva" secondAttribute="leading" constant="90" id="RWu-88-TnV" userLabel="left"/>
-                                                                <constraint firstItem="L8c-8w-02X" firstAttribute="top" secondItem="t9r-Td-Xva" secondAttribute="top" constant="90" id="rt9-fJ-ccW" userLabel="top"/>
-                                                                <constraint firstAttribute="trailing" secondItem="L8c-8w-02X" secondAttribute="trailing" constant="90" id="sNk-D1-4vQ" userLabel="right"/>
+                                                                <constraint firstAttribute="bottom" secondItem="L8c-8w-02X" secondAttribute="bottom" constant="100" id="BVv-YA-TeP" userLabel="bottom"/>
+                                                                <constraint firstItem="L8c-8w-02X" firstAttribute="leading" secondItem="t9r-Td-Xva" secondAttribute="leading" constant="100" id="RWu-88-TnV" userLabel="left"/>
+                                                                <constraint firstItem="L8c-8w-02X" firstAttribute="top" secondItem="t9r-Td-Xva" secondAttribute="top" constant="100" id="rt9-fJ-ccW" userLabel="top"/>
+                                                                <constraint firstAttribute="trailing" secondItem="L8c-8w-02X" secondAttribute="trailing" constant="100" id="sNk-D1-4vQ" userLabel="right"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="delegate" destination="Ybc-zt-xls" id="QU3-St-pVY"/>
@@ -344,10 +343,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailingMargin" secondItem="DqD-QV-EHc" secondAttribute="trailing" constant="2" id="YSf-Kp-rNM"/>
-                                            <constraint firstItem="DqD-QV-EHc" firstAttribute="top" secondItem="Ybc-zt-xls" secondAttribute="topMargin" constant="2" id="cHs-lq-9j5"/>
-                                            <constraint firstItem="DqD-QV-EHc" firstAttribute="leading" secondItem="Ybc-zt-xls" secondAttribute="leadingMargin" constant="2" id="tZd-Hu-UFl"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="DqD-QV-EHc" secondAttribute="bottom" constant="2" id="xC6-Fm-edK"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="DqD-QV-EHc" secondAttribute="trailing" constant="-8" id="YSf-Kp-rNM"/>
+                                            <constraint firstItem="DqD-QV-EHc" firstAttribute="top" secondItem="Ybc-zt-xls" secondAttribute="topMargin" constant="-8" id="cHs-lq-9j5"/>
+                                            <constraint firstItem="DqD-QV-EHc" firstAttribute="leading" secondItem="Ybc-zt-xls" secondAttribute="leadingMargin" constant="-8" id="tZd-Hu-UFl"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="DqD-QV-EHc" secondAttribute="bottom" constant="-8" id="xC6-Fm-edK"/>
                                         </constraints>
                                         <size key="customSize" width="300" height="300"/>
                                         <connections>
