@@ -113,7 +113,7 @@
                                             <constraint firstAttribute="height" constant="44" id="A9i-0Q-gDj"/>
                                             <constraint firstAttribute="width" constant="44" id="va1-xp-hfL"/>
                                         </constraints>
-                                        <state key="normal" image="flash_on">
+                                        <state key="normal" image="flashlight">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -132,12 +132,12 @@
                                         </connections>
                                     </pickerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zF-Ia-elb">
-                                        <rect key="frame" x="548" y="8" width="44" height="44"/>
+                                        <rect key="frame" x="532" y="520" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="Y53-pi-v8X"/>
                                             <constraint firstAttribute="height" constant="44" id="ypl-wn-zYD"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="mark-use-normal">
+                                        <state key="normal" title="Button" image="settings">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -152,6 +152,7 @@
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="23" id="Cc9-oP-mdq"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
+                                    <constraint firstAttribute="bottom" secondItem="6zF-Ia-elb" secondAttribute="bottom" constant="36" id="DcG-fA-k7g"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="103" id="RgN-ay-7w8"/>
@@ -160,12 +161,11 @@
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
                                     <constraint firstAttribute="trailing" secondItem="tJF-8c-KAN" secondAttribute="trailing" constant="8" id="g9n-oK-m0j"/>
-                                    <constraint firstAttribute="trailing" secondItem="6zF-Ia-elb" secondAttribute="trailing" constant="8" id="iqk-uV-iZg"/>
+                                    <constraint firstAttribute="trailing" secondItem="6zF-Ia-elb" secondAttribute="trailing" constant="24" id="iqk-uV-iZg"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
                                     <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" constant="250" id="rh2-VN-WHb"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
-                                    <constraint firstItem="6zF-Ia-elb" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="xaH-uD-luB"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -549,7 +549,7 @@
     <resources>
         <image name="cards" width="120" height="120"/>
         <image name="download" width="132" height="132"/>
-        <image name="flash_on" width="44" height="44"/>
+        <image name="flashlight" width="400" height="400"/>
         <image name="mark-remove-hightlight" width="132" height="132"/>
         <image name="mark-remove-normal" width="132" height="132"/>
         <image name="mark-use" width="132" height="132"/>
@@ -557,6 +557,7 @@
         <image name="mark-use-normal" width="132" height="132"/>
         <image name="original" width="1080" height="1920"/>
         <image name="remove" width="132" height="132"/>
+        <image name="settings" width="512" height="512"/>
         <image name="shutterButton" width="54" height="54"/>
     </resources>
 </document>
