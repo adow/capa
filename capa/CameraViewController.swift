@@ -19,13 +19,17 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var device:AVCaptureDevice!
     var captureOutput:AVCaptureStillImageOutput!
     var sessionQueue : dispatch_queue_t!
+    ///全部的快门数
     lazy var shuttles:[Float] = {
-       return [1,2,3,4,6,8,10,15,20,30,45,60,90,
-        125,180,250,350,500,750,1000]
+       return [2,3,4,6,8,10,15,20,30,45,60,90,
+        125,180,250,350,500,750,1000,1500,2000,3000,4000,6000,8000]
     }()
+    ///全部iso
     lazy var isos:[Float] = {
-       return [50,64,80,100,125,160,200,250,320,400,500,640]
+       return [50,64,80,100,125,160,200,250,320,400,500,640,800,1000,1250,1600]
     }()
+    var shuttles_available:[Float]=[Float]()
+    var isos_availabel:[Float] = [Float]()
     /// 相机的状态，是拍摄还是写入中
     enum CameraState : Int,Printable {
         case preview = 0, writing = 1
@@ -202,6 +206,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         })
         let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
+        ///更新可用的ISO和快门速度
+        self.updateAvailableISOAndShuttles()
     }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -447,11 +453,32 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.updateDebug()
     }
     private func updateDebug(){
-        
-        let info = "exposure:\(self.device.exposureMode),s:\(CMTimeGetSeconds(self.device.exposureDuration)),bias:\(self.device.exposureTargetBias),iso:\(self.device.ISO),exp_center:\(NSStringFromCGPoint(self.device.exposurePointOfInterest)),focus:\(self.device.focusMode),position:\(self.device.lensPosition),focus_center:\(NSStringFromCGPoint(self.device.focusPointOfInterest)),flash:\(self.device.flashMode),minISO:\(self.device.activeFormat.minISO),maxISO:\(self.device.activeFormat.maxISO),minDuration:\(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration)),maxDuration:\(CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration))"
+        let str_min_exposure_duration = CMTimeGetSeconds(self.device.activeFormat.minExposureDuration).format(".8")
+        let str_max_exposure_duration = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration).format(".3")
+        let info = "exposure:\(self.device.exposureMode),s:\(CMTimeGetSeconds(self.device.exposureDuration)),bias:\(self.device.exposureTargetBias),iso:\(self.device.ISO),exp_center:\(NSStringFromCGPoint(self.device.exposurePointOfInterest)),focus:\(self.device.focusMode),position:\(self.device.lensPosition),focus_center:\(NSStringFromCGPoint(self.device.focusPointOfInterest)),flash:\(self.device.flashMode),minISO:\(self.device.activeFormat.minISO),maxISO:\(self.device.activeFormat.maxISO),minDuration:\(str_min_exposure_duration),maxDuration:\(str_max_exposure_duration)"
         self.debugLabel.text = info
     }
     // MARK: Exposure
+    private func updateAvailableISOAndShuttles(){
+        self.isos_availabel.removeAll(keepCapacity:false)
+        for one_iso in self.isos{
+            if one_iso >= self.device.activeFormat.minISO && one_iso <= self.device.activeFormat.maxISO {
+                self.isos_availabel.append(one_iso)
+            }
+        }
+        
+        self.shuttles_available.removeAll(keepCapacity: false)
+        let min_seconds = CMTimeGetSeconds(self.device.activeFormat.minExposureDuration)
+        let max_seconds = CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration)
+        for one_shuttle in self.shuttles {
+            let seconds = 1.0 / Float64(one_shuttle)
+            if seconds >= min_seconds && seconds <= max_seconds {
+                self.shuttles_available.append(one_shuttle)
+            }
+        }
+        self.isoPickerView.reloadAllComponents()
+        self.shuttlesPickerView.reloadAllComponents()
+    }
     private func updateExposureMode(){
         let mode = self.device.exposureMode
 //        NSLog("updateExposureMode:\(mode)")
@@ -524,10 +551,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView === shuttlesPickerView {
-            return shuttles.count
+//            return shuttles.count
+            return shuttles_available.count
         }
         else if pickerView == isoPickerView {
-            return isos.count
+            return isos_availabel.count
         }
         else {
             return 3
@@ -541,11 +569,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         label.textAlignment = NSTextAlignment.Center
         label.textColor = UIColor.whiteColor()
         if pickerView === shuttlesPickerView {
-            let title = shuttles[row]
+//            let title = shuttles[row]
+            let title = shuttles_available[row]
             label.text = "1/\(title)"
         }
         else if pickerView == isoPickerView {
-            let title = isos[row]
+//            let title = isos[row]
+            let title = isos_availabel[row]
             label.text = "\(title)"
         }
         return label
@@ -559,17 +589,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         if pickerView === self.isoPickerView {
             let row_iso = self.isoPickerView.selectedRowInComponent(0)
 //            let iso = self.isos[row_iso]
-            let iso :Float = 1000.0
-//            NSLog("current duration:%@", CMTimeGetSeconds(AVCaptureExposureDurationCurrent))
+            let iso = self.isos_availabel[row_iso]
             self.device.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, ISO: iso, completionHandler: { (time) -> Void in
                 
             })
         }
         else{
             let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
-            let shuttle = 1 / self.shuttles[row_shuttles]
-            NSLog("current iso:%f", AVCaptureISOCurrent)
-            self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000), ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
+//            let shuttle = 1 / self.shuttles[row_shuttles]
+            let shuttle = 1 / self.shuttles_available[row_shuttles]
+            self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000 * 1000 * 1000), ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
                 
             })
         }
