@@ -21,9 +21,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="exposure: Auto, s: 0.1, iso: 640, bias:0.3, focus: Continues, p:3.1, flash: On" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw7-A0-nmd">
-                                        <rect key="frame" x="0.0" y="32" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="32" width="600" height="184"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="3lp-M6-FAt"/>
+                                            <constraint firstAttribute="height" constant="184" id="3lp-M6-FAt"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

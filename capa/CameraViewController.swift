@@ -11,6 +11,7 @@ import UIKit
 import AVFoundation
 import AssetsLibrary
 import CoreMotion
+import ImageIO
 
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     // MARK: - AV
@@ -119,22 +120,34 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.session.beginConfiguration()
             
             var error : NSError?
-            self.device=AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+//            self.device=AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+            let devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+            for one_device in devices {
+                if one_device.position == AVCaptureDevicePosition.Back {
+                    self.device = one_device as AVCaptureDevice
+                    break
+                }
+            }
             if (self.device == nil){
                 NSLog("could not use camera")
                 return
             }
-            
             let captureInput = AVCaptureDeviceInput.deviceInputWithDevice(self.device, error: &error) as AVCaptureDeviceInput
             if let error_value = error {
                 NSLog("error:%@", error_value)
                 return
             }
+            NSLog("minISO:%f,maxISO:%f,minDuration:%f,maxDuration:%f,lensApertue:%f",
+                self.device.activeFormat.minISO,self.device.activeFormat.maxISO,
+                CMTimeGetSeconds(self.device.activeFormat.minExposureDuration),
+                CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration),
+                self.device.lensAperture)
             self.session .addInput(captureInput)
             self.captureOutput=AVCaptureStillImageOutput()
             let outputSettings=[AVVideoCodecKey:AVVideoCodecJPEG]
             self.captureOutput.outputSettings=outputSettings
             self.session.addOutput(self.captureOutput)
+            self.session.sessionPreset = AVCaptureSessionPresetPhoto
             self.session.commitConfiguration()
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                 self.cameraOriention = AVCaptureVideoOrientation.Portrait
@@ -257,6 +270,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         if (self.captureOutput != nil){
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
+//                let dict = CMGetAttachment(buffer, kCGImagePropertyExifAuxDictionary, nil) as Unmanaged<CFTypeRef>
+                let mode : CMAttachmentMode = UInt32(kCMAttachmentMode_ShouldPropagate)
+                let dict = CMCopyDictionaryOfAttachments(nil, buffer, mode)
+                let exif = dict.takeRetainedValue()
+//                println("exif:\(exif)")
+//                let exif_dict = exif as NSDictionary
+                let exif_dict = exif as Dictionary
+                for (key,value) in exif_dict {
+                    println("key:\(key),value:\(value)")
+                }
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 save_to_workspace(imageData,self.cameraOriention)
                 self.cameraState = .preview
@@ -424,7 +447,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.updateDebug()
     }
     private func updateDebug(){
-        let info = "exposure:\(self.device.exposureMode),s:\(CMTimeGetSeconds(self.device.exposureDuration)),bias:\(self.device.exposureTargetBias),iso:\(self.device.ISO),exp_center:\(NSStringFromCGPoint(self.device.exposurePointOfInterest)),focus:\(self.device.focusMode),position:\(self.device.lensPosition),focus_center:\(NSStringFromCGPoint(self.device.focusPointOfInterest)),flash:\(self.device.flashMode)"
+        
+        let info = "exposure:\(self.device.exposureMode),s:\(CMTimeGetSeconds(self.device.exposureDuration)),bias:\(self.device.exposureTargetBias),iso:\(self.device.ISO),exp_center:\(NSStringFromCGPoint(self.device.exposurePointOfInterest)),focus:\(self.device.focusMode),position:\(self.device.lensPosition),focus_center:\(NSStringFromCGPoint(self.device.focusPointOfInterest)),flash:\(self.device.flashMode),minISO:\(self.device.activeFormat.minISO),maxISO:\(self.device.activeFormat.maxISO),minDuration:\(CMTimeGetSeconds(self.device.activeFormat.minExposureDuration)),maxDuration:\(CMTimeGetSeconds(self.device.activeFormat.maxExposureDuration))"
         self.debugLabel.text = info
     }
     // MARK: Exposure
@@ -528,16 +552,29 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         NSLog("didSelectRow:%d", row)
-        let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
-        let row_iso = self.isoPickerView.selectedRowInComponent(0)
-        let iso = self.isos[row_iso]
-        let shuttle = 1 / self.shuttles[row_shuttles]
         var error:NSError?
         self.device.lockForConfiguration(&error)
         self.device.exposureMode = AVCaptureExposureMode.Custom
-        self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000), ISO: iso) { (time) -> Void in
-            
+        NSLog("minISO:%f,maxISO:%f", self.device.activeFormat.minISO,self.device.activeFormat.maxISO)
+        if pickerView === self.isoPickerView {
+            let row_iso = self.isoPickerView.selectedRowInComponent(0)
+//            let iso = self.isos[row_iso]
+            let iso :Float = 1000.0
+//            NSLog("current duration:%@", CMTimeGetSeconds(AVCaptureExposureDurationCurrent))
+            self.device.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, ISO: iso, completionHandler: { (time) -> Void in
+                
+            })
         }
+        else{
+            let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
+            let shuttle = 1 / self.shuttles[row_shuttles]
+            NSLog("current iso:%f", AVCaptureISOCurrent)
+            self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000), ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
+                
+            })
+        }
+            
+        
         self.device.unlockForConfiguration()
     }
     /// MARK: - Test

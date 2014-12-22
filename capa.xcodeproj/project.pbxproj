@@ -36,6 +36,7 @@
 		68CB14D31A4086B000DD0AF4 /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CB14D21A4086B000DD0AF4 /* SettingsNavigationController.swift */; };
 		68CB14D51A40876B00DD0AF4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CB14D41A40876B00DD0AF4 /* SettingsViewController.swift */; };
 		68D890381A1261DB002D983C /* WorkspaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D890371A1261DB002D983C /* WorkspaceViewController.swift */; };
+		68E307BA1A447D0E00F68BEB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68E307B91A447D0E00F68BEB /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		68CB14D21A4086B000DD0AF4 /* SettingsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsNavigationController.swift; path = Settings/SettingsNavigationController.swift; sourceTree = "<group>"; };
 		68CB14D41A40876B00DD0AF4 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		68D890371A1261DB002D983C /* WorkspaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceViewController.swift; sourceTree = "<group>"; };
+		68E307B91A447D0E00F68BEB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68E307BA1A447D0E00F68BEB /* ImageIO.framework in Frameworks */,
 				6880FD9A1A1A397F00BABBE2 /* CoreMotion.framework in Frameworks */,
 				6884758319E81DBE00F0A416 /* AssetsLibrary.framework in Frameworks */,
 				6884757919E6DF4200F0A416 /* AVFoundation.framework in Frameworks */,
@@ -117,6 +120,7 @@
 		6880FD9B1A1A4AF200BABBE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				68E307B91A447D0E00F68BEB /* ImageIO.framework */,
 				6880FD991A1A397F00BABBE2 /* CoreMotion.framework */,
 				6884758219E81DBE00F0A416 /* AssetsLibrary.framework */,
 				6884757819E6DF4200F0A416 /* AVFoundation.framework */,
