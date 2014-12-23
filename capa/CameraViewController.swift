@@ -60,6 +60,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var flashButton:FlashButton!
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
+    @IBOutlet var orientationDebugLabel:UILabel!
     @IBOutlet var focusView:FocusControl!
     @IBOutlet var exposureView:ExposureControl!
     @IBOutlet var shuttlesPickerView:UIPickerView!
@@ -388,7 +389,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: - Update UI
     /// 修改屏幕方向
     private func updateCameraOriention(acceleration:CMAcceleration){
-        //        NSLog("accelerationY:%f", accelerationY)
         var orientation:AVCaptureVideoOrientation!
         if acceleration.y <= -1.0 && acceleration.y >= -0.5 {
             orientation = AVCaptureVideoOrientation.Portrait
@@ -407,6 +407,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         else{
             orientation = AVCaptureVideoOrientation.Portrait
         }
+        let log = NSString(format: "\(self.cameraOriention),x:%@,y:%@,z:%@",
+            acceleration.x.format(".1"),acceleration.y.format(".1"),acceleration.z.format("1."))
+        self.orientationDebugLabel.text = log
         if orientation != self.cameraOriention {
             self.cameraOriention = orientation
             NSLog("cameraOrientation changed:\(self.cameraOriention)")
