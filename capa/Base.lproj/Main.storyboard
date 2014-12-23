@@ -41,10 +41,14 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sun" translatesAutoresizingMaskIntoConstraints="NO" id="KlP-Bu-RWX">
+                                                <rect key="frame" x="85" y="35" width="24" height="24"/>
+                                            </imageView>
                                         </subviews>
                                         <connections>
                                             <outlet property="biasLabel" destination="H18-yD-AsG" id="lqK-ZS-tgA"/>
                                             <outlet property="exposureView" destination="JC8-Sw-ZNF" id="fgI-AZ-V3F"/>
+                                            <outlet property="sunImageView" destination="KlP-Bu-RWX" id="N5G-r0-Wn5"/>
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNa-HV-RfY" userLabel="focuscontrol" customClass="FocusControl" customModule="capa" customModuleProvider="target">
@@ -572,5 +576,6 @@
         <image name="remove" width="132" height="132"/>
         <image name="settings" width="512" height="512"/>
         <image name="shutterButton" width="54" height="54"/>
+        <image name="sun" width="24" height="24"/>
     </resources>
 </document>

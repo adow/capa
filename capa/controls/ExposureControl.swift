@@ -26,6 +26,7 @@ class ExposureControl:UIView {
     }
     @IBOutlet var exposureView:UIView!
     @IBOutlet var biasLabel:UILabel!
+    @IBOutlet var sunImageView:UIImageView!
     var device:AVCaptureDevice!
     var _state:State!
     var state:State!{
@@ -78,6 +79,11 @@ class ExposureControl:UIView {
         else{
             self.biasLabel.text = bias.format(".1")
         }
+        let sunImageViewCenterX = CGFloat(93.0)
+        let sunImageViewCenterY = CGFloat(self.frame.size.height / 2.0)
+        let percent = bias / 8.0
+        let moveCenterY = sunImageViewCenterY - self.frame.size.height / 2 * CGFloat(percent)
+        self.sunImageView.center = CGPoint(x: sunImageViewCenterX, y: moveCenterY)
     }
     ///修改测光点，停下的时候才会确定最后的测光点并开始用自动测光
     func onPanGesture(gesture:UIPanGestureRecognizer){
