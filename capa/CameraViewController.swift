@@ -67,6 +67,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var isoPickerView:UIPickerView!
     @IBOutlet var workspaceButton:UIButton!
     @IBOutlet var writingActivityView:UIActivityIndicatorView!
+    @IBOutlet var shuttleISOLabelView:UIView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -104,6 +105,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 default:
                     break
                 }
+                self.orientateShuttleAndISOLabel(self.cameraOriention)
             })
             
         }
@@ -117,6 +119,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             0.0,
             0.5 * self.view.frame.size.height)
         let anchor = CGPoint(x: 0.0, y: self.view.frame.size.height / 2)
+        for child_view in self.shuttleISOLabelView.subviews {
+            if let background_view = child_view as? UIView {
+                background_view.layer.cornerRadius = 2.0
+            }
+        }
+        
         session = AVCaptureSession()
         self.previewView.session=session
         self.sessionQueue=dispatch_queue_create("capture session",DISPATCH_QUEUE_SERIAL)
@@ -416,6 +424,26 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
         
     }
+    ///旋转快门和iso提示文字
+    private func orientateShuttleAndISOLabel(orientation:AVCaptureVideoOrientation){
+        for child_view in self.shuttleISOLabelView.subviews {
+            if let label = child_view as? UILabel {
+                switch orientation{
+                case AVCaptureVideoOrientation.Portrait:
+                    label.transform = CGAffineTransformIdentity
+                case AVCaptureVideoOrientation.LandscapeLeft:
+                    label.transform = CGAffineTransformMakeRotation(radius(-90.0))
+                case AVCaptureVideoOrientation.LandscapeRight:
+                    label.transform = CGAffineTransformMakeRotation(radius(90.0))
+                case AVCaptureVideoOrientation.PortraitUpsideDown:
+                    label.transform = CGAffineTransformMakeRotation(radius(180.0))
+                default:
+                    label.transform = CGAffineTransformIdentity
+                }
+            }
+        }
+    }
+    ///所有相机参数修改时更新界面
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         switch keyPath {
             case "exposureDuration":
