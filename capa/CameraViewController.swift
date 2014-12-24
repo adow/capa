@@ -412,18 +412,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     /// 修改屏幕方向
     private func updateCameraOriention(acceleration:CMAcceleration){
         var orientation:AVCaptureVideoOrientation!
-        if acceleration.y <= -1.0 && acceleration.y >= -0.5 {
+        if acceleration.x >= 0.5 {
+            orientation = AVCaptureVideoOrientation.LandscapeLeft
+        }
+        else if acceleration.x <= -0.5 {
+            orientation = AVCaptureVideoOrientation.LandscapeRight
+        }
+        else if acceleration.y <= -0.5 {
             orientation = AVCaptureVideoOrientation.Portrait
         }
-        else if acceleration.y >= -0.5 && acceleration.y <= 0.5 {
-            if acceleration.x > 0.0 {
-                orientation = AVCaptureVideoOrientation.LandscapeLeft
-            }
-            else{
-                orientation = AVCaptureVideoOrientation.LandscapeRight
-            }
-        }
-        else if acceleration.y >= 0.5 && acceleration.y <= 1.0 {
+        else if acceleration.y >= 0.5 {
             orientation = AVCaptureVideoOrientation.PortraitUpsideDown
         }
         else{
