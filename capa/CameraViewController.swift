@@ -124,6 +124,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 background_view.layer.cornerRadius = 2.0
             }
         }
+        self.shuttlesPickerView.layer.shadowColor = UIColor.blackColor().CGColor
+        self.shuttlesPickerView.layer.shadowOpacity = 0.9
+        self.shuttlesPickerView.layer.shadowRadius = 3.0
+        self.shuttlesPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
+//        self.shuttlesPickerView.layer.shadowPath = UIBezierPath(rect: self.shuttlesPickerView.layer.bounds).CGPath
+        self.isoPickerView.layer.shadowColor = UIColor.blackColor().CGColor
+        self.isoPickerView.layer.shadowOpacity = 0.9
+        self.isoPickerView.layer.shadowRadius = 3.0
+        self.isoPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
+//        self.isoPickerView.layer.shadowPath = UIBezierPath(rect: self.isoPickerView.layer.bounds).CGPath
         
         session = AVCaptureSession()
         self.previewView.session=session
@@ -325,7 +335,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     ///在 Preview 上拖动就可以设置曝光补偿，同时会出现测光点，这时可以修改测光点
     func onPanGesture(gesture:UIPanGestureRecognizer){
         /// 在preview 上拖动
-        if gesture.view == self.previewView {
+        if gesture.view === self.previewView {
             if gesture.state == UIGestureRecognizerState.Began {
                 var error : NSError?
                 self.device.lockForConfiguration(&error)
@@ -346,7 +356,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 }
             }
         }
-        else if gesture.view == self.shuttleButton {
+        else if gesture.view === self.shuttleButton {
 //            NSLog("pan on shuttle")
             /// 快门按钮回到原位
             func resetShuttleButton(_weak_self:CameraViewController!,delay:NSTimeInterval = 0.0)->(){
@@ -382,7 +392,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                     gesture.removeTarget(self, action: "onPanGesture:")
                     self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
                     resetShuttleButton(self, delay: 0.3)
-                    
+                }
+                else if move.y <= -40.0 {
+                    gesture.removeTarget(self, action: "onPanGesture:")
+                    self.performSegueWithIdentifier("segue_camera_setting", sender: nil)
+                    resetShuttleButton(self, delay: 0.3)
                 }
             }
             
