@@ -346,13 +346,25 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let move = gesture.translationInView(self.previewView)
-                if fabs(move.y) >= 10 {
-                    var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
-                    bias = min(bias, 8.0)
-                    bias = max(bias, -8.0)
-                    self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
-                        
-                    })
+                if self.cameraOriention == AVCaptureVideoOrientation.Portrait || self.cameraOriention == AVCaptureVideoOrientation.PortraitUpsideDown {
+                    if fabs(move.y) >= 10 {
+                        var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
+                        bias = min(bias, self.device.maxExposureTargetBias)
+                        bias = max(bias, self.device.minExposureTargetBias)
+                        self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
+                            
+                        })
+                    }
+                }
+                else if self.cameraOriention == AVCaptureVideoOrientation.LandscapeLeft || self.cameraOriention == AVCaptureVideoOrientation.LandscapeRight {
+                    if fabs(move.x) >= 10 {
+                        var bias = self.device.exposureTargetBias + Float(move.x / self.previewView.frame.size.width)
+                        bias = min(bias, self.device.maxExposureTargetBias)
+                        bias = max(bias, self.device.minExposureTargetBias)
+                        self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
+                            
+                        })
+                    }
                 }
             }
         }
