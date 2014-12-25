@@ -13,6 +13,7 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBOutlet var useMarkButton:UIButton!
     @IBOutlet var removeMarkButton:UIButton!
     @IBOutlet var markImageView:UIImageView!
+    var indexPath:NSIndexPath!
     weak var viewController:WorkspaceViewController!
     var tapGesture:UITapGestureRecognizer?
     var photo:PhotoModal?{
@@ -86,6 +87,8 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
         
     }
     @IBAction func onTapGesture(gesture:UITapGestureRecognizer){
+        self.viewController.editing_photo = self.photo
+        self.viewController.editing_index = self.indexPath
         self.viewController.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
     }
 }

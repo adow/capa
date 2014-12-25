@@ -84,7 +84,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         if segue.identifier == "segue_workspace_preview" {
 //            let cell = sender as WorkspaceCollectionViewCell
 //            let photo = cell.photo
-            let photo = self.editing_photo!
+//            let photo = self.editing_photo!
             let previewViewController = segue.destinationViewController as WorkPreviewViewController
             previewViewController.photo_list = self.photo_list
             previewViewController.photoIndex = self.editing_index!.row
@@ -195,6 +195,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
         cell.viewController = self
+        cell.indexPath = indexPath
         let photo = photo_list![indexPath.row]
         cell.thumbImageView.image = photo.thumgImage!
         cell.photo = photo
