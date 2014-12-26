@@ -17,6 +17,8 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
     var editing_index : NSIndexPath? = nil ///正在编辑的位置
     var hud:MBProgressHUD? = nil
+    var photosDeleted:Int = 0 ///已经删除多少张照片
+    var photosDeletedTarget:Int = 0 ///一共要删除记账照片
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,7 +35,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.collection.addSubview(markerView)
         markerView.hidden = true
         
-        self.reload_photo_list()
+        
 
     }
     override func viewWillAppear(animated: Bool) {
@@ -44,7 +46,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        //self.reload_photo_list()
+        self.reload_photo_list()
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,7 +101,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     @IBAction func onButtonAction(sender:UIBarButtonItem!){
         let alertController = UIAlertController(title: "操作", message: "批量操作照片", preferredStyle: UIAlertControllerStyle.ActionSheet)
         alertController.addAction(UIAlertAction(title: "将所有标记为 留用 的照片存入相机交卷", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            
+            self.savePhotosToCameraRollMarkUse(nil)
         }))
         alertController.addAction(UIAlertAction(title: "将所有标记为 弃用 的照片删除", style: UIAlertActionStyle.Destructive, handler: { (action) -> Void in
             self.removePhotosMarkRemove(nil)
@@ -112,16 +114,26 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
+        self.photosDeleted = 0
         if let photo_list_value = photo_list {
-            var save_photo_list = [PhotoModal]()
+            ///第一次循环，用来计算一共要删除几张
             for one_photo in photo_list_value {
                 if one_photo.state == PhotoModalState.use {
-//                    one_photo.saveToCameraRoll() ///保存到相册
-                    save_photo_list.append(one_photo) ///标记为删除
+                    self.photosDeletedTarget += 1
                 }
             }
-//            self.removePhotos(delete_photo_list)///删除这些照片
-            self.savePhotos(save_photo_list)
+            NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "_savePhotoTimer:", userInfo: nil, repeats: true)
+            ///对每张照片进行删除
+            var save_photo_list = [PhotoModal]()
+            photo_loop:for one_photo in photo_list_value {
+                if one_photo.state == PhotoModalState.use {
+                    save_photo_list.append(one_photo)
+                    one_photo.saveToCameraRoll(callback: { [unowned self]() -> () in
+                        self.photosDeleted += 1 ///删除完后就计数器+1
+                    })
+                }
+            }
+            
         }
         
     }
@@ -141,16 +153,21 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         toolbar.hidden = true
         markerView.hidden = true
     }
-    func savePhotos(photos:[PhotoModal]){
-        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        for one_photo in photos {
-            one_photo.saveToCameraRoll()
+    @objc private func _savePhotoTimer(timer:NSTimer){
+        NSLog("photosDeleted:%d", self.photosDeleted)
+        if self.photosDeleted >= self.photosDeletedTarget {
+            timer.invalidate()
+            NSLog("stop timer")
+            var delete_photo_list = [PhotoModal]()
+            if let photo_list_value = photo_list {
+                for one_photo in photo_list_value {
+                    if one_photo.state == .use {
+                        delete_photo_list.append(one_photo)
+                    }
+                }
+            }
+            self.removePhotos(delete_photo_list)
         }
-        hud?.hide(true)
-//        if let hud_value = self.hud {
-//            hud_value.hide(true)
-//        }
-        self.removePhotos(photos)///保存之后删除这些照片
     }
     ///批量删除照片
     func removePhotos(photos:[PhotoModal]){
@@ -171,7 +188,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                         NSLog("remove photo index:%d", index_value)
                         self.photo_list?.removeAtIndex(index_value)
                     }
-                    //TODO: one_photo.remove()
+                    one_photo.remove()
                 }
                 self.collection.deleteItemsAtIndexPaths(delete_index_path)
             }, completion: { [unowned self](completed) -> Void in
@@ -224,11 +241,13 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     func onMarkUseButton(photo: PhotoModal?) {
         NSLog("mark useful")
         photo?.state = .use
+        photo?.write_info()
         self.collection.reloadData()
     }
     func onMarkNouseButton(photo: PhotoModal?) {
         NSLog("mark no use")
         photo?.state = .remove
+        photo?.write_info()
         self.collection.reloadData()
     }
     /// MARK: - WorkspaceToolbarDelegate
@@ -237,8 +256,9 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         if itemButton.tag == 0 {
             if let photo_value = photo {
                 hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                photo_value.saveToCameraRoll()
-                self.removePhotos([photo_value,])
+                photo_value.saveToCameraRoll(callback: { [unowned self]() -> () in
+                    self.removePhotos([photo_value,])
+                })
                 hud?.hide(true,afterDelay:1.0)
             }
         }
@@ -247,10 +267,12 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
         else if itemButton.tag == 2 {
             photo!.state = PhotoModalState.use
+            photo!.write_info()
             self.collection.reloadData()
         }
         else if itemButton.tag == 3 {
             photo!.state = PhotoModalState.remove
+            photo!.write_info()
             self.collection.reloadData()
         }
         else if itemButton.tag == 4 {

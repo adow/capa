@@ -60,9 +60,11 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         let photo = self.photo_list[self.photoIndex]
         if sender === self.buttonUse {
             photo.state = PhotoModalState.use
+            photo.write_info()
         }
         else if sender === self.buttonRemove {
             photo.state = PhotoModalState.remove
+            photo.write_info()
         }
         self.updateToolbar()
     }
@@ -84,6 +86,8 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
     @IBAction func onButtonDelete(sender:UIButton!){
         let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
         self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+            let photo = self.photo_list[self.photoIndex]
+            photo.remove()
             self.photo_list.removeAtIndex(self.photoIndex)
             self.collectionView.deleteItemsAtIndexPaths([indexPath,])
         }, completion: { (completed) -> Void in
@@ -97,6 +101,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
                 self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                    photo.remove()
                     self.photo_list.removeAtIndex(self.photoIndex)
                     self.collectionView.deleteItemsAtIndexPaths([indexPath,])
                     }, completion: { (completed) -> Void in
