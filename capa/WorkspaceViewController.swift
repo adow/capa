@@ -54,10 +54,13 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Dispose of any resources that can be recreated.
     }
     
-    private func reload_photo_list(){
+    private func reset_editing(){
         toolbar.hidden = true
         markerView.hidden = true
         editing_photo = nil
+    }
+    private func reload_photo_list(){
+        self.reset_editing()
         photo_list?.removeAll(keepCapacity: true)
         if self.filterSegment.selectedSegmentIndex == 0 {
 //            photo_list = photo_list_in_workspace()
@@ -153,6 +156,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         toolbar.hidden = true
         markerView.hidden = true
     }
+    ///计算已经是否已经删除完了
     @objc private func _savePhotoTimer(timer:NSTimer){
         NSLog("photosDeleted:%d", self.photosDeleted)
         if self.photosDeleted >= self.photosDeletedTarget {
@@ -196,6 +200,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                 if let hud_value = self.hud {
                     hud_value.hide(true)
                 }
+                self.reset_editing()
             })
             
         }
