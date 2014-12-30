@@ -54,6 +54,10 @@ class ExposureControl:UIView {
         self.backgroundColor = UIColor.clearColor()
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.addGestureRecognizer(panGesture)
+        self.contentMode = UIViewContentMode.Redraw
+    }
+    override func translatesAutoresizingMaskIntoConstraints() -> Bool {
+        return true
     }
     // 更新测光点，会改成自动测光并把曝光补偿恢复为0
     func updateExposurePointOfInterest(center:CGPoint){
@@ -89,7 +93,7 @@ class ExposureControl:UIView {
     func onPanGesture(gesture:UIPanGestureRecognizer){
         if self.state == .Active {
             if gesture.state == UIGestureRecognizerState.Began {
-
+                self.superview!.bringSubviewToFront(self)
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
                 var error:NSError?

@@ -48,12 +48,11 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         super.viewDidAppear(animated)
         self.reload_photo_list()
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    ///MARK: load
     private func reset_editing(){
         toolbar.hidden = true
         markerView.hidden = true
@@ -81,7 +80,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.collection.reloadData()
     }
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.

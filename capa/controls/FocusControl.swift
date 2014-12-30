@@ -53,6 +53,10 @@ class FocusControl:UIView {
         self.backgroundColor = UIColor.clearColor()
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.addGestureRecognizer(panGesture)
+        self.contentMode = UIViewContentMode.Redraw
+    }
+    override func translatesAutoresizingMaskIntoConstraints() -> Bool {
+        return true
     }
     // 更新位置
     func updateFocusPointOfInterest(center:CGPoint){
@@ -74,7 +78,7 @@ class FocusControl:UIView {
     func onPanGesture(gesture:UIPanGestureRecognizer){
         if self.state == .Active {
             if gesture.state == UIGestureRecognizerState.Began {
-                
+                self.superview!.bringSubviewToFront(self)
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
                 var error:NSError?

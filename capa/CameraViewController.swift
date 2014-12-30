@@ -336,7 +336,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     func onPanGesture(gesture:UIPanGestureRecognizer){
         /// 在preview 上拖动
         if gesture.view === self.previewView {
-            if gesture.state == UIGestureRecognizerState.Began {
+            if gesture.state == UIGestureRecognizerState.Began {                
                 var error : NSError?
                 self.device.lockForConfiguration(&error)
                 self.device.exposureMode = AVCaptureExposureMode.Locked
