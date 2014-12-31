@@ -12,6 +12,7 @@ import AVFoundation
 import AssetsLibrary
 import CoreMotion
 import ImageIO
+import CoreLocation
 
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     // MARK: - AV
@@ -299,17 +300,24 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
 //                let dict = CMGetAttachment(buffer, kCGImagePropertyExifAuxDictionary, nil) as Unmanaged<CFTypeRef>
-                let mode : CMAttachmentMode = UInt32(kCMAttachmentMode_ShouldPropagate)
-                let dict = CMCopyDictionaryOfAttachments(nil, buffer, mode)
-                let exif = dict.takeRetainedValue()
-//                println("exif:\(exif)")
-//                let exif_dict = exif as NSDictionary
-                let exif_dict = exif as Dictionary
-                for (key,value) in exif_dict {
-                    println("key:\(key),value:\(value)")
-                }
+//                let mode : CMAttachmentMode = UInt32(kCMAttachmentMode_ShouldPropagate)
+//                let dict = CMCopyDictionaryOfAttachments(nil, buffer, mode)
+//                let exif = dict.takeRetainedValue()
+//                let exif_dict = exif as Dictionary
+//                for (key,value) in exif_dict {
+//                    println("key:\(key),value:\(value)")
+//                }
+                
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                save_to_workspace(imageData,self.cameraOriention)
+                /// gps
+                let coordinate = CLLocationCoordinate2DMake(31.565137, 120.288553)
+                let alititude = 15.0
+                let accuracy_horizontal = 1.0
+                let accuracy_vertical = 1.0
+                let now = NSDate()
+                let location = CLLocation(coordinate: coordinate, altitude: alititude, horizontalAccuracy: accuracy_horizontal, verticalAccuracy: accuracy_vertical, timestamp: now)
+                ///
+                save_to_workspace(imageData,self.cameraOriention,location: location)
                 self.cameraState = .preview
             })
         }
@@ -684,6 +692,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             
         
         self.device.unlockForConfiguration()
+        NSLog("Happy New Year")
     }
     /// MARK: - Test
     func testImageRotate(){

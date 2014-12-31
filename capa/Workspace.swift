@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import AssetsLibrary
+import ImageIO
+import CoreLocation
 
 var workspace_path : String!{
 get{
@@ -58,14 +60,25 @@ class PhotoModal:Equatable {
     /// 保存到相机交卷
     func saveToCameraRoll(callback:CallBack? = nil){
         if let image = originalImage {
-            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage,
-                orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
-                completionBlock: {
-                (url,error)-> () in
-//                NSLog("save to:%@", url)
-                    if let callback_value = callback {
-                        callback_value()
-                    }
+            ///meta
+            let imageData = NSData(contentsOfFile: self.originalPath)
+            let source = CGImageSourceCreateWithData(imageData, nil)
+            let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
+
+            ///
+//            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage,
+//                orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
+//                completionBlock: {
+//                (url,error)-> () in
+////                NSLog("save to:%@", url)
+//                    if let callback_value = callback {
+//                        callback_value()
+//                    }
+//            })
+            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, metadata: metadata, completionBlock: { (url, error) -> Void in
+                if let callback_value = callback {
+                    callback_value()
+                }
             })
         }
     }
@@ -125,13 +138,32 @@ func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     return photo_list
 }
 
-func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->PhotoModal{
+func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,location:CLLocation? = nil)->PhotoModal{
+    /// metadata
+    let source = CGImageSourceCreateWithData(imageData, nil)
+    let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
+    let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
+    let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    NSLog("exif:%@", exif_dict!)
+//    let gps_dict = (metadata_mutable.objectForKey(kCGImagePropertyGPSDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    if let location_value = location {
+        let location_dict = gps_dictionary_for_location(location_value)
+        metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
+    }
+    
+    let uti = CGImageSourceGetType(source)
+    var dest_data = NSMutableData()
+    var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
+    CGImageDestinationAddImageFromSource(destination, source, 0, metadata_mutable)
+    let suc = CGImageDestinationFinalize(destination)
+    
+    ///
     let workspace = workspace_path
     let bundle =  "\(workspace)\(NSDate().timeIntervalSince1970).photo"
     if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {
         NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
     }
-    let image : UIImage=UIImage(data: imageData)!
+    let image : UIImage=UIImage(data: dest_data)!
     var imageOrientation : UIImageOrientation!
     switch orientation {
     case .LandscapeLeft:
@@ -149,8 +181,9 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->
     let originalImage = image.rotate(imageOrientation)
     let originalData = UIImageJPEGRepresentation(originalImage, 1.0)
     let original_filename = "\(bundle)/original.jpg"
-    originalData.writeToFile(original_filename,atomically:true)
+//    originalData.writeToFile(original_filename,atomically:true)
 //    imageData.writeToFile(original_filename, atomically: true)
+    dest_data.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
     
     let thumbImage = originalImage.resizeImageWithTarget(100.0)
@@ -160,4 +193,33 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation)->
     NSLog("save thumb to workspace:%@", thumb_filename)
     
     return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename,state:.undefined)
+}
+func gps_dictionary_for_location(location:CLLocation)->NSDictionary{
+    var exifLatitude  = location.coordinate.latitude
+    var exifLongitude = location.coordinate.longitude
+    var latRef:NSString?
+    var longRef:NSString?
+    if (exifLatitude < 0.0) {
+        exifLatitude = exifLatitude * -1.0
+        latRef = "S"
+    } else {
+        latRef = "N"
+    }
+    
+    if (exifLongitude < 0.0) {
+        exifLongitude = exifLongitude * -1.0
+        longRef = "W"
+    } else {
+        longRef = "E"
+    }
+    var locDict = NSMutableDictionary()
+    //locDict.setObject(location.timestamp as AnyObject, forKey: kCGImagePropertyGPSTimeStamp)
+    locDict[kCGImagePropertyGPSTimeStamp as NSString] = location.timestamp
+    locDict[kCGImagePropertyGPSLatitudeRef as NSString] = latRef
+    locDict[kCGImagePropertyGPSLatitude as NSString] = NSNumber(double: exifLatitude)
+    locDict[kCGImagePropertyGPSLongitudeRef as NSString] = longRef
+    locDict[kCGImagePropertyGPSLongitude as NSString] = NSNumber(double: exifLongitude)
+    locDict[kCGImagePropertyGPSDOP as NSString] = NSNumber(double: location.horizontalAccuracy)
+    locDict[kCGImagePropertyGPSAltitude as NSString] = NSNumber(double: location.altitude)
+    return locDict
 }
