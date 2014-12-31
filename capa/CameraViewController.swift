@@ -68,6 +68,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var workspaceButton:UIButton!
     @IBOutlet var writingActivityView:UIActivityIndicatorView!
     @IBOutlet var shuttleISOLabelView:UIView!
+    @IBOutlet var filmButton:UIButton!
+    @IBOutlet var settingButton:UIButton!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -227,6 +229,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
         ///更新可用的ISO和快门速度
         self.updateAvailableISOAndShuttles()
+        self._hideFilmSettingButton()
     }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -324,6 +327,25 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.device.flashMode = AVCaptureFlashMode(rawValue: sender.stateItem!.value)!
         self.device.unlockForConfiguration()
     }
+    private func _showFilmSettingButton(){
+        if (self.filmButton.alpha > 0.0) {
+            return
+        }
+        UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+            self.filmButton.alpha = 0.3
+            self.settingButton.alpha = 0.3
+            }) { (completed) -> Void in
+                
+        }
+    }
+    private func _hideFilmSettingButton(){
+        UIView.animateWithDuration(3.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+            self.filmButton.alpha = 0.0
+            self.settingButton.alpha = 0.0
+            }) { (completed) -> Void in
+                
+        }
+    }
     // MARK: - Gesture
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置
     func onTapGesture(gesture:UITapGestureRecognizer){
@@ -382,9 +404,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }
             if gesture.state == UIGestureRecognizerState.Began {
                 shuttleButtonCenterStart = shuttleButton.center
+                self._showFilmSettingButton()
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
                 resetShuttleButton(self)
+                self._hideFilmSettingButton()
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let min_x = CGFloat(0.0)

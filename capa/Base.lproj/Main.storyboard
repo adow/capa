@@ -204,6 +204,26 @@
                                             <constraint firstAttribute="width" constant="150" id="pIQ-C8-GsX"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-8K-hoo" userLabel="settingbutton">
+                                        <rect key="frame" x="39" y="576" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="22" id="Kk2-FR-LQa"/>
+                                            <constraint firstAttribute="height" constant="22" id="PnL-YO-Uh1"/>
+                                        </constraints>
+                                        <state key="normal" image="film">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pre-uL-hAM" userLabel="filmbutton">
+                                        <rect key="frame" x="39" y="484" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="22" id="fGp-JD-DhB"/>
+                                            <constraint firstAttribute="height" constant="22" id="sIx-JC-tcd"/>
+                                        </constraints>
+                                        <state key="normal" image="settings">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
@@ -218,19 +238,23 @@
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="104" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="38" id="UEx-hb-eok"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="1" id="VNn-0Z-ntd"/>
                                     <constraint firstAttribute="trailing" secondItem="GnW-EL-ewn" secondAttribute="trailing" constant="14" id="Zv3-jD-wgl"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
                                     <constraint firstAttribute="trailing" secondItem="tJF-8c-KAN" secondAttribute="trailing" constant="8" id="g9n-oK-m0j"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="iMb-OD-a1f"/>
                                     <constraint firstAttribute="trailing" secondItem="6zF-Ia-elb" secondAttribute="trailing" constant="24" id="iqk-uV-iZg"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
+                                    <constraint firstAttribute="bottom" secondItem="hV4-8K-hoo" secondAttribute="bottom" constant="2" id="oWO-gH-QrS"/>
                                     <constraint firstItem="iQ9-Z8-vzp" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="100" id="qhe-tA-dr0"/>
                                     <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" constant="250" id="rh2-VN-WHb"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="64" id="x2y-DV-HRc"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="Pre-uL-hAM" secondAttribute="centerX" id="zLO-X5-HYh"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -258,11 +282,13 @@
                     <connections>
                         <outlet property="debugLabel" destination="bw7-A0-nmd" id="aLE-bL-azR"/>
                         <outlet property="exposureView" destination="GwY-x7-UgS" id="fgE-ie-GfF"/>
+                        <outlet property="filmButton" destination="Pre-uL-hAM" id="maA-ez-2p8"/>
                         <outlet property="flashButton" destination="Iy7-9m-rXZ" id="NPy-5f-9uH"/>
                         <outlet property="focusView" destination="FNa-HV-RfY" id="164-On-2TP"/>
                         <outlet property="isoPickerView" destination="jGc-oa-ASj" id="48Y-YE-iNK"/>
                         <outlet property="orientationDebugLabel" destination="GnW-EL-ewn" id="yEL-kN-KIj"/>
                         <outlet property="previewView" destination="CeE-eV-OFd" id="7GN-Ls-IrV"/>
+                        <outlet property="settingButton" destination="hV4-8K-hoo" id="3be-l1-Fl2"/>
                         <outlet property="shuttleButton" destination="vcZ-N7-Cp8" id="ZaU-Se-lbY"/>
                         <outlet property="shuttleISOLabelView" destination="iQ9-Z8-vzp" id="IQw-PM-lMS"/>
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
@@ -616,6 +642,7 @@
     <resources>
         <image name="cards" width="120" height="120"/>
         <image name="download" width="132" height="132"/>
+        <image name="film" width="22" height="22"/>
         <image name="flashlight" width="400" height="400"/>
         <image name="mark-remove-hightlight" width="132" height="132"/>
         <image name="mark-remove-normal" width="132" height="132"/>
