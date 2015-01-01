@@ -14,7 +14,8 @@ import CoreMotion
 import ImageIO
 import CoreLocation
 
-class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
+let kGPS = "kGPS"
+class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
@@ -56,6 +57,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }
         }
     }
+    var locationManager:CLLocationManager? = nil
+    var currentLocation:CLLocation? = nil
     // MARK: - UI
     @IBOutlet var shuttleButton:UIButton!
     @IBOutlet var flashButton:FlashButton!
@@ -231,10 +234,20 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         ///更新可用的ISO和快门速度
         self.updateAvailableISOAndShuttles()
         self._hideFilmSettingButton()
+        ///location
+        if NSUserDefaults.standardUserDefaults().boolForKey(kGPS) == true {
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            locationManager?.pausesLocationUpdatesAutomatically = true
+            locationManager?.activityType = CLActivityType.Fitness
+            locationManager?.requestWhenInUseAuthorization()
+            locationManager?.startUpdatingLocation()
+        }
     }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         motionManager.stopAccelerometerUpdates()
+        locationManager?.stopUpdatingLocation()
     }
     override func viewDidDisappear(animated:Bool){
         super.viewDidDisappear(animated)
@@ -310,14 +323,14 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 /// gps
-                let coordinate = CLLocationCoordinate2DMake(31.565137, 120.288553)
-                let alititude = 15.0
-                let accuracy_horizontal = 1.0
-                let accuracy_vertical = 1.0
-                let now = NSDate()
-                let location = CLLocation(coordinate: coordinate, altitude: alititude, horizontalAccuracy: accuracy_horizontal, verticalAccuracy: accuracy_vertical, timestamp: now)
+//                let coordinate = CLLocationCoordinate2DMake(31.565137, 120.288553)
+//                let alititude = 15.0
+//                let accuracy_horizontal = 1.0
+//                let accuracy_vertical = 1.0
+//                let now = NSDate()
+//                let location = CLLocation(coordinate: coordinate, altitude: alititude, horizontalAccuracy: accuracy_horizontal, verticalAccuracy: accuracy_vertical, timestamp: now)
                 ///
-                save_to_workspace(imageData,self.cameraOriention,location: location)
+                save_to_workspace(imageData,self.cameraOriention,location: self.currentLocation)
                 self.cameraState = .preview
             })
         }
@@ -693,6 +706,19 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         
         self.device.unlockForConfiguration()
         NSLog("Happy New Year")
+    }
+    // MARK: - CLLocationManagerDelegate
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.NotDetermined {
+            manager.requestWhenInUseAuthorization()
+        }
+    }
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        NSLog("location failed:%@", error)
+    }
+    func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+        NSLog("location:%@", newLocation)
+        self.currentLocation = newLocation
     }
     /// MARK: - Test
     func testImageRotate(){
