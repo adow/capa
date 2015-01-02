@@ -109,9 +109,9 @@ class FlashButton:ValuedButton {
         self.setup()
     }
     func setup(){
-        self.setTitle("关闭", withImage: UIImage(named: "flashlight-off"), forValue: 0)
-        self.setTitle("打开", withImage: UIImage(named: "flashlight"), forValue: 1)
-        self.setTitle("自动", withImage: UIImage(named: "flashlight-auto"), forValue: 2)
+        self.setTitle("关闭", withImage: UIImage(named: "flashlight2-off"), forValue: 0)
+        self.setTitle("打开", withImage: UIImage(named: "flashlight2"), forValue: 1)
+        self.setTitle("自动", withImage: UIImage(named: "flashlight2-auto"), forValue: 2)
         self.makeStateValue(0)
     }
 }
