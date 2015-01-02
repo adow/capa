@@ -561,6 +561,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: Exposure
     private func updateAvailableISOAndShuttles(){
         self.isos_availabel.removeAll(keepCapacity:false)
+        if self.device == nil {
+            return
+        }
         for one_iso in self.isos{
             if one_iso >= self.device.activeFormat.minISO && one_iso <= self.device.activeFormat.maxISO {
                 self.isos_availabel.append(one_iso)

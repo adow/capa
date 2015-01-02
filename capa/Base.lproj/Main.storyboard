@@ -71,7 +71,7 @@
                                         </connections>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-FZ-7UK" userLabel="shuttlepicker">
-                                        <rect key="frame" x="104" y="432" width="50" height="162"/>
+                                        <rect key="frame" x="230" y="430" width="50" height="162"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="162" id="QLa-Y3-2lM"/>
                                             <constraint firstAttribute="width" constant="50" id="WtZ-7b-Z5z"/>
@@ -96,7 +96,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-N7-Cp8" userLabel="shuttleButton">
-                                        <rect key="frame" x="15" y="507" width="70" height="70"/>
+                                        <rect key="frame" x="140" y="498" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="SRe-BI-mZx">
                                                 <variation key="heightClass=compact" constant="50"/>
@@ -109,7 +109,7 @@
                                         </connections>
                                     </button>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
-                                        <rect key="frame" x="40" y="532" width="20" height="20"/>
+                                        <rect key="frame" x="165" y="523" width="20" height="20"/>
                                     </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" userLabel="flashButton" customClass="FlashButton" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="15" y="8" width="44" height="44"/>
@@ -124,17 +124,6 @@
                                             <action selector="onFlashButton:" destination="Tlz-qI-jbe" eventType="valueChanged" id="Rgu-4K-ib3"/>
                                         </connections>
                                     </button>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
-                                        <rect key="frame" x="192" y="432" width="50" height="162"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
-                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
-                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
-                                        </connections>
-                                    </pickerView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zF-Ia-elb" userLabel="settingButton">
                                         <rect key="frame" x="532" y="520" width="44" height="44"/>
                                         <constraints>
@@ -158,7 +147,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQ9-Z8-vzp" userLabel="iso_shuttle_label">
-                                        <rect key="frame" x="100" y="580" width="150" height="20"/>
+                                        <rect key="frame" x="225" y="580" width="150" height="20"/>
                                         <subviews>
                                             <view alpha="0.29999999999999966" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ax6-ET-BUD">
                                                 <rect key="frame" x="13" y="3" width="30" height="15"/>
@@ -204,23 +193,34 @@
                                             <constraint firstAttribute="width" constant="150" id="pIQ-C8-GsX"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-8K-hoo" userLabel="settingbutton">
-                                        <rect key="frame" x="39" y="576" width="22" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="Kk2-FR-LQa"/>
-                                            <constraint firstAttribute="height" constant="22" id="PnL-YO-Uh1"/>
-                                        </constraints>
-                                        <state key="normal" image="film">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pre-uL-hAM" userLabel="filmbutton">
-                                        <rect key="frame" x="39" y="484" width="22" height="22"/>
+                                        <rect key="frame" x="164" y="472" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="fGp-JD-DhB"/>
                                             <constraint firstAttribute="height" constant="22" id="sIx-JC-tcd"/>
                                         </constraints>
                                         <state key="normal" image="settings">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
+                                        <rect key="frame" x="320" y="430" width="50" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
+                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
+                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
+                                        </connections>
+                                    </pickerView>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-8K-hoo" userLabel="settingbutton">
+                                        <rect key="frame" x="164" y="576" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="22" id="Kk2-FR-LQa"/>
+                                            <constraint firstAttribute="height" constant="22" id="PnL-YO-Uh1"/>
+                                        </constraints>
+                                        <state key="normal" image="film">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
@@ -230,36 +230,64 @@
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="6" id="30i-gf-1ua"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
+                                    <constraint firstAttribute="centerX" secondItem="VCp-FZ-7UK" secondAttribute="centerX" constant="45" id="Bd8-aE-vy5"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="C5d-Ke-H2M"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="23" id="Cc9-oP-mdq"/>
+                                    <constraint firstAttribute="centerX" secondItem="jGc-oa-ASj" secondAttribute="centerX" constant="-45" id="DGP-5h-Iaz"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
                                     <constraint firstAttribute="bottom" secondItem="6zF-Ia-elb" secondAttribute="bottom" constant="36" id="DcG-fA-k7g"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="Pre-uL-hAM" secondAttribute="centerX" id="J5a-Ta-Vgb"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
+                                    <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="8" id="R5Q-Pb-XaM"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="104" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="38" id="UEx-hb-eok"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="1" id="VNn-0Z-ntd"/>
+                                    <constraint firstItem="hne-f8-4Ds" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="ZTn-ZN-JlW"/>
                                     <constraint firstAttribute="trailing" secondItem="GnW-EL-ewn" secondAttribute="trailing" constant="14" id="Zv3-jD-wgl"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
+                                    <constraint firstItem="hV4-8K-hoo" firstAttribute="top" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="8" id="d3b-qL-5nl"/>
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
+                                    <constraint firstItem="hne-f8-4Ds" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="ewT-BI-nzA"/>
                                     <constraint firstAttribute="trailing" secondItem="tJF-8c-KAN" secondAttribute="trailing" constant="8" id="g9n-oK-m0j"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" constant="22" id="hvS-Oc-Qdw"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="iMb-OD-a1f"/>
                                     <constraint firstAttribute="trailing" secondItem="6zF-Ia-elb" secondAttribute="trailing" constant="24" id="iqk-uV-iZg"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
+                                    <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="vcZ-N7-Cp8" secondAttribute="trailing" constant="20" id="oEZ-jr-cJf"/>
                                     <constraint firstAttribute="bottom" secondItem="hV4-8K-hoo" secondAttribute="bottom" constant="2" id="oWO-gH-QrS"/>
                                     <constraint firstItem="iQ9-Z8-vzp" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="100" id="qhe-tA-dr0"/>
                                     <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" constant="250" id="rh2-VN-WHb"/>
+                                    <constraint firstAttribute="bottom" secondItem="jGc-oa-ASj" secondAttribute="bottom" constant="8" id="ro8-b8-jRs"/>
+                                    <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="sDQ-rV-FNN"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="4" id="t2i-IG-o47"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="64" id="x2y-DV-HRc"/>
+                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="xPA-1l-hfj"/>
+                                    <constraint firstAttribute="centerX" secondItem="iQ9-Z8-vzp" secondAttribute="centerX" id="ytn-0A-YB0"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="Pre-uL-hAM" secondAttribute="centerX" id="zLO-X5-HYh"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="rh2-VN-WHb"/>
+                                        <exclude reference="30i-gf-1ua"/>
+                                        <exclude reference="RgN-ay-7w8"/>
                                         <exclude reference="BIJ-oF-3IF"/>
+                                        <exclude reference="Cc9-oP-mdq"/>
+                                        <exclude reference="DXH-os-RXn"/>
+                                        <exclude reference="DlN-dd-yVx"/>
+                                        <exclude reference="VNn-0Z-ntd"/>
+                                        <exclude reference="iMb-OD-a1f"/>
+                                        <exclude reference="w50-Eh-iTE"/>
+                                        <exclude reference="zLO-X5-HYh"/>
+                                        <exclude reference="UEx-hb-eok"/>
+                                        <exclude reference="bmD-2N-QJL"/>
+                                        <exclude reference="oWO-gH-QrS"/>
+                                        <exclude reference="ktU-as-hGW"/>
+                                        <exclude reference="qhe-tA-dr0"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact">
