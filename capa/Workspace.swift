@@ -138,32 +138,29 @@ func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     return photo_list
 }
 
-func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,location:CLLocation? = nil)->PhotoModal{
+private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
     /// metadata
     let source = CGImageSourceCreateWithData(imageData, nil)
     let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
     let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
+    metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation")
     let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
-    NSLog("exif:%@", exif_dict!)
-//    let gps_dict = (metadata_mutable.objectForKey(kCGImagePropertyGPSDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    //NSLog("exif:%@", exif_dict!)
+    let tiff_dict = (metadata_mutable.objectForKey(kCGImagePropertyTIFFDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    if let tiff_dict_value = tiff_dict {
+        tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation")
+        metadata_mutable.setObject(tiff_dict_value, forKey: kCGImagePropertyTIFFDictionary as NSString)
+    }
     if let location_value = location {
         let location_dict = gps_dictionary_for_location(location_value)
         metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
     }
-    
-    let uti = CGImageSourceGetType(source)
-    var dest_data = NSMutableData()
-    var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
-    CGImageDestinationAddImageFromSource(destination, source, 0, metadata_mutable)
-    let suc = CGImageDestinationFinalize(destination)
-    
-    ///
-    let workspace = workspace_path
-    let bundle =  "\(workspace)\(NSDate().timeIntervalSince1970).photo"
-    if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {
-        NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
-    }
-    let image : UIImage=UIImage(data: dest_data)!
+    NSLog("metadata:%@", metadata_mutable)
+    return metadata_mutable
+}
+func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,location:CLLocation? = nil)->PhotoModal{
+    /// rotate
+    let image : UIImage=UIImage(data: imageData)!
     var imageOrientation : UIImageOrientation!
     switch orientation {
     case .LandscapeLeft:
@@ -180,6 +177,21 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,lo
     NSLog("imageOrientation:\(imageOrientation)")
     let originalImage = image.rotate(imageOrientation)
     let originalData = UIImageJPEGRepresentation(originalImage, 1.0)
+    /// metadata
+    let metadata = metadata_from_image_data(imageData, location: location)
+    let source = CGImageSourceCreateWithData(originalData, nil)
+    let uti = CGImageSourceGetType(source)
+    var dest_data = NSMutableData()
+    var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
+    CGImageDestinationAddImageFromSource(destination, source, 0, metadata)
+    let suc = CGImageDestinationFinalize(destination)
+    
+    /// write
+    let workspace = workspace_path
+    let bundle =  "\(workspace)\(NSDate().timeIntervalSince1970).photo"
+    if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {
+        NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
+    }
     let original_filename = "\(bundle)/original.jpg"
 //    originalData.writeToFile(original_filename,atomically:true)
 //    imageData.writeToFile(original_filename, atomically: true)
