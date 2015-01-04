@@ -137,22 +137,22 @@ func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     }
     return photo_list
 }
-
+/// 从数据中获取元数据信息
 private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
     /// metadata
     let source = CGImageSourceCreateWithData(imageData, nil)
     let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
     let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
-    metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation")
+    metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation") ///修改方向为 up，因为下面会旋转图片
     let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
     //NSLog("exif:%@", exif_dict!)
     let tiff_dict = (metadata_mutable.objectForKey(kCGImagePropertyTIFFDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
     if let tiff_dict_value = tiff_dict {
-        tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation")
+        tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation") /// tiff 中的方向也修改为 up, 因为下面会旋转图片
         metadata_mutable.setObject(tiff_dict_value, forKey: kCGImagePropertyTIFFDictionary as NSString)
     }
     if let location_value = location {
-        let location_dict = gps_dictionary_for_location(location_value)
+        let location_dict = gps_dictionary_for_location(location_value) /// 写入 gps 信息
         metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
     }
     NSLog("metadata:%@", metadata_mutable)
@@ -177,15 +177,18 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,lo
     NSLog("imageOrientation:\(imageOrientation)")
     let originalImage = image.rotate(imageOrientation)
     let originalData = UIImageJPEGRepresentation(originalImage, 1.0)
+    /// square
+    let squareImage = originalImage.squareImage()
+    let squareData = UIImageJPEGRepresentation(squareImage, 1.0)
     /// metadata
     let metadata = metadata_from_image_data(imageData, location: location)
-    let source = CGImageSourceCreateWithData(originalData, nil)
+    //let source = CGImageSourceCreateWithData(originalData, nil)
+    let source = CGImageSourceCreateWithData(squareData, nil)
     let uti = CGImageSourceGetType(source)
     var dest_data = NSMutableData()
     var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
     CGImageDestinationAddImageFromSource(destination, source, 0, metadata)
     let suc = CGImageDestinationFinalize(destination)
-    
     /// write
     let workspace = workspace_path
     let bundle =  "\(workspace)\(NSDate().timeIntervalSince1970).photo"

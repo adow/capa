@@ -132,6 +132,31 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return new_image
     }
+    ///从当中去的正方形的图片
+    public func squareImage()->UIImage!{
+        let old_width = self.size.width
+        let old_height = self.size.height
+        var target_width:CGFloat = 0.0
+        var target_height:CGFloat = 0.0
+        if old_height > old_width {
+            target_width = old_width
+            target_height = target_width
+        }
+        else{
+            target_height = old_height
+            target_width = target_height
+        }
+        let x = (target_width - old_width) / 2.0
+        let y = (target_height - old_height) / 2.0
+        UIGraphicsBeginImageContext(CGSize(width: target_width, height: target_height))
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        UIRectFill(CGRect(x: 0.0, y: 0.0, width: target_width, height: target_height))
+        self.drawAtPoint(CGPoint(x: x, y: y))
+        let new_image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return new_image
+    }
     private func radius(degree:Double)->Double{
         return degree * M_PI / 180.0
     }
