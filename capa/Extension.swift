@@ -133,21 +133,23 @@ extension UIImage {
         return new_image
     }
     ///从当中去的正方形的图片
-    public func squareImage()->UIImage!{
+    public func squareImage(squareMarginPercent:CGFloat = 0.0)->UIImage!{
         let old_width = self.size.width
         let old_height = self.size.height
         var target_width:CGFloat = 0.0
         var target_height:CGFloat = 0.0
+        var x:CGFloat = 0.0
+        var y:CGFloat = 0.0
         if old_height > old_width {
             target_width = old_width
             target_height = target_width
+            y = -1 * old_height * squareMarginPercent
         }
         else{
             target_height = old_height
             target_width = target_height
+            x = -1 * old_width * squareMarginPercent
         }
-        let x = (target_width - old_width) / 2.0
-        let y = (target_height - old_height) / 2.0
         UIGraphicsBeginImageContext(CGSize(width: target_width, height: target_height))
         let context = UIGraphicsGetCurrentContext()
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)

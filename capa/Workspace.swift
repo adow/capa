@@ -151,6 +151,7 @@ private func metadata_from_image_data (imageData:NSData,location:CLLocation? = n
         tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation") /// tiff 中的方向也修改为 up, 因为下面会旋转图片
         metadata_mutable.setObject(tiff_dict_value, forKey: kCGImagePropertyTIFFDictionary as NSString)
     }
+    ///gps
     if let location_value = location {
         let location_dict = gps_dictionary_for_location(location_value) /// 写入 gps 信息
         metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
@@ -158,7 +159,9 @@ private func metadata_from_image_data (imageData:NSData,location:CLLocation? = n
     NSLog("metadata:%@", metadata_mutable)
     return metadata_mutable
 }
-func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,location:CLLocation? = nil)->PhotoModal{
+func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,squareMarginPercent:CGFloat? = nil,
+    location:CLLocation? = nil)->PhotoModal{
+    var outputImageData:NSData! ///输出的照片数据内容
     /// rotate
     let image : UIImage=UIImage(data: imageData)!
     var imageOrientation : UIImageOrientation!
@@ -176,14 +179,17 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,lo
     }
     NSLog("imageOrientation:\(imageOrientation)")
     let originalImage = image.rotate(imageOrientation)
-    let originalData = UIImageJPEGRepresentation(originalImage, 1.0)
     /// square
-    let squareImage = originalImage.squareImage()
-    let squareData = UIImageJPEGRepresentation(squareImage, 1.0)
+    if let squareMarginPercent_value = squareMarginPercent {
+        let squareImage = originalImage.squareImage(squareMarginPercent: squareMarginPercent!)
+        outputImageData = UIImageJPEGRepresentation(squareImage, 1.0)
+    }
+    else{
+        outputImageData = UIImageJPEGRepresentation(originalImage, 1.0)
+    }
     /// metadata
     let metadata = metadata_from_image_data(imageData, location: location)
-    //let source = CGImageSourceCreateWithData(originalData, nil)
-    let source = CGImageSourceCreateWithData(squareData, nil)
+    let source = CGImageSourceCreateWithData(outputImageData, nil)
     let uti = CGImageSourceGetType(source)
     var dest_data = NSMutableData()
     var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
@@ -196,11 +202,9 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,lo
         NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
     }
     let original_filename = "\(bundle)/original.jpg"
-//    originalData.writeToFile(original_filename,atomically:true)
-//    imageData.writeToFile(original_filename, atomically: true)
     dest_data.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
-    
+    ///缩略图
     let thumbImage = originalImage.resizeImageWithTarget(100.0)
     let thumbData = UIImageJPEGRepresentation(thumbImage, 1.0)
     let thumb_filename = "\(bundle)/thumb.jpg"
@@ -209,6 +213,7 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,lo
     
     return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename,state:.undefined)
 }
+///把gps数据整合为NSDictionary，用来写入到metadata
 func gps_dictionary_for_location(location:CLLocation)->NSDictionary{
     var exifLatitude  = location.coordinate.latitude
     var exifLongitude = location.coordinate.longitude
@@ -228,7 +233,6 @@ func gps_dictionary_for_location(location:CLLocation)->NSDictionary{
         longRef = "E"
     }
     var locDict = NSMutableDictionary()
-    //locDict.setObject(location.timestamp as AnyObject, forKey: kCGImagePropertyGPSTimeStamp)
     locDict[kCGImagePropertyGPSTimeStamp as NSString] = location.timestamp
     locDict[kCGImagePropertyGPSLatitudeRef as NSString] = latRef
     locDict[kCGImagePropertyGPSLatitude as NSString] = NSNumber(double: exifLatitude)

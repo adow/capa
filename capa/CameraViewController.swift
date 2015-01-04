@@ -74,6 +74,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var shuttleISOLabelView:UIView!
     @IBOutlet var filmButton:UIButton!
     @IBOutlet var settingButton:UIButton!
+    @IBOutlet var finderView:ViewFinder!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -223,6 +224,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.finderView.updateViewFinder()
         motionManager = CMMotionManager()
         motionManager.accelerometerUpdateInterval = 1.0
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { [unowned self](data, error) -> Void in
@@ -312,25 +314,15 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         if (self.captureOutput != nil){
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
-//                let dict = CMGetAttachment(buffer, kCGImagePropertyExifAuxDictionary, nil) as Unmanaged<CFTypeRef>
-//                let mode : CMAttachmentMode = UInt32(kCMAttachmentMode_ShouldPropagate)
-//                let dict = CMCopyDictionaryOfAttachments(nil, buffer, mode)
-//                let exif = dict.takeRetainedValue()
-//                let exif_dict = exif as Dictionary
-//                for (key,value) in exif_dict {
-//                    println("key:\(key),value:\(value)")
-//                }
-                
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                /// gps
-//                let coordinate = CLLocationCoordinate2DMake(31.565137, 120.288553)
-//                let alititude = 15.0
-//                let accuracy_horizontal = 1.0
-//                let accuracy_vertical = 1.0
-//                let now = NSDate()
-//                let location = CLLocation(coordinate: coordinate, altitude: alititude, horizontalAccuracy: accuracy_horizontal, verticalAccuracy: accuracy_vertical, timestamp: now)
-                ///
-                save_to_workspace(imageData,self.cameraOriention,location: self.currentLocation)
+                ///有正方形取景框的时候剪裁为正方形
+                if !self.finderView.hidden {
+                    save_to_workspace(imageData,self.cameraOriention,squareMarginPercent:self.finderView.squareMarginPercent,
+                        location: self.currentLocation)
+                }
+                else{
+                    save_to_workspace(imageData, self.cameraOriention, location: self.currentLocation)
+                }
                 self.cameraState = .preview
             })
         }
