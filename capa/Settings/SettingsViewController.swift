@@ -14,10 +14,9 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+         self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//        self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,10 +29,16 @@ class SettingsViewController: UITableViewController {
             
         })
     }
-    
+    @IBAction func onSwitchSquare(sender:UISwitch){
+        NSUserDefaults.standardUserDefaults().setBool(sender.on, forKey:kSQUARE)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    @IBAction func onSwitchLocation(sender:UISwitch){
+        NSUserDefaults.standardUserDefaults().setBool(sender.on, forKey: kGPS)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -46,16 +51,47 @@ class SettingsViewController: UITableViewController {
             return 1
         }
     }
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
-
-        return cell
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "操作"
+        }
+        else{
+            return "关于"
+        }
     }
-    */
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 44.0
+    }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-square", forIndexPath: indexPath) as UITableViewCell
+                let switch_square = cell.viewWithTag(100) as UISwitch
+                switch_square.on = NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
+                return cell
+            }
+            else if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-location", forIndexPath: indexPath) as UITableViewCell
+                let switch_location = cell.viewWithTag(100) as UISwitch
+                switch_location.on = NSUserDefaults.standardUserDefaults().boolForKey(kGPS)
+                return cell
+            }
+            else{
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as UITableViewCell
+                return cell
+            }
+        }
+        else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as UITableViewCell
+            return cell
+        }
+        else{
+            let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as UITableViewCell
+            return cell
+        }
+
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.

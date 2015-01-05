@@ -15,6 +15,7 @@ import ImageIO
 import CoreLocation
 
 let kGPS = "kGPS"
+let kSQUARE = "kSQUARE"
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -224,6 +225,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.finderView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
         self.finderView.updateViewFinder()
         motionManager = CMMotionManager()
         motionManager.accelerometerUpdateInterval = 1.0
