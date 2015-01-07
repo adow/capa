@@ -22,6 +22,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var hud:MBProgressHUD? = nil
     var photosDeleted:Int = 0 ///已经删除多少张照片
     var photosDeletedTarget:Int = 0 ///一共要删除记账照片
+    var is_vc_visible:Bool! = true ///当前这个vc是否正在显示中
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -50,38 +51,18 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.is_vc_visible = true
         self.reload_photo_list()
+    }
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.is_vc_visible = false
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    //MARK: - Notification
-    ///和 preview 中的照片一起滚动
-    func notificationScrollPhoto(notification:NSNotification){
-        let photo_number = notification.object as? NSNumber
-        let photo_index = photo_number?.integerValue
-        if let photo_index_value = photo_index {
-            let index_path = NSIndexPath(forItem: photo_index_value, inSection: 0)
-            /// 这个cell 是否是可见的
-            var cell_visible = false
-            for one_index_path in self.collection.indexPathsForVisibleItems() as [NSIndexPath] {
-                if index_path.section == one_index_path.section && index_path.row == one_index_path.row {
-                    cell_visible = true
-                    break
-                }
-            }
-            if !cell_visible {
-                self.collection.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: false)
-            }
-            
-            //let cell = self.collectionView(self.collection, cellForItemAtIndexPath: index_path)
-            let cell = self.collection.cellForItemAtIndexPath(index_path)
-            if let cell_value = cell {
-                self.update_editing_cell_frame(cell_value)
-            }
-        }
-    }
+    
     ///MARK: load
     private func reset_editing(){
         toolbar.hidden = true
@@ -316,11 +297,51 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             }
         }
     }
+    //MARK: - Notification
+    /// 这个通知有两个地方调用
+    /// 一个是在 WorkPreviewViewController 中，当滚动图片时，这里会同步正在显示(编辑) 那一张，
+    /// 还有一个是 cell 中双击时，会选中当前的这张，然后转到 WorkPreviewViewController 去
+    /// 最后他们都会调用 update_editing_cell_frame,
+    /// 用来确定正在显示(编辑)的这个 cell 在 view 中的位置
+    func notificationScrollPhoto(notification:NSNotification){
+        let photo_number = notification.object as? NSNumber
+        let photo_index = photo_number?.integerValue
+        if let photo_index_value = photo_index {
+            let index_path = NSIndexPath(forItem: photo_index_value, inSection: 0)
+            /// 这个cell 是否是可见的
+            var cell_visible = false
+            for one_index_path in self.collection.indexPathsForVisibleItems() as [NSIndexPath] {
+                if index_path.section == one_index_path.section && index_path.row == one_index_path.row {
+                    cell_visible = true
+                    break
+                }
+            }
+            if !cell_visible {
+                self.collection.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: false)
+            }
+            
+            //let cell = self.collectionView(self.collection, cellForItemAtIndexPath: index_path)
+            let cell = self.collection.cellForItemAtIndexPath(index_path)
+            if let cell_value = cell { ///按道理这里的 cell 是不会 nil 的，但是实际上有时在最后一个 cell 时，得到的却是 nil， 这样的话 editing_cell_frame 没有更新，回来的动画可能会不正确
+                self.update_editing_cell_frame(cell_value)
+            }
+            else{
+                NSLog("cell is nil:%d",index_path.row)
+            }
+        }
+    }
     ///确定这个cell在整个view中的位置
     func update_editing_cell_frame(cell:UICollectionViewCell!){
         let cell_frame = cell.frame
         var x = 0.0 + cell_frame.origin.x - self.collection.contentOffset.x
         var y = self.collection.frame.origin.y + cell_frame.origin.y - self.collection.contentOffset.y
+        /// 很奇怪的是，当这个 WorkspaceViewController 正在显示的时候，如果 collectionView 滚动到顶部，这时的 contentOffset.y 是 -64.0, 也就是一个导航条的高度;
+        /// 但是如果这个 WorkspaceViewController 没有显示的时候，比如正在有 WorkPreviewViewController 来更新这个位置的时候, contetnOffset.y 在顶部时是 0.0;
+        /// 这导致的问题是，如果在 WorkPreviewViewController 来更新这个位置时，他总是少了 64.0 的。
+        /// 所以这里的修正方法是，判断一下当前这个 WorkspaceViewController 是否正在显示，如果不显示了，就要把这个位置往下面移动一下.
+        if !is_vc_visible {
+            y += 64.0
+        }
         editing_cell_frame = CGRectMake(x, y, cell_frame.size.width, cell_frame.size.height)
         NSLog("editing_cell_frame:%@,%@", NSStringFromCGRect(editing_cell_frame!),NSStringFromCGRect(cell_frame))
     }
