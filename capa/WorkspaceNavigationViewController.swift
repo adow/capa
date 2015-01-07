@@ -8,12 +8,13 @@
 
 import UIKit
 
-class WorkspaceNavigationViewController: UINavigationController,UIViewControllerTransitioningDelegate {
+class WorkspaceNavigationViewController: UINavigationController,UIViewControllerTransitioningDelegate,UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.transitioningDelegate = self 
+        self.transitioningDelegate = self
+        self.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,6 +28,17 @@ class WorkspaceNavigationViewController: UINavigationController,UIViewController
     }
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PresentTransition()
+    }
+    func navigationController(navigationController: UINavigationController,
+        animationControllerForOperation operation: UINavigationControllerOperation,
+        fromViewController fromVC: UIViewController,
+        toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+            if fromVC is WorkspaceViewController && toVC is WorkPreviewViewController {
+                return WorkspaceToPreviewPushTransition()
+            }
+            else{
+                return nil
+            }
     }
     /*
     // MARK: - Navigation

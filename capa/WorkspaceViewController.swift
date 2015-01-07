@@ -16,6 +16,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     var markerView :UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
     var editing_index : NSIndexPath? = nil ///正在编辑的位置
+    var editing_cell_frame : CGRect? = nil ///正在编辑的cell的位置
     var hud:MBProgressHUD? = nil
     var photosDeleted:Int = 0 ///已经删除多少张照片
     var photosDeletedTarget:Int = 0 ///一共要删除记账照片
@@ -35,7 +36,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.collection.addSubview(markerView)
         markerView.hidden = true
         
-        
+       
 
     }
     override func viewWillAppear(animated: Bool) {
@@ -239,6 +240,8 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         let toolbar_m = toolbar as WorkspaceToolbar
         toolbar_m.photo = cell.photo
         collectionView.reloadData()
+        
+        editing_cell_frame = cell.convertRect(cell.frame, toView: self.view)
     }
     /// MARK: - WorkspaceMarkerViewDelegate
     func onMarkUseButton(photo: PhotoModal?) {
