@@ -66,7 +66,7 @@ class PresentTransition : NSObject, UIViewControllerAnimatedTransitioning {
 }
 class WorkspaceToPreviewPushTransition:NSObject,UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 0.3
+        return 3.0
     }
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         let toVc = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as WorkPreviewViewController

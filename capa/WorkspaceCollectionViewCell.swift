@@ -89,6 +89,8 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBAction func onTapGesture(gesture:UITapGestureRecognizer){
         self.viewController.editing_photo = self.photo
         self.viewController.editing_index = self.indexPath
+        NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
+            object: NSNumber(integer: self.indexPath.row))
         self.viewController.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
     }
 }

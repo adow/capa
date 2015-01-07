@@ -54,6 +54,9 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         NSLog("pageIndex:%d", pageIndex)
         self.photoIndex = pageIndex
         self.updateToolbar()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
+            object: NSNumber(integer: self.photoIndex))
     }
     ///MARK: - Action
     @IBAction func onButtonState(sender:UIButton!){

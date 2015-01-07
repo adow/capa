@@ -8,6 +8,8 @@
 
 import UIKit
 
+let kWorkspaceScrollPhotoNotification = "kWorkspaceScrollPhotoNotification"
+
 class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceMarkerViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet weak var collection:UICollectionView!
     @IBOutlet weak var filterSegment:UISegmentedControl!
@@ -36,6 +38,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.collection.addSubview(markerView)
         markerView.hidden = true
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationScrollPhoto:", name: kWorkspaceScrollPhotoNotification, object: nil)
        
 
     }
@@ -52,6 +55,32 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    //MARK: - Notification
+    ///和 preview 中的照片一起滚动
+    func notificationScrollPhoto(notification:NSNotification){
+        let photo_number = notification.object as? NSNumber
+        let photo_index = photo_number?.integerValue
+        if let photo_index_value = photo_index {
+            let index_path = NSIndexPath(forItem: photo_index_value, inSection: 0)
+            /// 这个cell 是否是可见的
+            var cell_visible = false
+            for one_index_path in self.collection.indexPathsForVisibleItems() as [NSIndexPath] {
+                if index_path.section == one_index_path.section && index_path.row == one_index_path.row {
+                    cell_visible = true
+                    break
+                }
+            }
+            if !cell_visible {
+                self.collection.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: false)
+            }
+            
+            //let cell = self.collectionView(self.collection, cellForItemAtIndexPath: index_path)
+            let cell = self.collection.cellForItemAtIndexPath(index_path)
+            if let cell_value = cell {
+                self.update_editing_cell_frame(cell_value)
+            }
+        }
     }
     ///MARK: load
     private func reset_editing(){
@@ -241,7 +270,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         toolbar_m.photo = cell.photo
         collectionView.reloadData()
         
-        editing_cell_frame = cell.convertRect(cell.frame, toView: self.view)
+        update_editing_cell_frame(cell)
     }
     /// MARK: - WorkspaceMarkerViewDelegate
     func onMarkUseButton(photo: PhotoModal?) {
@@ -286,5 +315,13 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                 self.removePhotos([photo_value,])
             }
         }
+    }
+    ///确定这个cell在整个view中的位置
+    func update_editing_cell_frame(cell:UICollectionViewCell!){
+        let cell_frame = cell.frame
+        var x = 0.0 + cell_frame.origin.x - self.collection.contentOffset.x
+        var y = self.collection.frame.origin.y + cell_frame.origin.y - self.collection.contentOffset.y
+        editing_cell_frame = CGRectMake(x, y, cell_frame.size.width, cell_frame.size.height)
+        NSLog("editing_cell_frame:%@,%@", NSStringFromCGRect(editing_cell_frame!),NSStringFromCGRect(cell_frame))
     }
 }
