@@ -14,6 +14,14 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
     @IBOutlet weak var collectionView:UICollectionView!
     @IBOutlet weak var buttonUse:UIButton!
     @IBOutlet weak var buttonRemove:UIButton!
+    var editing_photo:PhotoModal? {
+        if photoIndex < photo_list.count {
+            return photo_list[photoIndex]
+        }
+        else{
+            return nil
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

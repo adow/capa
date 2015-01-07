@@ -23,18 +23,24 @@ class WorkspaceNavigationViewController: UINavigationController,UIViewController
     }
     
     ///MARK: - UIViewControllerTransitioningDelegate
+    /// Dismiss 时候的动画
     func animationControllerForDismissedController(dismissed: UIViewController) ->  UIViewControllerAnimatedTransitioning? {
         return DismissTransition()
     }
+    /// Present 时候的动画
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PresentTransition()
     }
+    /// 导航跳转时候的动画
     func navigationController(navigationController: UINavigationController,
         animationControllerForOperation operation: UINavigationControllerOperation,
         fromViewController fromVC: UIViewController,
         toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
             if fromVC is WorkspaceViewController && toVC is WorkPreviewViewController {
                 return WorkspaceToPreviewPushTransition()
+            }
+            else if fromVC is WorkPreviewViewController && toVC is WorkspaceViewController {
+                return PreviewToWorkspacePopTransition()
             }
             else{
                 return nil

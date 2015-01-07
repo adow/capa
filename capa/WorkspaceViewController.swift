@@ -247,7 +247,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         cell.viewController = self
         cell.indexPath = indexPath
         let photo = photo_list![indexPath.row]
-        cell.thumbImageView.image = photo.thumgImage!
+        cell.thumbImageView.image = photo.originalImage!
         cell.photo = photo
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
 //        println("\(indexPath.row):\(photo.state)")
