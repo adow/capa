@@ -10,7 +10,7 @@ import UIKit
 
 let kWorkspaceScrollPhotoNotification = "kWorkspaceScrollPhotoNotification"
 
-class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceMarkerViewDelegate,WorkspaceToolbarDelegate {
+class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet weak var collection:UICollectionView!
     @IBOutlet weak var filterSegment:UISegmentedControl!
     var photo_list:[PhotoModal]? = [PhotoModal]()
@@ -33,12 +33,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         (toolbar as WorkspaceToolbar).delegate = self
         self.collection.addSubview(toolbar)
         toolbar.hidden = true
-  
-        markerView = WorkspaceMarkerView.markerView()
-        (markerView as WorkspaceMarkerView).delegate = self
-        self.collection.addSubview(markerView)
-        markerView.hidden = true
-        
+          
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationScrollPhoto:", name: kWorkspaceScrollPhotoNotification, object: nil)
        
 
