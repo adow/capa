@@ -29,6 +29,7 @@ class ExposureControl:UIView {
     @IBOutlet var sunImageView:UIImageView!
     @IBOutlet var constraintTop:NSLayoutConstraint!
     @IBOutlet var constraintLeft:NSLayoutConstraint!
+    var limitsInFrame:CGRect? = nil ///限制拖动的区域范围，如果是正方形取景器的话不能到外面
     var device:AVCaptureDevice!
     var _state:State!
     var state:State!{
@@ -100,13 +101,21 @@ class ExposureControl:UIView {
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
                 var error:NSError?
-                let point = gesture.locationInView(self.superview!)
+                var point = gesture.locationInView(self.superview!)
+                if let limitsInFrame_value = limitsInFrame {
+                    point.y = fmax(point.y, limitsInFrame_value.origin.y)
+                    point.y = fmin(point.y, CGRectGetMaxY(limitsInFrame_value))
+                }
                 let center = CGPoint(x: point.x / self.superview!.frame.size.width,
                     y: point.y / self.superview!.frame.size.height)
                 self.updateExposurePointOfInterest(center)
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
-                let point = gesture.locationInView(self.superview!)
+                var point = gesture.locationInView(self.superview!)
+                if let limitsInFrame_value = limitsInFrame {
+                    point.y = fmax(point.y, limitsInFrame_value.origin.y)
+                    point.y = fmin(point.y, CGRectGetMaxY(limitsInFrame_value))
+                }
                 self.center = point
                 self.updateConstraints()
             }

@@ -70,7 +70,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var exposureView:ExposureControl!
     @IBOutlet var shuttlesPickerView:UIPickerView!
     @IBOutlet var isoPickerView:UIPickerView!
-    @IBOutlet var workspaceButton:UIButton!
     @IBOutlet var writingActivityView:UIActivityIndicatorView!
     @IBOutlet var shuttleISOLabelView:UIView!
     @IBOutlet var filmButton:UIButton!
@@ -87,25 +86,21 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             UIView.animateWithDuration(0.3, animations: { [unowned self]() -> Void in
                 switch self.cameraOriention! {
                 case AVCaptureVideoOrientation.Portrait:
-                    self.workspaceButton.transform = CGAffineTransformIdentity
                     self.focusView.transform = CGAffineTransformIdentity
                     self.exposureView.transform = CGAffineTransformIdentity
                     self.flashButton.transform = CGAffineTransformIdentity
                     break
                 case .LandscapeLeft:
-                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     self.exposureView.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     self.flashButton.transform = CGAffineTransformMakeRotation(radius(-90.0))
                     break
                 case .LandscapeRight:
-                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(90.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(90.0))
                     self.exposureView.transform = CGAffineTransformMakeRotation(radius(90.0))
                     self.flashButton.transform = CGAffineTransformMakeRotation(radius(90.0))
                     break
                 case .PortraitUpsideDown:
-                    self.workspaceButton.transform = CGAffineTransformMakeRotation(radius(180.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
                     self.focusView.transform = CGAffineTransformMakeRotation(radius(180.0))
                     self.flashButton.transform = CGAffineTransformMakeRotation(radius(180.0))
@@ -228,6 +223,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         ///正方形取景器
         self.finderView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
         self.finderView.updateViewFinder()
+        if !self.finderView.hidden {
+            let viewFrame = self.finderView.viewFrame
+            NSLog("viewFrame:%@", NSStringFromCGRect(viewFrame))
+            self.exposureView.limitsInFrame = viewFrame
+            self.focusView.limitsInFrame = viewFrame
+        }
         ///快门拖动手势
         let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.shuttleButton.addGestureRecognizer(shuttlePanGesture)

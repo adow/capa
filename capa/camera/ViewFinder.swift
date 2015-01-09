@@ -22,6 +22,13 @@ class ViewFinder:UIView {
     var squareMarginPercent:CGFloat{
         return squareMargin / self.frame.size.height
     }
+    ///取景框大小
+    var viewFrame:CGRect{
+        return CGRect(x: 0.0,
+            y: squareMargin,
+            width: self.frame.size.width,
+            height: self.frame.size.width)
+    }
     ///修正取景框的大小
     func updateViewFinder(){
         self.maskTopView.frame = CGRectMake(0.0, 0.0, self.frame.size.width, squareMargin)
