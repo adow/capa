@@ -15,7 +15,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     @IBOutlet weak var filterSegment:UISegmentedControl!
     var photo_list:[PhotoModal]? = [PhotoModal]()
     var toolbar : UIView!
-    var markerView :UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
     var editing_index : NSIndexPath? = nil ///正在编辑的位置
     var editing_cell_frame : CGRect? = nil ///正在编辑的cell的位置
@@ -42,7 +41,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         super.viewWillAppear(animated)
 //        self.reload_photo_list()
         toolbar.hidden = true
-        markerView.hidden = true
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -61,7 +59,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     ///MARK: load
     private func reset_editing(){
         toolbar.hidden = true
-        markerView.hidden = true
         editing_photo = nil
     }
     private func reload_photo_list(){
@@ -158,7 +155,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     @IBAction func onFilterSegment(sender:UISegmentedControl!){
         self.reload_photo_list()
         toolbar.hidden = true
-        markerView.hidden = true
     }
     ///计算已经是否已经删除完了
     @objc private func _savePhotoTimer(timer:NSTimer){

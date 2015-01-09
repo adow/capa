@@ -75,7 +75,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var shuttleISOLabelView:UIView!
     @IBOutlet var filmButton:UIButton!
     @IBOutlet var settingButton:UIButton!
-    @IBOutlet var finderView:ViewFinder!
+    @IBOutlet var finderView:ViewFinder!    
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -225,19 +225,25 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        ///正方形取景器
         self.finderView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
         self.finderView.updateViewFinder()
-        motionManager = CMMotionManager()
-        motionManager.accelerometerUpdateInterval = 1.0
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { [unowned self](data, error) -> Void in
-//            NSLog("x:%f,y:%f,z:%f", data.acceleration.x,data.acceleration.y,data.acceleration.z)
-            self.updateCameraOriention(data.acceleration)
-        })
+        ///快门拖动手势
         let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
+        ///曝光补偿控件先设置到屏幕中央，不能直接设置曝光补偿，因为那样会锁定补偿
+        self.exposureView.center = self.previewView.center
+        self.exposureView.updateConstraints()
         ///更新可用的ISO和快门速度
         self.updateAvailableISOAndShuttles()
         self._hideFilmSettingButton()
+        ///用来识别方向
+        motionManager = CMMotionManager()
+        motionManager.accelerometerUpdateInterval = 1.0
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { [unowned self](data, error) -> Void in
+            //            NSLog("x:%f,y:%f,z:%f", data.acceleration.x,data.acceleration.y,data.acceleration.z)
+            self.updateCameraOriention(data.acceleration)
+        })
         ///location
         if NSUserDefaults.standardUserDefaults().boolForKey(kGPS) == true {
             locationManager = CLLocationManager()

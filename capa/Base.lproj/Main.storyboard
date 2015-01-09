@@ -46,7 +46,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-x7-UgS" userLabel="exposurecontrol" customClass="ExposureControl" customModule="capa" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-x7-UgS" userLabel="exposurecontrol" customClass="ExposureControl" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="5" y="55" width="100" height="100"/>
                                         <subviews>
                                             <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC8-Sw-ZNF" userLabel="exposureview">
@@ -62,13 +62,19 @@
                                                 <rect key="frame" x="85" y="35" width="24" height="24"/>
                                             </imageView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="3EA-rj-sgG"/>
+                                            <constraint firstAttribute="width" constant="100" id="wc1-N5-QCw"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="biasLabel" destination="H18-yD-AsG" id="lqK-ZS-tgA"/>
+                                            <outlet property="constraintLeft" destination="oYj-pN-WVx" id="NAv-0w-6KA"/>
+                                            <outlet property="constraintTop" destination="fzb-Tq-XC5" id="LGT-3z-xbG"/>
                                             <outlet property="exposureView" destination="JC8-Sw-ZNF" id="fgI-AZ-V3F"/>
                                             <outlet property="sunImageView" destination="KlP-Bu-RWX" id="N5G-r0-Wn5"/>
                                         </connections>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNa-HV-RfY" userLabel="focuscontrol" customClass="FocusControl" customModule="capa" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNa-HV-RfY" userLabel="focuscontrol" customClass="FocusControl" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="8" y="224" width="100" height="100"/>
                                         <subviews>
                                             <view alpha="0.10000000000000001" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HzM-TX-ySj" userLabel="focusview">
@@ -82,7 +88,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="BzP-ED-o0n"/>
+                                            <constraint firstAttribute="height" constant="100" id="orN-09-4zX"/>
+                                        </constraints>
                                         <connections>
+                                            <outlet property="constraintLeft" destination="nBb-I5-3vt" id="uXf-UM-zfF"/>
+                                            <outlet property="constraintTop" destination="7Ok-IU-2ve" id="pN9-9N-sIB"/>
                                             <outlet property="focusView" destination="HzM-TX-ySj" id="jRz-NK-iaK"/>
                                             <outlet property="lensPositionLabel" destination="OMv-f2-jOm" id="VXW-xF-lTy"/>
                                         </connections>
@@ -246,6 +258,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="6" id="30i-gf-1ua"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
+                                    <constraint firstItem="FNa-HV-RfY" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="224" id="7Ok-IU-2ve" userLabel="focus_constraints_top"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="centerX" secondItem="VCp-FZ-7UK" secondAttribute="centerX" constant="45" id="Bd8-aE-vy5"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="C5d-Ke-H2M"/>
@@ -271,20 +284,24 @@
                                     <constraint firstAttribute="bottom" secondItem="tJF-8c-KAN" secondAttribute="bottom" constant="43" id="dp1-wg-9Th"/>
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="ewT-BI-nzA"/>
                                     <constraint firstAttribute="trailing" secondItem="mPl-Bb-xWE" secondAttribute="trailing" id="ffh-Xr-I5j"/>
+                                    <constraint firstItem="GwY-x7-UgS" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="55" id="fzb-Tq-XC5" userLabel="exposure_constraints_top"/>
                                     <constraint firstAttribute="trailing" secondItem="tJF-8c-KAN" secondAttribute="trailing" constant="8" id="g9n-oK-m0j"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" constant="22" id="hvS-Oc-Qdw"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="iMb-OD-a1f"/>
                                     <constraint firstAttribute="trailing" secondItem="6zF-Ia-elb" secondAttribute="trailing" constant="24" id="iqk-uV-iZg"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
+                                    <constraint firstItem="FNa-HV-RfY" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="8" id="nBb-I5-3vt" userLabel="focus_constraints_left"/>
                                     <constraint firstAttribute="bottom" secondItem="mPl-Bb-xWE" secondAttribute="bottom" id="nIY-kZ-pjq"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="vcZ-N7-Cp8" secondAttribute="trailing" constant="20" id="oEZ-jr-cJf"/>
                                     <constraint firstAttribute="bottom" secondItem="hV4-8K-hoo" secondAttribute="bottom" constant="2" id="oWO-gH-QrS"/>
+                                    <constraint firstItem="GwY-x7-UgS" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="5" id="oYj-pN-WVx" userLabel="exposure_constraint_left"/>
                                     <constraint firstItem="iQ9-Z8-vzp" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="100" id="qhe-tA-dr0"/>
                                     <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" constant="250" id="rh2-VN-WHb"/>
                                     <constraint firstAttribute="bottom" secondItem="jGc-oa-ASj" secondAttribute="bottom" constant="8" id="ro8-b8-jRs"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="sDQ-rV-FNN"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="4" id="t2i-IG-o47"/>
+                                    <constraint firstItem="FNa-HV-RfY" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="8" id="vb4-xX-cPa"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="64" id="x2y-DV-HRc"/>
@@ -296,6 +313,7 @@
                                     <mask key="constraints">
                                         <exclude reference="5Ho-4n-c1x"/>
                                         <exclude reference="rh2-VN-WHb"/>
+                                        <exclude reference="vb4-xX-cPa"/>
                                         <exclude reference="30i-gf-1ua"/>
                                         <exclude reference="RgN-ay-7w8"/>
                                         <exclude reference="BIJ-oF-3IF"/>

@@ -27,6 +27,8 @@ class FocusControl:UIView {
     @IBOutlet var focusView:UIView!
     @IBOutlet var lensPositionLabel:UILabel!
     var device:AVCaptureDevice!
+    @IBOutlet var constraintTop:NSLayoutConstraint!
+    @IBOutlet var constraintLeft:NSLayoutConstraint!
     var _state:State!
     var state:State!{
         get{
@@ -55,9 +57,9 @@ class FocusControl:UIView {
         self.addGestureRecognizer(panGesture)
         self.contentMode = UIViewContentMode.Redraw
     }
-    override func translatesAutoresizingMaskIntoConstraints() -> Bool {
-        return true
-    }
+//    override func translatesAutoresizingMaskIntoConstraints() -> Bool {
+//        return true
+//    }
     // 更新位置
     func updateFocusPointOfInterest(center:CGPoint){
         if let superView_value = self.superview {
@@ -65,6 +67,7 @@ class FocusControl:UIView {
             let x = superFrame.width * center.x
             let y = superFrame.height * center.y
             self.center = CGPointMake(x, y)
+            self.updateConstraints()
             var error:NSError?
             self.device.lockForConfiguration(&error)
             self.device.focusMode = AVCaptureFocusMode.AutoFocus
@@ -90,8 +93,14 @@ class FocusControl:UIView {
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let point = gesture.locationInView(self.superview!)
                 self.center = point
+                self.updateConstraints()
             }
         }
+    }
+    override func updateConstraints() {
+        self.constraintLeft.constant = self.frame.origin.x
+        self.constraintTop.constant = self.frame.origin.y        
+        super.updateConstraints()
     }
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
