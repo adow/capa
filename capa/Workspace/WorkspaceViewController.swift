@@ -142,15 +142,25 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         
     }
     @IBAction func removePhotosMarkRemove(sender:UIBarButtonItem!){
-        var delete_photo_list = [PhotoModal]()
-        if let photo_list_value = self.photo_list {
-            for one_photo in photo_list_value {
-                if one_photo.state == .remove {
-                    delete_photo_list.append(one_photo)
+        let alert = UIAlertController(title: "删除?", message: "删除照片", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { [unowned self](action) -> Void in
+            var delete_photo_list = [PhotoModal]()
+            if let photo_list_value = self.photo_list {
+                for one_photo in photo_list_value {
+                    if one_photo.state == .remove {
+                        delete_photo_list.append(one_photo)
+                    }
                 }
             }
+            self.removePhotos(delete_photo_list)
+        }))
+        self.presentViewController(alert, animated: true) { () -> Void in
+            
         }
-        self.removePhotos(delete_photo_list)
+        
         
     }
     @IBAction func onFilterSegment(sender:UISegmentedControl!){
@@ -176,44 +186,36 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     ///批量删除照片
     func removePhotos(photos:[PhotoModal]){
-        let alert = UIAlertController(title: "删除?", message: "删除照片", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-            
-        }))
-        alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { [unowned self](action) -> Void in
-            if var photo_list_value = self.photo_list {
-                self.hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                self.collection.performBatchUpdates({ [unowned self]() -> Void in
-                    var delete_index_path = [NSIndexPath]()
-                    for one_photo in photos {
-                        let index = find(self.photo_list!,one_photo)
-                        if let index_value = index{
-                            let indexPath = NSIndexPath(forRow: index_value, inSection: 0)
-                            delete_index_path.append(indexPath)
-                        }
+        if var photo_list_value = self.photo_list {
+            self.hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            self.collection.performBatchUpdates({ [unowned self]() -> Void in
+                var delete_index_path = [NSIndexPath]()
+                for one_photo in photos {
+                    let index = find(self.photo_list!,one_photo)
+                    if let index_value = index{
+                        let indexPath = NSIndexPath(forRow: index_value, inSection: 0)
+                        delete_index_path.append(indexPath)
                     }
-                    for one_photo in photos {
-                        let index = find(self.photo_list!,one_photo)
-                        if let index_value = index {
-                            NSLog("remove photo index:%d", index_value)
-                            self.photo_list?.removeAtIndex(index_value)
-                        }
-                        one_photo.remove()
+                }
+                for one_photo in photos {
+                    let index = find(self.photo_list!,one_photo)
+                    if let index_value = index {
+                        NSLog("remove photo index:%d", index_value)
+                        self.photo_list?.removeAtIndex(index_value)
                     }
-                    self.collection.deleteItemsAtIndexPaths(delete_index_path)
-                    }, completion: { [unowned self](completed) -> Void in
-                        //                self.hud?.hide(true, afterDelay: 1.0)
-                        if let hud_value = self.hud {
-                            hud_value.hide(true)
-                        }
-                        self.reset_editing()
-                })
-                
-            }
-        }))
-        self.presentViewController(alert, animated: true) { () -> Void in
+                    one_photo.remove()
+                }
+                self.collection.deleteItemsAtIndexPaths(delete_index_path)
+                }, completion: { [unowned self](completed) -> Void in
+                    //                self.hud?.hide(true, afterDelay: 1.0)
+                    if let hud_value = self.hud {
+                        hud_value.hide(true)
+                    }
+                    self.reset_editing()
+            })
             
         }
+        
         
     }
     // MARK: - UICollectionView
@@ -294,9 +296,19 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             self.collection.reloadData()
         }
         else if itemButton.tag == 4 {
-            if let photo_value = photo {
-                self.removePhotos([photo_value,])
+            let alert = UIAlertController(title: "删除?", message: "删除照片", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                
+            }))
+            alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { [unowned self](action) -> Void in
+                if let photo_value = photo {
+                    self.removePhotos([photo_value,])
+                }
+            }))
+            self.presentViewController(alert, animated: true) { () -> Void in
+                
             }
+            
         }
     }
     //MARK: - Notification
