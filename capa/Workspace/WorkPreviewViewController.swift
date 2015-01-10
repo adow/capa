@@ -100,6 +100,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
             
         }))
         alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
             self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
                 let photo = self.photo_list[self.photoIndex]
@@ -107,7 +108,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
                 self.photo_list.removeAtIndex(self.photoIndex)
                 self.collectionView.deleteItemsAtIndexPaths([indexPath,])
                 }, completion: { (completed) -> Void in
-                    
+                    hud.hide(true, afterDelay: 1.0)
             })
         }))
         self.presentViewController(alert, animated: true) { () -> Void in
