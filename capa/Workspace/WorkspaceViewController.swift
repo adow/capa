@@ -118,6 +118,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
     }
     @IBAction func savePhotosToCameraRollMarkUse(sender:UIBarButtonItem!){
+        self.hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         self.photosDeleted = 0
         if let photo_list_value = photo_list {
             ///第一次循环，用来计算一共要删除几张
@@ -181,6 +182,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                     }
                 }
             }
+            self.hud?.hide(true)
             self.removePhotos(delete_photo_list)
         }
     }

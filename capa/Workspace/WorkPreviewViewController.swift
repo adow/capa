@@ -117,6 +117,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
     }
     ///保存到相册然后删除
     @IBAction func onButtonSave(sender:UIButton!){
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         let photo = self.photo_list[self.photoIndex]
         photo.saveToCameraRoll { [unowned self]() -> () in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -126,7 +127,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
                     self.photo_list.removeAtIndex(self.photoIndex)
                     self.collectionView.deleteItemsAtIndexPaths([indexPath,])
                     }, completion: { (completed) -> Void in
-                        
+                        hud.hide(true, afterDelay: 1.0)
                 })
             })
         }
