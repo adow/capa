@@ -95,15 +95,24 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         }
     }
     @IBAction func onButtonDelete(sender:UIButton!){
-        let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
-        self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
-            let photo = self.photo_list[self.photoIndex]
-            photo.remove()
-            self.photo_list.removeAtIndex(self.photoIndex)
-            self.collectionView.deleteItemsAtIndexPaths([indexPath,])
-        }, completion: { (completed) -> Void in
+        let alert = UIAlertController(title: "删除?", message: "删除照片", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
             
-        })
+        }))
+        alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
+            self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                let photo = self.photo_list[self.photoIndex]
+                photo.remove()
+                self.photo_list.removeAtIndex(self.photoIndex)
+                self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+                }, completion: { (completed) -> Void in
+                    
+            })
+        }))
+        self.presentViewController(alert, animated: true) { () -> Void in
+            
+        }
     }
     ///保存到相册然后删除
     @IBAction func onButtonSave(sender:UIButton!){
