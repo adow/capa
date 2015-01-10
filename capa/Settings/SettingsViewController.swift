@@ -9,7 +9,6 @@
 import UIKit
 
 class SettingsViewController: UITableViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,6 +82,12 @@ class SettingsViewController: UITableViewController {
         }
         else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as UITableViewCell
+            let versionLabel = cell.viewWithTag(100) as UILabel
+            let info = NSBundle.mainBundle().infoDictionary! as [NSString:NSString]
+            let version_short = info["CFBundleShortVersionString"]!
+//            let version = info["CFBundleVersion"]!
+            //versionLabel.text = "v \(version_short) (\(version))"
+            versionLabel.text = "\(version_short)"
             return cell
         }
         else{
