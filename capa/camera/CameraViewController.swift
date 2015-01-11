@@ -214,12 +214,19 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.device.addObserver(self, forKeyPath: "focusMode", options: .New, context: nil)
                 self.device.addObserver(self, forKeyPath: "flashMode", options: .New, context: nil)
                 self.session.startRunning()
+                
             }
         })
         
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        var error:NSError?
+        ///开始的时候都是自动对焦和测光
+        self.device.lockForConfiguration(&error)
+        self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
+        self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
+        self.device.unlockForConfiguration()
         ///正方形取景器
         self.finderView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
         self.finderView.updateViewFinder()
@@ -709,7 +716,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             
         
         self.device.unlockForConfiguration()
-        NSLog("Happy New Year")
     }
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
