@@ -35,6 +35,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         super.viewDidAppear(animated)
         self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: self.photoIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false) ///只有在viewDidAppear 中调用滚动才用
         self.collectionView.hidden = false
+        self.updateToolbar()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
