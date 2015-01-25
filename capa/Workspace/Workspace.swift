@@ -179,13 +179,16 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     }
     NSLog("imageOrientation:\(imageOrientation)")
     let originalImage = image.rotate(imageOrientation)
+    var thumbImage : UIImage!
     /// square
     if let squareMarginPercent_value = squareMarginPercent {
         let squareImage = originalImage.squareImage(squareMarginPercent: squareMarginPercent!)
         outputImageData = UIImageJPEGRepresentation(squareImage, 1.0)
+        thumbImage = squareImage.resizeImageWithTarget(100.0)
     }
     else{
         outputImageData = UIImageJPEGRepresentation(originalImage, 1.0)
+        thumbImage = originalImage.resizeImageWithTarget(100.0)
     }
     /// metadata
     let metadata = metadata_from_image_data(imageData, location: location)
@@ -205,7 +208,6 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     dest_data.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
     ///缩略图
-    let thumbImage = originalImage.resizeImageWithTarget(100.0)
     let thumbData = UIImageJPEGRepresentation(thumbImage, 1.0)
     let thumb_filename = "\(bundle)/thumb.jpg"
     thumbData.writeToFile(thumb_filename, atomically: true)
