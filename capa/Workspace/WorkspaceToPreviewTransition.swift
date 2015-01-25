@@ -79,7 +79,7 @@ class PreviewToWorkspacePopTransition:NSObject,UIViewControllerAnimatedTransitio
         /// 但是 WorkPreviewViewController 中可以滚动查看其他图片，所以我们正在查看的正在图片可能已经不在 WorksapceViewController 的 collectionView 的当前可见范围内了，这就要求我们在滚动 WorkPreviewViewController 中图片的时候，同步更新 WorkspaceViewController 中正在编辑(查看) 的图片
         let image = fromVc.editing_photo!.originalImage!
         let snap_image_view = UIImageView(image: image)
-//        snap_image_view.contentMode = UIViewContentMode.ScaleAspectFill
+        snap_image_view.contentMode = UIViewContentMode.ScaleAspectFill
         snap_image_view.clipsToBounds = true
         containerView.addSubview(snap_image_view)
         ///计算图片在 preview 中的开始位置
