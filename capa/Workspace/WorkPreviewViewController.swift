@@ -103,13 +103,20 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
+            var target_photoIndex = self.photoIndex + 1
             self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
                 let photo = self.photo_list[self.photoIndex]
                 photo.remove()
                 self.photo_list.removeAtIndex(self.photoIndex)
                 self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+                target_photoIndex = min(target_photoIndex,self.photo_list.count - 1)
+                target_photoIndex = max(target_photoIndex,0)
                 }, completion: { (completed) -> Void in
                     hud.hide(true, afterDelay: 1.0)
+                    self.photoIndex = target_photoIndex
+                    self.updateToolbar()
+                    NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
+                        object: NSNumber(integer: self.photoIndex))
             })
         }))
         self.presentViewController(alert, animated: true) { () -> Void in
@@ -120,6 +127,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
     @IBAction func onButtonSave(sender:UIButton!){
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         let photo = self.photo_list[self.photoIndex]
+        var target_photoIndex = self.photoIndex + 1
         photo.saveToCameraRoll { [unowned self]() -> () in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
@@ -127,8 +135,13 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
                     photo.remove()
                     self.photo_list.removeAtIndex(self.photoIndex)
                     self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+                    target_photoIndex = min(target_photoIndex,self.photo_list.count - 1)
+                    target_photoIndex = max(target_photoIndex,0)
                     }, completion: { (completed) -> Void in
                         hud.hide(true, afterDelay: 1.0)
+                        self.updateToolbar()
+                        NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
+                            object: NSNumber(integer: self.photoIndex))
                 })
             })
         }
