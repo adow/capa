@@ -74,7 +74,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var shuttleISOLabelView:UIView!
     @IBOutlet var filmButton:UIButton!
     @IBOutlet var settingButton:UIButton!
-    @IBOutlet var finderView:ViewFinder!    
+    @IBOutlet var squareMaskView:UIView!
+    @IBOutlet var sqaureConstraintTop:NSLayoutConstraint!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -222,20 +223,32 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var error:NSError?
-        ///开始的时候都是自动对焦和测光
-        self.device.lockForConfiguration(&error)
-        self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
-        self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
-        self.device.unlockForConfiguration()
-        ///正方形取景器
-        self.finderView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
-        self.finderView.updateViewFinder()
-        if !self.finderView.hidden {
-            let viewFrame = self.finderView.viewFrame
-            NSLog("viewFrame:%@", NSStringFromCGRect(viewFrame))
-            self.exposureView.limitsInFrame = viewFrame
-            self.focusView.limitsInFrame = viewFrame
+        if self.device != nil {
+            ///开始的时候都是自动对焦和测光
+            self.device.lockForConfiguration(&error)
+            self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
+            self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
+            self.device.unlockForConfiguration()
         }
+        ///正方形取景器
+        if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
+            let preview_width = self.previewView.frame.size.width
+            let preview_height : CGFloat = preview_width / (3/4)
+            let preview_top = (self.view.frame.size.height - preview_height) / 2.0
+            let preview_bottom = preview_top + preview_height
+            
+            var squareMaskFrame = self.squareMaskView.frame
+            let squareMaskTop = preview_top + preview_width
+            squareMaskFrame.origin.y = squareMaskTop
+            self.squareMaskView.frame = squareMaskFrame
+            self.sqaureConstraintTop.constant = squareMaskTop
+            self.squareMaskView.hidden = false
+        }
+        else{
+            self.squareMaskView.hidden = true
+        }
+        
+        
         ///快门拖动手势
         let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
@@ -332,8 +345,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 ///有正方形取景框的时候剪裁为正方形
-                if !self.finderView.hidden {
-                    save_to_workspace(imageData,self.cameraOriention,squareMarginPercent:self.finderView.squareMarginPercent,
+                if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
+                    save_to_workspace(imageData,self.cameraOriention,squareMarginPercent:0.0,
                         location: self.currentLocation)
                 }
                 else{

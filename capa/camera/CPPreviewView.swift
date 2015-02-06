@@ -24,7 +24,7 @@ class CPPreviewView:UIView{
         set{
             let layer=self.layer as AVCaptureVideoPreviewLayer
             layer.session=newValue
-            layer.videoGravity=AVLayerVideoGravityResizeAspectFill
+//            layer.videoGravity=AVLayerVideoGravityResizeAspectFill
         }
     }
 }
