@@ -135,7 +135,7 @@ func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
             }
         }        
     }
-    return photo_list
+    return photo_list.reverse()
 }
 /// 从数据中获取元数据信息
 private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
