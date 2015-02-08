@@ -53,8 +53,8 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         cell.layoutIfNeeded() ///要先调用一次layoutIfNeeded()，否则开始的几个cell的宽度还没有改变
         cell.collectionViewOnwer = collectionView
         let photo = self.photo_list[indexPath.row]
-//        cell.imageView.image = photo.originalImage!
-        cell.imageView.image = UIImage(contentsOfFile: photo.originalPath)
+        cell.imageView.image = photo.originalImage!
+//        cell.imageView.image = UIImage(contentsOfFile: photo.originalPath)
         cell.setupConstraints() ///根据图片设置新的约束条件
         return cell
     }

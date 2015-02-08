@@ -41,12 +41,12 @@ class PhotoModal:Equatable {
     let originalPath :String!
     var state :PhotoModalState
     var editing:Bool = false
-    lazy var thumgImage:UIImage? = {
+    var thumgImage:UIImage?{
         return UIImage(contentsOfFile: self.thumbPath)
-    }()
-    lazy var originalImage:UIImage? = {
+    }
+    var originalImage:UIImage?{
         return UIImage(contentsOfFile: self.originalPath)
-    }()
+    }
     init(bundlePath:String,thumbPath:String,originalPath:String,state:PhotoModalState){
         self.bundlePath = bundlePath
         self.thumbPath = thumbPath
