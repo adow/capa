@@ -222,42 +222,15 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        var error:NSError?
-        if self.device != nil {
-            ///开始的时候都是自动对焦和测光
-            self.device.lockForConfiguration(&error)
-            self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
-            self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
-            self.device.unlockForConfiguration()
-        }
-        ///正方形取景器
-        if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
-            let preview_width = self.previewView.frame.size.width
-            let preview_height : CGFloat = preview_width / (3/4)
-            let preview_top = (self.view.frame.size.height - preview_height) / 2.0
-            let preview_bottom = preview_top + preview_height
-            
-            var squareMaskFrame = self.squareMaskView.frame
-            let squareMaskTop = preview_top + preview_width
-            squareMaskFrame.origin.y = squareMaskTop
-            self.squareMaskView.frame = squareMaskFrame
-            self.sqaureConstraintTop.constant = squareMaskTop
-            self.squareMaskView.hidden = false
-        }
-        else{
-            self.squareMaskView.hidden = true
-        }
-        
-        
-        ///快门拖动手势
-        let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-        self.shuttleButton.addGestureRecognizer(shuttlePanGesture)
-        ///曝光补偿控件先设置到屏幕中央，不能直接设置曝光补偿，因为那样会锁定补偿
-        self.exposureView.center = self.previewView.center
-        self.exposureView.updateConstraints()
+        _resetExposureFocus()
+        _setFinderView()
+
         ///更新可用的ISO和快门速度
-        self.updateAvailableISOAndShuttles()
-        self._hideFilmSettingButton()
+        updateAvailableISOAndShuttles()
+        _hideFilmSettingButton()
+            ///快门拖动手势
+            let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+            shuttleButton.addGestureRecognizer(shuttlePanGesture)
         ///用来识别方向
         motionManager = CMMotionManager()
         motionManager.accelerometerUpdateInterval = 1.0
@@ -274,6 +247,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             locationManager?.requestWhenInUseAuthorization()
             locationManager?.startUpdatingLocation()
         }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onApplicationDidBecomeActiveNotification:", name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -292,6 +266,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.device.removeObserver(self, forKeyPath: "focusMode")
             self.device.removeObserver(self, forKeyPath: "flashMode")
         }
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -325,6 +300,40 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 //        }
     }
     // MARK: - Action
+    ///设置取景器
+    private func _setFinderView(){
+        ///正方形取景器
+        if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
+            let preview_width = self.previewView.frame.size.width
+            let preview_height : CGFloat = preview_width / (3/4)
+            let preview_top = (self.view.frame.size.height - preview_height) / 2.0
+            let preview_bottom = preview_top + preview_height
+            
+            var squareMaskFrame = self.squareMaskView.frame
+            let squareMaskTop = preview_top + preview_width
+            squareMaskFrame.origin.y = squareMaskTop
+            self.squareMaskView.frame = squareMaskFrame
+            self.sqaureConstraintTop.constant = squareMaskTop
+            self.squareMaskView.hidden = false
+        }
+        else{
+            self.squareMaskView.hidden = true
+        }
+    }
+    /// 重设自动曝光程序
+    private func _resetExposureFocus(){
+        var error:NSError?
+        if device != nil {
+            ///开始的时候都是自动对焦和测光
+            device.lockForConfiguration(&error)
+            device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
+            device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
+            device.unlockForConfiguration()
+        }
+        ///曝光补偿控件先设置到屏幕中央，不能直接设置曝光补偿，因为那样会锁定补偿
+        exposureView.center = previewView.center
+        exposureView.updateConstraints()
+    }
     private func _saveToPhotosAlbum(){
         if (self.captureOutput != nil){
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
@@ -742,6 +751,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         NSLog("location:%@", newLocation)
         self.currentLocation = newLocation
+    }
+    /// MARK: - Notification
+    func onApplicationDidBecomeActiveNotification(notification:NSNotification){
+        NSLog("applicationDidBecomeActive")
+        _resetExposureFocus()
     }
     /// MARK: - Test
     func testImageRotate(){
