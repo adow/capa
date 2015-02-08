@@ -24,6 +24,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2BJ-Ga-Hu2" userLabel="touchView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    </view>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="exposure: Auto, s: 0.1, iso: 640, bias:0.3, focus: Continues, p:3.1, flash: On" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw7-A0-nmd">
                                         <rect key="frame" x="0.0" y="32" width="600" height="184"/>
                                         <constraints>
@@ -94,6 +97,12 @@
                                             <outlet property="focusView" destination="HzM-TX-ySj" id="jRz-NK-iaK"/>
                                             <outlet property="lensPositionLabel" destination="OMv-f2-jOm" id="VXW-xF-lTy"/>
                                         </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMP-IX-ouw" userLabel="controlPanelView">
+                                        <rect key="frame" x="0.0" y="438" width="600" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="162" id="nGN-57-x2U"/>
+                                        </constraints>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-FZ-7UK" userLabel="shuttlepicker">
                                         <rect key="frame" x="230" y="430" width="50" height="162"/>
@@ -226,10 +235,14 @@
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="6" id="30i-gf-1ua"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
                                     <constraint firstItem="FNa-HV-RfY" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="224" id="7Ok-IU-2ve" userLabel="focus_constraints_top"/>
+                                    <constraint firstItem="ZMP-IX-ouw" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="7Yr-xP-JIn"/>
+                                    <constraint firstAttribute="trailing" secondItem="2BJ-Ga-Hu2" secondAttribute="trailing" id="9Xx-aX-mI0"/>
+                                    <constraint firstItem="2BJ-Ga-Hu2" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" id="Aru-KK-mDr"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
                                     <constraint firstAttribute="centerX" secondItem="VCp-FZ-7UK" secondAttribute="centerX" constant="45" id="Bd8-aE-vy5"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="C5d-Ke-H2M"/>
                                     <constraint firstAttribute="bottom" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="23" id="Cc9-oP-mdq"/>
+                                    <constraint firstAttribute="bottom" secondItem="2BJ-Ga-Hu2" secondAttribute="bottom" id="Cfy-vT-4lZ"/>
                                     <constraint firstAttribute="centerX" secondItem="jGc-oa-ASj" secondAttribute="centerX" constant="-45" id="DGP-5h-Iaz"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
@@ -241,6 +254,7 @@
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="104" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="38" id="UEx-hb-eok"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="1" id="VNn-0Z-ntd"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZMP-IX-ouw" secondAttribute="bottom" id="XBh-uk-GWL"/>
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="ZTn-ZN-JlW"/>
                                     <constraint firstAttribute="trailing" secondItem="GnW-EL-ewn" secondAttribute="trailing" constant="14" id="Zv3-jD-wgl"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
@@ -249,8 +263,10 @@
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="ewT-BI-nzA"/>
                                     <constraint firstItem="IlX-jn-6Ml" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="fFk-z6-orr"/>
                                     <constraint firstItem="GwY-x7-UgS" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="55" id="fzb-Tq-XC5" userLabel="exposure_constraints_top"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZMP-IX-ouw" secondAttribute="trailing" id="h5U-qp-wG3"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" constant="22" id="hvS-Oc-Qdw"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="iMb-OD-a1f"/>
+                                    <constraint firstItem="2BJ-Ga-Hu2" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="iQ1-ji-nip"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
                                     <constraint firstItem="FNa-HV-RfY" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="8" id="nBb-I5-3vt" userLabel="focus_constraints_left"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
@@ -325,6 +341,7 @@
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
                         <outlet property="sqaureConstraintTop" destination="Qux-xV-cbo" id="33m-IJ-uD5"/>
                         <outlet property="squareMaskView" destination="IlX-jn-6Ml" id="XgQ-g4-Pas"/>
+                        <outlet property="touchView" destination="2BJ-Ga-Hu2" id="RPI-i2-M6Q"/>
                         <outlet property="writingActivityView" destination="hne-f8-4Ds" id="3uh-mO-N97"/>
                     </connections>
                 </viewController>

@@ -66,6 +66,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var previewView:CPPreviewView!
     @IBOutlet var debugLabel:UILabel!
     @IBOutlet var orientationDebugLabel:UILabel!
+    @IBOutlet var touchView:UIView!
     @IBOutlet var focusView:FocusControl!
     @IBOutlet var exposureView:ExposureControl!
     @IBOutlet var shuttlesPickerView:UIPickerView!
@@ -192,9 +193,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.updateFlashMode()
                 
                 self.focusTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                self.previewView.addGestureRecognizer(self.focusTapGesture)
+                //self.previewView.addGestureRecognizer(self.focusTapGesture)
+                self.touchView.addGestureRecognizer(self.focusTapGesture)
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-                self.previewView.addGestureRecognizer(self.panGesture)
+//                self.previewView.addGestureRecognizer(self.panGesture)
+                self.touchView.addGestureRecognizer(self.panGesture)
                 
                 
             })
@@ -228,9 +231,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         ///更新可用的ISO和快门速度
         updateAvailableISOAndShuttles()
         _hideFilmSettingButton()
-            ///快门拖动手势
-            let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-            shuttleButton.addGestureRecognizer(shuttlePanGesture)
+        ///快门拖动手势
+        let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+        shuttleButton.addGestureRecognizer(shuttlePanGesture)
         ///用来识别方向
         motionManager = CMMotionManager()
         motionManager.accelerometerUpdateInterval = 1.0
@@ -382,7 +385,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         if (self.filmButton.alpha > 0.0) {
             return
         }
-        UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
             self.filmButton.alpha = 0.3
             self.settingButton.alpha = 0.3
             }) { (completed) -> Void in
@@ -408,7 +411,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     ///在 Preview 上拖动就可以设置曝光补偿，同时会出现测光点，这时可以修改测光点
     func onPanGesture(gesture:UIPanGestureRecognizer){
         /// 在preview 上拖动
-        if gesture.view === self.previewView {
+        if gesture.view === self.touchView {
             if gesture.state == UIGestureRecognizerState.Began {                
                 var error : NSError?
                 self.device.lockForConfiguration(&error)
@@ -418,10 +421,10 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 device.unlockForConfiguration()
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
-                let move = gesture.translationInView(self.previewView)
+                let move = gesture.translationInView(self.touchView)
                 if self.cameraOriention == AVCaptureVideoOrientation.Portrait || self.cameraOriention == AVCaptureVideoOrientation.PortraitUpsideDown {
                     if fabs(move.y) >= 10 {
-                        var bias = self.device.exposureTargetBias - Float(move.y / self.previewView.frame.size.height)
+                        var bias = self.device.exposureTargetBias - Float(move.y / self.touchView.frame.size.height)
                         bias = min(bias, self.device.maxExposureTargetBias)
                         bias = max(bias, self.device.minExposureTargetBias)
                         self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
@@ -431,7 +434,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 }
                 else if self.cameraOriention == AVCaptureVideoOrientation.LandscapeLeft || self.cameraOriention == AVCaptureVideoOrientation.LandscapeRight {
                     if fabs(move.x) >= 10 {
-                        var bias = self.device.exposureTargetBias + Float(move.x / self.previewView.frame.size.width)
+                        var bias = self.device.exposureTargetBias + Float(move.x / self.touchView.frame.size.width)
                         bias = min(bias, self.device.maxExposureTargetBias)
                         bias = max(bias, self.device.minExposureTargetBias)
                         self.device.setExposureTargetBias(bias, completionHandler: { (time) -> Void in
