@@ -27,7 +27,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Do any additional setup after loading the view.
 //        self.collection.allowsMultipleSelection = true
         
-        
         toolbar = WorkspaceToolbar.toolbar()
         (toolbar as WorkspaceToolbar).delegate = self
         self.collection.addSubview(toolbar)
@@ -231,6 +230,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
+        cell.setupGesture()
         cell.viewController = self
         cell.indexPath = indexPath
         let photo = photo_list![indexPath.row]
@@ -242,7 +242,9 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        NSLog("cell frame:%@", NSStringFromCGRect(cell.frame))
+        if self.editing_index == indexPath {
+            return
+        }
         self.editing_index = indexPath
         editing_photo?.editing = false ///把原来的状态修改
         let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
@@ -252,12 +254,21 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         var y = cell.frame.origin.y + cell.frame.size.height + 3.0
         x = fmax(x, 0)
         x = fmin(x, collectionView.frame.size.width - toolbar.frame.size.width)
-        toolbar.frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
-        toolbar.hidden = false
         let toolbar_m = toolbar as WorkspaceToolbar
         toolbar_m.photo = cell.photo
-        collectionView.reloadData()
-        
+//        toolbar.hidden = true
+        toolbar.hidden = false
+        let target_frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)
+        let start_frame = CGRectOffset(target_frame, 0.0, -10.0)
+        toolbar.frame = start_frame
+        toolbar.alpha = 0.0
+        UIView.animateWithDuration(0.3, animations:{ [unowned self]() -> Void in
+            self.toolbar.frame = target_frame
+            self.toolbar.alpha = 1.0
+        }) { [unowned self](completed) -> Void in
+        }
+       
+        //collectionView.reloadData()
         update_editing_cell_frame(cell)
     }
     /// MARK: - WorkspaceMarkerViewDelegate
@@ -351,7 +362,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     ///确定这个cell在整个view中的位置
     func update_editing_cell_frame(cell:UICollectionViewCell!){
         let cell_frame = cell.frame
-        var x = 0.0 + cell_frame.origin.x - self.collection.contentOffset.x
+        var x = 16.0 + cell_frame.origin.x - self.collection.contentOffset.x
         var y = self.collection.frame.origin.y + cell_frame.origin.y - self.collection.contentOffset.y
         /// 很奇怪的是，当这个 WorkspaceViewController 正在显示的时候，如果 collectionView 滚动到顶部，这时的 contentOffset.y 是 -64.0, 也就是一个导航条的高度;
         /// 但是如果这个 WorkspaceViewController 没有显示的时候，比如正在有 WorkPreviewViewController 来更新这个位置的时候, contetnOffset.y 在顶部时是 0.0;

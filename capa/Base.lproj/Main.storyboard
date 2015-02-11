@@ -361,8 +361,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dVl-YP-u6A">
-                                <rect key="frame" x="0.0" y="10" width="600" height="590"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dVl-YP-u6A">
+                                <rect key="frame" x="16" y="10" width="568" height="590"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="b0o-NH-7RS" customClass="WorkspaceLayout" customModule="capa" customModuleProvider="target"/>
                                 <cells>
@@ -400,9 +400,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="bottom" secondItem="Bvu-WA-w3I" secondAttribute="top" id="Fd1-xl-u0I"/>
-                            <constraint firstItem="dVl-YP-u6A" firstAttribute="trailing" secondItem="kif-HC-VNE" secondAttribute="trailingMargin" constant="16" id="ejk-vy-sEN"/>
+                            <constraint firstItem="dVl-YP-u6A" firstAttribute="trailing" secondItem="kif-HC-VNE" secondAttribute="trailingMargin" id="ejk-vy-sEN"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="top" constant="10" id="i4L-tv-OJ7"/>
-                            <constraint firstItem="dVl-YP-u6A" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="qV6-mK-33I"/>
+                            <constraint firstItem="dVl-YP-u6A" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" id="qV6-mK-33I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="85v-H3-b6E">

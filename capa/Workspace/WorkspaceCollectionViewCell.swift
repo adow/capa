@@ -37,6 +37,9 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+    }
+    func setupGesture(){
         if tapGesture == nil {
             tapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
             tapGesture?.numberOfTapsRequired = 2
