@@ -413,6 +413,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         /// 在preview 上拖动
         if gesture.view === self.touchView {
             if gesture.state == UIGestureRecognizerState.Began {                
+                self.exposureView.hidden = false
                 var error : NSError?
                 self.device.lockForConfiguration(&error)
                 self.device.exposureMode = AVCaptureExposureMode.Locked
@@ -618,9 +619,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     private func updateExposureMode(){
         let mode = self.device.exposureMode
 //        NSLog("updateExposureMode:\(mode)")
-        if mode == AVCaptureExposureMode.AutoExpose || mode == AVCaptureExposureMode.Locked{
-            self.exposureView.state = ExposureControl.State.Active
-        }
+        self.exposureView.updateState()
     }
     private func updateExposureISO(iso:Float = AVCaptureISOCurrent){
 //        NSLog("updateExposureISO:%f", iso)

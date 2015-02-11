@@ -60,9 +60,24 @@
                                             <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sun" translatesAutoresizingMaskIntoConstraints="NO" id="KlP-Bu-RWX">
                                                 <rect key="frame" x="85" y="35" width="24" height="24"/>
                                             </imageView>
+                                            <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TAK-XR-4f8">
+                                                <rect key="frame" x="38" y="6" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="OY5-za-nOS"/>
+                                                    <constraint firstAttribute="width" constant="24" id="XAk-xq-jx5"/>
+                                                </constraints>
+                                                <state key="normal" image="lock">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onButtonUnlock:" destination="GwY-x7-UgS" eventType="touchUpInside" id="9Iq-tb-dqw"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="3EA-rj-sgG"/>
+                                            <constraint firstAttribute="centerX" secondItem="TAK-XR-4f8" secondAttribute="centerX" id="CBl-aP-fF9"/>
+                                            <constraint firstItem="TAK-XR-4f8" firstAttribute="top" secondItem="GwY-x7-UgS" secondAttribute="top" constant="6" id="Vf0-NZ-Uez"/>
                                             <constraint firstAttribute="width" constant="100" id="wc1-N5-QCw"/>
                                         </constraints>
                                         <connections>
@@ -71,6 +86,7 @@
                                             <outlet property="constraintTop" destination="fzb-Tq-XC5" id="LGT-3z-xbG"/>
                                             <outlet property="exposureView" destination="JC8-Sw-ZNF" id="fgI-AZ-V3F"/>
                                             <outlet property="sunImageView" destination="KlP-Bu-RWX" id="N5G-r0-Wn5"/>
+                                            <outlet property="unlockButton" destination="TAK-XR-4f8" id="Qrg-yU-BNL"/>
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNa-HV-RfY" userLabel="focuscontrol" customClass="FocusControl" customModule="capa" customModuleProvider="target">
@@ -790,6 +806,7 @@
         <image name="download" width="132" height="132"/>
         <image name="film" width="22" height="22"/>
         <image name="flashlight2" width="400" height="400"/>
+        <image name="lock" width="24" height="24"/>
         <image name="mark-remove-hightlight" width="132" height="132"/>
         <image name="mark-remove-normal" width="132" height="132"/>
         <image name="mark-use" width="132" height="132"/>

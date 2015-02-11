@@ -11,49 +11,17 @@ import UIKit
 import AVFoundation
 
 class ExposureControl:UIView {
-    enum State:Int,Printable{
-        case Unvisible = 0, Visible = 1 , Active = 2
-        var description:String{
-            switch self {
-            case .Unvisible:
-                return "Unvisible"
-            case .Visible:
-                return "Visible"
-            case .Active:
-                return "Active"
-            }
-        }
-    }
     @IBOutlet var exposureView:UIView!
     @IBOutlet var biasLabel:UILabel!
     @IBOutlet var sunImageView:UIImageView!
+    @IBOutlet var unlockButton:UIButton!
     @IBOutlet var constraintTop:NSLayoutConstraint!
     @IBOutlet var constraintLeft:NSLayoutConstraint!
     var limitsInFrame:CGRect? = nil ///限制拖动的区域范围，如果是正方形取景器的话不能到外面
     var device:AVCaptureDevice!
-    var _state:State!
-    var state:State!{
-        get{
-            return _state
-        }
-        set{
-            _state = newValue
-            switch _state! {
-            case .Unvisible:
-                self.hidden = true
-            case .Visible:
-                self.hidden = false
-                self.alpha = 0.3
-            case .Active:
-                self.hidden = false
-                self.alpha = 0.9
-            }
-            println("exposureState:\(newValue)")
-        }
-    }
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.state = .Unvisible
+        self.hidden = true
         self.backgroundColor = UIColor.clearColor()
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         self.addGestureRecognizer(panGesture)
@@ -72,7 +40,7 @@ class ExposureControl:UIView {
             self.updateConstraints()
             var error:NSError?
             self.device.lockForConfiguration(&error)
-            self.device.exposureMode = AVCaptureExposureMode.AutoExpose
+            self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
             self.device.exposurePointOfInterest = center
             self.device.setExposureTargetBias(0, completionHandler: { (time) -> Void in
                 
@@ -95,7 +63,6 @@ class ExposureControl:UIView {
     }
     ///修改测光点，停下的时候才会确定最后的测光点并开始用自动测光
     func onPanGesture(gesture:UIPanGestureRecognizer){
-        if self.state == .Active {
             if gesture.state == UIGestureRecognizerState.Began {
                 self.superview!.bringSubviewToFront(self)
             }
@@ -119,7 +86,6 @@ class ExposureControl:UIView {
                 self.center = point
                 self.updateConstraints()
             }
-        }
     }
     override func updateConstraints() {
         self.constraintLeft.constant = self.frame.origin.x
@@ -142,5 +108,25 @@ class ExposureControl:UIView {
         CGContextSetFillColorWithColor(context, fillColor.CGColor)
         CGContextFillEllipseInRect(context, innerRect)
         CGContextRestoreGState(context)
+    }
+    func updateState(){
+        if device == nil {
+            return
+        }
+        switch device.exposureMode {
+        case AVCaptureExposureMode.AutoExpose,AVCaptureExposureMode.ContinuousAutoExposure:
+            unlockButton.hidden = true
+        case AVCaptureExposureMode.Custom,AVCaptureExposureMode.Locked:
+            unlockButton.hidden = false
+        }
+    }
+    @IBAction func onButtonUnlock(sender:UIButton!){
+        var error:NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
+        self.device.setExposureTargetBias(0, completionHandler: { (time) -> Void in
+            
+        })
+        self.device.unlockForConfiguration()
     }
 }
