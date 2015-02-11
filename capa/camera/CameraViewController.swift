@@ -668,9 +668,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     private func updateFocusMode(){
         let mode = self.device.focusMode
 //        NSLog("updateFocusMode:\(mode)")
-        if mode == AVCaptureFocusMode.AutoFocus {
-            self.focusView.state = FocusControl.State.Active
-        }
     }
     private func updateFocusLensPosition(lensPosition:Float = AVCaptureLensPositionCurrent){
 //        NSLog("updateFocusLensPosition:%f", lensPosition)
