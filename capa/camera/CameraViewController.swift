@@ -16,6 +16,7 @@ import CoreLocation
 
 let kGPS = "kGPS"
 let kSQUARE = "kSQUARE"
+let kHIDEGUIDE = "kHIDEGUIDE"
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -77,6 +78,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet var settingButton:UIButton!
     @IBOutlet var squareMaskView:UIView!
     @IBOutlet var sqaureConstraintTop:NSLayoutConstraint!
+    @IBOutlet weak var guideView:UIVisualEffectView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -207,6 +209,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
+        guideView.hidden = NSUserDefaults.standardUserDefaults().boolForKey(kHIDEGUIDE)
         dispatch_async(self.sessionQueue, { () -> Void in
             if self.device != nil {
                 self.device.addObserver(self,forKeyPath: "exposureDuration",options: .New ,context: nil)
@@ -279,28 +282,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         return true
     }
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-//        if (layer.connection != nil ){
-//            layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
-//        }
     }
     override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-//        if (layer.connection != nil ){
-//            layer.connection.videoOrientation = AVCaptureVideoOrientation(ui: toInterfaceOrientation)
-//        }
     }
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-//        let layer=self.previewView.layer as AVCaptureVideoPreviewLayer
-//        if (layer.connection != nil ){
-//            if size.width == 320.0 {
-//                layer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-//            }
-//            else if size.width == 480.0 {
-//                layer.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
-//            }
-//        }
     }
     // MARK: - Action
     ///设置取景器
@@ -399,6 +385,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }) { (completed) -> Void in
                 
         }
+    }
+    @IBAction func onButtonCloseGuide(sender:UIButton!){
+        guideView.hidden = true
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDEGUIDE)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     // MARK: - Gesture
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置
