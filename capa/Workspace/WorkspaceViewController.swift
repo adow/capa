@@ -13,6 +13,8 @@ let kWorkspaceScrollPhotoNotification = "kWorkspaceScrollPhotoNotification"
 class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet weak var collection:UICollectionView!
     @IBOutlet weak var filterSegment:UISegmentedControl!
+    @IBOutlet weak var leftConstraint:NSLayoutConstraint!
+    @IBOutlet weak var rightConstraint:NSLayoutConstraint!
     var photo_list:[PhotoModal]? = [PhotoModal]()
     var toolbar : UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
@@ -34,7 +36,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
           
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationScrollPhoto:", name: kWorkspaceScrollPhotoNotification, object: nil)
        
-
+        
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -44,6 +46,18 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.is_vc_visible = true
+        
+        ///设置collectionView 的边距
+        let screen_width = view.frame.size.width
+        if screen_width <= 320.0 {
+            leftConstraint.constant = -11.0
+            rightConstraint.constant = 11.0
+        }
+        else{
+            leftConstraint.constant = 0.0
+            rightConstraint.constant = 0.0
+        }
+        
         self.reload_photo_list()
     }
     override func viewDidDisappear(animated: Bool) {
@@ -362,7 +376,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
     ///确定这个cell在整个view中的位置
     func update_editing_cell_frame(cell:UICollectionViewCell!){
         let cell_frame = cell.frame
-        var x = 16.0 + cell_frame.origin.x - self.collection.contentOffset.x
+        var x = 16.0 + leftConstraint.constant + cell_frame.origin.x - self.collection.contentOffset.x
         var y = self.collection.frame.origin.y + cell_frame.origin.y - self.collection.contentOffset.y
         /// 很奇怪的是，当这个 WorkspaceViewController 正在显示的时候，如果 collectionView 滚动到顶部，这时的 contentOffset.y 是 -64.0, 也就是一个导航条的高度;
         /// 但是如果这个 WorkspaceViewController 没有显示的时候，比如正在有 WorkPreviewViewController 来更新这个位置的时候, contetnOffset.y 在顶部时是 0.0;
