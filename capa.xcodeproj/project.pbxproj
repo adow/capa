@@ -70,6 +70,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		685EEFA11A8C97230095BFDA /* capa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = capa.entitlements; sourceTree = "<group>"; };
+		685EEFA21A8C97380095BFDA /* todayopen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = todayopen.entitlements; sourceTree = "<group>"; };
 		686D37311A55887F0095EBEF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6876CE781A5B8B1900B426F8 /* todayopen.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = todayopen.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6876CE791A5B8B1900B426F8 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -139,6 +141,7 @@
 		6876CE7B1A5B8B1900B426F8 /* todayopen */ = {
 			isa = PBXGroup;
 			children = (
+				685EEFA21A8C97380095BFDA /* todayopen.entitlements */,
 				6876CE7E1A5B8B1900B426F8 /* TodayViewController.swift */,
 				6876CE801A5B8B1900B426F8 /* MainInterface.storyboard */,
 				6876CE7C1A5B8B1900B426F8 /* Supporting Files */,
@@ -190,6 +193,7 @@
 		6884755319E6D7E100F0A416 /* capa */ = {
 			isa = PBXGroup;
 			children = (
+				685EEFA11A8C97230095BFDA /* capa.entitlements */,
 				68B105A31A5E60A600CC6C2E /* transition */,
 				68B105751A5E5CBE00CC6C2E /* extension */,
 				68B105861A5E5CBE00CC6C2E /* camera */,
@@ -328,9 +332,21 @@
 				TargetAttributes = {
 					6876CE771A5B8B1900B426F8 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 977Q568972;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					6884755019E6D7E100F0A416 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 977Q568972;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -448,6 +464,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = todayopen/todayopen.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -456,6 +475,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -464,10 +484,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = todayopen/todayopen.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = todayopen/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -553,10 +577,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = capa/capa.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = capa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "capa/Capa-Swift-Header.h";
 			};
 			name = Debug;
@@ -565,10 +593,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = capa/capa.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = capa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "capa/Capa-Swift-Header.h";
 			};
 			name = Release;
