@@ -11,8 +11,8 @@ import UIKit
 import AVFoundation
 
 class ViewFinder:UIView {
-    @IBOutlet var maskTopView:UIView!
-    @IBOutlet var maskBottomView:UIView!
+    @IBOutlet weak var maskTopView:UIView!
+    @IBOutlet weak var maskBottomView:UIView!
     let squareMargin:CGFloat = 60.0
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

@@ -65,16 +65,6 @@ class PhotoModal:Equatable {
             let source = CGImageSourceCreateWithData(imageData, nil)
             let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
 
-            ///
-//            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage,
-//                orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!,
-//                completionBlock: {
-//                (url,error)-> () in
-////                NSLog("save to:%@", url)
-//                    if let callback_value = callback {
-//                        callback_value()
-//                    }
-//            })
             ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, metadata: metadata, completionBlock: { (url, error) -> Void in
                 if let callback_value = callback {
                     callback_value()
@@ -159,6 +149,7 @@ private func metadata_from_image_data (imageData:NSData,location:CLLocation? = n
     NSLog("metadata:%@", metadata_mutable)
     return metadata_mutable
 }
+///写入照片到工作区
 func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,squareMarginPercent:CGFloat? = nil,
     location:CLLocation? = nil)->PhotoModal{
     var outputImageData:NSData! ///输出的照片数据内容
@@ -177,7 +168,7 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     default:
         imageOrientation = UIImageOrientation.Up
     }
-    NSLog("imageOrientation:\(imageOrientation)")
+//    NSLog("imageOrientation:\(imageOrientation)")
     let originalImage = image.rotate(imageOrientation)
     var thumbImage : UIImage!
     /// square

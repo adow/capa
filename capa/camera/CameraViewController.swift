@@ -62,22 +62,22 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     var locationManager:CLLocationManager? = nil
     var currentLocation:CLLocation? = nil
     // MARK: - UI
-    @IBOutlet var shuttleButton:UIButton!
-    @IBOutlet var flashButton:FlashButton!
-    @IBOutlet var previewView:CPPreviewView!
-    @IBOutlet var debugLabel:UILabel!
-    @IBOutlet var orientationDebugLabel:UILabel!
-    @IBOutlet var touchView:UIView!
-    @IBOutlet var focusView:FocusControl!
-    @IBOutlet var exposureView:ExposureControl!
-    @IBOutlet var shuttlesPickerView:UIPickerView!
-    @IBOutlet var isoPickerView:UIPickerView!
-    @IBOutlet var writingActivityView:UIActivityIndicatorView!
-    @IBOutlet var shuttleISOLabelView:UIView!
-    @IBOutlet var filmButton:UIButton!
-    @IBOutlet var settingButton:UIButton!
-    @IBOutlet var squareMaskView:UIView!
-    @IBOutlet var sqaureConstraintTop:NSLayoutConstraint!
+    @IBOutlet weak var shuttleButton:UIButton!
+    @IBOutlet weak var flashButton:FlashButton!
+    @IBOutlet weak var previewView:CPPreviewView!
+    @IBOutlet weak var debugLabel:UILabel!
+    @IBOutlet weak var orientationDebugLabel:UILabel!
+    @IBOutlet weak var touchView:UIView!
+    @IBOutlet weak var focusView:FocusControl!
+    @IBOutlet weak var exposureView:ExposureControl!
+    @IBOutlet weak var shuttlesPickerView:UIPickerView!
+    @IBOutlet weak var isoPickerView:UIPickerView!
+    @IBOutlet weak var writingActivityView:UIActivityIndicatorView!
+    @IBOutlet weak var shuttleISOLabelView:UIView!
+    @IBOutlet weak var filmButton:UIButton!
+    @IBOutlet weak var settingButton:UIButton!
+    @IBOutlet weak var squareMaskView:UIView!
+    @IBOutlet weak var sqaureConstraintTop:NSLayoutConstraint!
     @IBOutlet weak var guideView:UIVisualEffectView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
@@ -371,7 +371,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         if (self.filmButton.alpha > 0.0) {
             return
         }
-        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn,
+            animations: { [unowned self]() -> Void in
             self.filmButton.alpha = 0.3
             self.settingButton.alpha = 0.3
             }) { (completed) -> Void in
@@ -379,7 +380,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
     }
     private func _hideFilmSettingButton(){
-        UIView.animateWithDuration(3.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+        UIView.animateWithDuration(3.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseIn,
+            animations: { [unowned self]() -> Void in
             self.filmButton.alpha = 0.0
             self.settingButton.alpha = 0.0
             }) { (completed) -> Void in

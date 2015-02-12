@@ -702,9 +702,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" id="Ntc-Rf-lB2">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="i30-Ln-rnO"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Ntc-Rf-lB2"/>
                     <connections>
                         <outlet property="buttonRemove" destination="0d4-c2-yRa" id="Zxt-A6-Wc7"/>
                         <outlet property="buttonUse" destination="VU8-SE-nWL" id="sKO-Xb-vk0"/>

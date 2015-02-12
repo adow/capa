@@ -364,13 +364,6 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             
             let cell = self.collectionView(self.collection, cellForItemAtIndexPath: index_path)
             self.update_editing_cell_frame(cell)
-            //let cell = self.collection.cellForItemAtIndexPath(index_path) /// 使用 cellForItemAtIndexPath 在不可见的时候会返回 nil
-//            if let cell_value = cell { ///按道理这里的 cell 是不会 nil 的，但是实际上有时在最后一个 cell 时，得到的却是 nil(因为不可见)， 这样的话 editing_cell_frame 没有更新，回来的动画可能会不正确
-//                self.update_editing_cell_frame(cell_value)
-//            }
-//            else{
-//                NSLog("cell is nil:%d",index_path.row)
-//            }
         }
     }
     ///确定这个cell在整个view中的位置

@@ -104,11 +104,11 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
             
         }))
-        alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "删除", style: UIAlertActionStyle.Default, handler: { [unowned self](action) -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
             var target_photoIndex = self.photoIndex
-            self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+            self.collectionView.performBatchUpdates({() -> Void in
                 let photo = self.photo_list[self.photoIndex]
                 photo.remove()
                 self.photo_list.removeAtIndex(self.photoIndex)
@@ -135,7 +135,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         photo.saveToCameraRoll { [unowned self]() -> () in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
-                self.collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                self.collectionView.performBatchUpdates({() -> Void in
                     photo.remove()
                     self.photo_list.removeAtIndex(self.photoIndex)
                     self.collectionView.deleteItemsAtIndexPaths([indexPath,])

@@ -11,12 +11,12 @@ import UIKit
 import AVFoundation
 
 class ExposureControl:UIView {
-    @IBOutlet var exposureView:UIView!
-    @IBOutlet var biasLabel:UILabel!
-    @IBOutlet var sunImageView:UIImageView!
-    @IBOutlet var unlockButton:UIButton!
-    @IBOutlet var constraintTop:NSLayoutConstraint!
-    @IBOutlet var constraintLeft:NSLayoutConstraint!
+    @IBOutlet weak var exposureView:UIView!
+    @IBOutlet weak var biasLabel:UILabel!
+    @IBOutlet weak var sunImageView:UIImageView!
+    @IBOutlet weak var unlockButton:UIButton!
+    @IBOutlet weak var constraintTop:NSLayoutConstraint!
+    @IBOutlet weak var constraintLeft:NSLayoutConstraint!
     var limitsInFrame:CGRect? = nil ///限制拖动的区域范围，如果是正方形取景器的话不能到外面
     var device:AVCaptureDevice!
     required init(coder aDecoder: NSCoder) {

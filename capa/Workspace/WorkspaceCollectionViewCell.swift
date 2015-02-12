@@ -9,10 +9,10 @@
 import UIKit
 
 class WorkspaceCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var thumbImageView:UIImageView!
-    @IBOutlet var useMarkButton:UIButton!
-    @IBOutlet var removeMarkButton:UIButton!
-    @IBOutlet var markImageView:UIImageView!
+    @IBOutlet weak var thumbImageView:UIImageView!
+    @IBOutlet weak var useMarkButton:UIButton!
+    @IBOutlet weak var removeMarkButton:UIButton!
+    @IBOutlet weak var markImageView:UIImageView!
     var indexPath:NSIndexPath!
     weak var viewController:WorkspaceViewController!
     var tapGesture:UITapGestureRecognizer?

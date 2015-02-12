@@ -11,11 +11,11 @@ import UIKit
 import AVFoundation
 
 class FocusControl:UIView {
-    @IBOutlet var focusView:UIView!
-    @IBOutlet var lensPositionLabel:UILabel!
+    @IBOutlet weak var focusView:UIView!
+    @IBOutlet weak var lensPositionLabel:UILabel!
+    @IBOutlet weak var constraintTop:NSLayoutConstraint!
+    @IBOutlet weak var constraintLeft:NSLayoutConstraint!
     var device:AVCaptureDevice!
-    @IBOutlet var constraintTop:NSLayoutConstraint!
-    @IBOutlet var constraintLeft:NSLayoutConstraint!
     var limitsInFrame:CGRect? = nil ///限制拖动的区域范围，如果是正方形取景器的话不能到外面
     
     required init(coder aDecoder: NSCoder) {
