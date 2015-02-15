@@ -17,6 +17,7 @@ import CoreLocation
 let kGPS = "kGPS"
 let kSQUARE = "kSQUARE"
 let kHIDEGUIDE = "kHIDEGUIDE"
+let kDEBUG = "kDEBUG"
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -228,6 +229,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        debugLabel.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
         _resetExposureFocus()
         _setFinderView()
 

@@ -9,6 +9,7 @@
 import UIKit
 
 class SettingsViewController: UITableViewController {
+    var showDebugItem:Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,15 +37,22 @@ class SettingsViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().setBool(sender.on, forKey: kGPS)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    @IBAction func onSwitchDebug(sender:UISwitch){
+        NSUserDefaults.standardUserDefaults().setBool(sender.on, forKey: kDEBUG)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return showDebugItem ? 3 : 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 2
+        }
+        else if section == 1{
+            return 1
         }
         else{
             return 1
@@ -54,8 +62,14 @@ class SettingsViewController: UITableViewController {
         if section == 0 {
             return "操作"
         }
-        else{
+        else if section == 1{
             return "关于"
+        }
+        else if section == 2 {
+            return "调试"
+        }
+        else{
+            return ""
         }
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -88,6 +102,12 @@ class SettingsViewController: UITableViewController {
 //            let version = info["CFBundleVersion"]!
             //versionLabel.text = "v \(version_short) (\(version))"
             versionLabel.text = "\(version_short)"
+            return cell
+        }
+        else if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("setting-debug") as UITableViewCell
+            let switch_debug = cell.viewWithTag(100) as UISwitch
+            switch_debug.on = NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
             return cell
         }
         else{
