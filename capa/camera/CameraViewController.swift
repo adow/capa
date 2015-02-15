@@ -355,9 +355,16 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
     }
     @IBAction func onShuttleButton(sender:UIButton!){
-//        self._saveToPhotosAlbum()
+        UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
+           self.previewView.alpha = 0.0
+        }) { (completed) -> Void in
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+               self.previewView.alpha = 1.0
+            }, completion: { (completed) -> Void in
+                
+            })
+        }
         self._saveToWorkspace()
-//        NSLog("capture photo")
         
     }
     @IBAction func onFlashButton(sender:FlashButton!){
