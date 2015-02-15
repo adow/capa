@@ -227,6 +227,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                         hud_value.hide(true)
                     }
                     self.reset_editing()
+                    self.collection.reloadData()
             })
             
         }
@@ -248,15 +249,17 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         cell.viewController = self
         cell.indexPath = indexPath
         let photo = photo_list![indexPath.row]
-//        cell.thumbImageView.image = photo.originalImage!
-        cell.thumbImageView.image = photo.thumgImage!
         cell.photo = photo
+//        cell.thumbImageView.image = photo.originalImage!
+        if let thumbImage = photo.thumgImage {
+            cell.thumbImageView.image = thumbImage
+        }
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
 //        println("\(indexPath.row):\(photo.state)")
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if self.editing_index == indexPath {
+        if self.editing_index == indexPath && indexPath.row > 0 {
             return
         }
         self.editing_index = indexPath
@@ -359,7 +362,9 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
                 }
             }
             if !cell_visible {
-                self.collection.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: false)
+                self.collection.scrollToItemAtIndexPath(index_path,
+                    atScrollPosition: UICollectionViewScrollPosition.CenteredVertically,
+                    animated: false)
             }
             
             let cell = self.collectionView(self.collection, cellForItemAtIndexPath: index_path)
