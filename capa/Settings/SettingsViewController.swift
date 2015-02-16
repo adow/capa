@@ -57,6 +57,7 @@ class SettingsViewController: UITableViewController {
     }
     @IBAction func onSwitchGuide(sender:UISwitch){
         NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDE)
+        NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDEWORKSPACE)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 

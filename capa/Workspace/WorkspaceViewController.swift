@@ -9,12 +9,13 @@
 import UIKit
 
 let kWorkspaceScrollPhotoNotification = "kWorkspaceScrollPhotoNotification"
-
+let kHIDEGUIDEWORKSPACE = "kHIDEGUIDEWORKSPACE"
 class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,WorkspaceToolbarDelegate {
     @IBOutlet weak var collection:UICollectionView!
     @IBOutlet weak var filterSegment:UISegmentedControl!
     @IBOutlet weak var leftConstraint:NSLayoutConstraint!
     @IBOutlet weak var rightConstraint:NSLayoutConstraint!
+    @IBOutlet weak var guideView:UIVisualEffectView!
     var photo_list:[PhotoModal]? = [PhotoModal]()
     var toolbar : UIView!
     var editing_photo : PhotoModal? = nil ///正在编辑的照片
@@ -33,7 +34,10 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         (toolbar as WorkspaceToolbar).delegate = self
         self.collection.addSubview(toolbar)
         toolbar.hidden = true
-          
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+        guideView.addGestureRecognizer(tapGesture)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationScrollPhoto:", name: kWorkspaceScrollPhotoNotification, object: nil)
        
         
@@ -42,6 +46,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         super.viewWillAppear(animated)
 //        self.reload_photo_list()
         toolbar.hidden = true
+        guideView.hidden = NSUserDefaults.standardUserDefaults().boolForKey(kHIDEGUIDEWORKSPACE)
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -233,6 +238,12 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
         
         
+    }
+    // MARK: - UIGesture
+    func onTapGesture(gesture:UIGestureRecognizer){
+        guideView.hidden = true
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDEGUIDEWORKSPACE)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     // MARK: - UICollectionView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -495,12 +495,33 @@
                                     <outlet property="delegate" destination="6EE-lL-CXt" id="Tx8-gA-Qcm"/>
                                 </connections>
                             </collectionView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYC-nA-68r" userLabel="guideView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VC1-gw-orT">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guide_6" translatesAutoresizingMaskIntoConstraints="NO" id="SlP-0B-0cP">
+                                            <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="SlP-0B-0cP" secondAttribute="centerX" id="8u9-bF-Dvo"/>
+                                        <constraint firstAttribute="centerY" secondItem="SlP-0B-0cP" secondAttribute="centerY" id="KXz-Eu-VWX"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="bottom" secondItem="Bvu-WA-w3I" secondAttribute="top" id="Fd1-xl-u0I"/>
+                            <constraint firstItem="FYC-nA-68r" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="Iax-II-4bS"/>
+                            <constraint firstItem="FYC-nA-68r" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="topMargin" id="LUb-ef-zPD"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="trailing" secondItem="kif-HC-VNE" secondAttribute="trailingMargin" constant="16" id="ejk-vy-sEN" userLabel="rightConstraint"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="top" secondItem="kif-HC-VNE" secondAttribute="top" constant="10" id="i4L-tv-OJ7"/>
+                            <constraint firstItem="Bvu-WA-w3I" firstAttribute="top" secondItem="FYC-nA-68r" secondAttribute="bottom" id="m2o-VB-Arg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FYC-nA-68r" secondAttribute="trailing" constant="-16" id="mWF-zS-y91"/>
                             <constraint firstItem="dVl-YP-u6A" firstAttribute="leading" secondItem="kif-HC-VNE" secondAttribute="leadingMargin" constant="-16" id="qV6-mK-33I" userLabel="leftConstraint"/>
                         </constraints>
                     </view>
@@ -532,6 +553,7 @@
                     <connections>
                         <outlet property="collection" destination="dVl-YP-u6A" id="nfG-Ep-VPD"/>
                         <outlet property="filterSegment" destination="Key-A2-Bt9" id="CS6-x2-S69"/>
+                        <outlet property="guideView" destination="FYC-nA-68r" id="Jsf-Wu-bnZ"/>
                         <outlet property="leftConstraint" destination="qV6-mK-33I" id="HrO-Cl-ALU"/>
                         <outlet property="rightConstraint" destination="ejk-vy-sEN" id="Z5G-Zt-Tmf"/>
                         <segue destination="deI-4t-3JP" kind="show" identifier="segue_workspace_preview" id="yDm-kS-tfr"/>
@@ -962,6 +984,7 @@
         <image name="guide_3" width="200" height="200"/>
         <image name="guide_4" width="200" height="200"/>
         <image name="guide_5" width="200" height="200"/>
+        <image name="guide_6" width="300" height="300"/>
         <image name="lock" width="24" height="24"/>
         <image name="mark-remove-hightlight" width="132" height="132"/>
         <image name="mark-remove-normal" width="132" height="132"/>
