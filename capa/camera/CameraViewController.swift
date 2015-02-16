@@ -407,7 +407,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: - Gesture
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置
     func onTapGesture(gesture:UITapGestureRecognizer){
-        if gesture.view == self.previewView {
+        if gesture.view == self.touchView {
             let center = gesture.locationInView(self.previewView)
             let focus_x = center.x / self.previewView.frame.size.width
             let focus_y = center.y / self.previewView.frame.size.height
