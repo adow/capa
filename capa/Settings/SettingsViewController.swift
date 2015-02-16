@@ -55,6 +55,10 @@ class SettingsViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().setBool(sender.on, forKey: kDEBUG)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    @IBAction func onSwitchGuide(sender:UISwitch){
+        NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDE)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -69,7 +73,7 @@ class SettingsViewController: UITableViewController {
             return 1
         }
         else{
-            return 1
+            return 2
         }
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -119,10 +123,18 @@ class SettingsViewController: UITableViewController {
             return cell
         }
         else if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("setting-debug") as UITableViewCell
-            let switch_debug = cell.viewWithTag(100) as UISwitch
-            switch_debug.on = NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-debug") as UITableViewCell
+                let switch_debug = cell.viewWithTag(100) as UISwitch
+                switch_debug.on = NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
+                return cell
+            }
+            else{
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-guide") as UITableViewCell
+                let switch_guide = cell.viewWithTag(100) as UISwitch
+                switch_guide.on = !NSUserDefaults.standardUserDefaults().boolForKey(kHIDEGUIDE)
+                return cell
+            }
         }
         else{
             let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as UITableViewCell
