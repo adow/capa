@@ -15,6 +15,7 @@ class FocusControl:UIView {
     @IBOutlet weak var lensPositionLabel:UILabel!
     @IBOutlet weak var constraintTop:NSLayoutConstraint!
     @IBOutlet weak var constraintLeft:NSLayoutConstraint!
+    @IBOutlet weak var unlockButton:UIButton!
     var device:AVCaptureDevice!
     var limitsInFrame:CGRect? = nil ///限制拖动的区域范围，如果是正方形取景器的话不能到外面
     
@@ -40,7 +41,7 @@ class FocusControl:UIView {
             self.updateConstraints()
             var error:NSError?
             self.device.lockForConfiguration(&error)
-            self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
+            self.device.focusMode = AVCaptureFocusMode.AutoFocus
             self.device.focusPointOfInterest = center
             self.device.unlockForConfiguration()
         }
@@ -87,6 +88,22 @@ class FocusControl:UIView {
         CGContextSetLineWidth(context, 1.0)
         CGContextStrokeRect(context, self.focusView.frame)
         CGContextRestoreGState(context)
-    
+    }
+    func updateState(){
+        if device == nil {
+            return
+        }
+        switch device.focusMode {
+        case .AutoFocus,.ContinuousAutoFocus:
+            unlockButton.hidden = true
+        case .Locked:
+            unlockButton.hidden = false
+        }
+    }
+    @IBAction func onButtonUnlock(sender:UIButton!){
+        var error:NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.focusMode = AVCaptureFocusMode.ContinuousAutoFocus
+        self.device.unlockForConfiguration()
     }
 }

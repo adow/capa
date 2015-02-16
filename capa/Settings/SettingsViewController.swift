@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     var showDebugItem:Bool = false
-    var command_path = "http://codingnext.com/capa/debug.json"
+    let command_path = "http://codingnext.com/capa/debug.json"
     override func viewDidLoad() {
         super.viewDidLoad()
 
