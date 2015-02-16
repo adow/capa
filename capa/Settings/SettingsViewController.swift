@@ -21,11 +21,11 @@ class SettingsViewController: UITableViewController {
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        http_get_json(NSURL(string: command_path)!, { [unowned self](json) -> () in
+        http_get_json(NSURL(string: command_path)!, { [weak self](json) -> () in
             if let dict = json as? [String:String] {
                 let debug = dict["debug"]!.toInt()!
-                self.showDebugItem = Bool(debug)
-                self.tableView.reloadData()
+                self?.showDebugItem = Bool(debug)
+                self?.tableView.reloadData()
             
             }
             

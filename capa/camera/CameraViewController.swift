@@ -18,7 +18,7 @@ let kGPS = "kGPS"
 let kSQUARE = "kSQUARE"
 let kHIDEGUIDE = "kHIDEGUIDE"
 let kDEBUG = "kDEBUG"
-class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate{
+class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
@@ -80,10 +80,13 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet weak var squareMaskView:UIView!
     @IBOutlet weak var sqaureConstraintTop:NSLayoutConstraint!
     @IBOutlet weak var guideView:UIVisualEffectView!
+    @IBOutlet weak var guideScrollView:UIScrollView!
+    @IBOutlet weak var guidePage:UIPageControl!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
     var panGesture : UIPanGestureRecognizer!
+    var guideTapGesture:UITapGestureRecognizer!
     var motionManager:CMMotionManager!
     var cameraOriention:AVCaptureVideoOrientation!{
         /// 设置完之后更新相机方向
@@ -120,6 +123,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     }
     /// shuttle 按钮在开始时的位置
     var shuttleButtonCenterStart:CGPoint = CGPoint(x: 0, y: 0)
+    let totalGuides = 5 ///引导页数量
     // MARK: - ViewController
     override func viewDidLoad() {
         self.view.layer.anchorPoint = CGPoint(x: 0.5, y:1.0)
@@ -136,12 +140,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.shuttlesPickerView.layer.shadowOpacity = 0.9
         self.shuttlesPickerView.layer.shadowRadius = 3.0
         self.shuttlesPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
-//        self.shuttlesPickerView.layer.shadowPath = UIBezierPath(rect: self.shuttlesPickerView.layer.bounds).CGPath
         self.isoPickerView.layer.shadowColor = UIColor.blackColor().CGColor
         self.isoPickerView.layer.shadowOpacity = 0.9
         self.isoPickerView.layer.shadowRadius = 3.0
         self.isoPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
-//        self.isoPickerView.layer.shadowPath = UIBezierPath(rect: self.isoPickerView.layer.bounds).CGPath
+        
+        self.guideScrollView.contentSize = CGSize(width: 200.0 * CGFloat(totalGuides), height: 200.0)
         
         session = AVCaptureSession()
         self.previewView.session=session
@@ -196,16 +200,14 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.updateFlashMode()
                 
                 self.focusTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                //self.previewView.addGestureRecognizer(self.focusTapGesture)
                 self.touchView.addGestureRecognizer(self.focusTapGesture)
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-//                self.previewView.addGestureRecognizer(self.panGesture)
                 self.touchView.addGestureRecognizer(self.panGesture)
-                
+                self.guideTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+                self.guideView.addGestureRecognizer(self.guideTapGesture)
                 
             })
         }
-//        self.testImageRotate()
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -405,10 +407,24 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     // MARK: - Gesture
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置
     func onTapGesture(gesture:UITapGestureRecognizer){
-        let center = gesture.locationInView(self.previewView)
-        let focus_x = center.x / self.previewView.frame.size.width
-        let focus_y = center.y / self.previewView.frame.size.height
-        self.focusView.updateFocusPointOfInterest(CGPoint(x: focus_x, y: focus_y))
+        if gesture.view == self.previewView {
+            let center = gesture.locationInView(self.previewView)
+            let focus_x = center.x / self.previewView.frame.size.width
+            let focus_y = center.y / self.previewView.frame.size.height
+            self.focusView.updateFocusPointOfInterest(CGPoint(x: focus_x, y: focus_y))
+        }
+        else if gesture.view == self.guideView {
+            ///处理引导图触摸操作
+            let page = Int(guideScrollView.contentOffset.x / 200.0)
+            if page < totalGuides-1 {
+                let to_x = 200.0 * CGFloat(page + 1)
+                guideScrollView.setContentOffset(CGPointMake(to_x, 0.0), animated: true)
+            }
+            else{
+                guideView.hidden = true
+                self.onButtonCloseGuide(nil)
+            }
+        }
     }
     ///在 Preview 上拖动就可以设置曝光补偿，同时会出现测光点，这时可以修改测光点
     func onPanGesture(gesture:UIPanGestureRecognizer){
@@ -758,6 +774,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     func onApplicationDidBecomeActiveNotification(notification:NSNotification){
         NSLog("applicationDidBecomeActive")
         _resetExposureFocus()
+    }
+    /// MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let x = scrollView.contentOffset.x
+        let page = Int(x / 200.0)
+        guidePage.currentPage = page
     }
     /// MARK: - Test
     func testImageRotate(){
