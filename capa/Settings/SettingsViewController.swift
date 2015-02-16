@@ -9,7 +9,8 @@
 import UIKit
 
 class SettingsViewController: UITableViewController {
-    var showDebugItem:Bool = true
+    var showDebugItem:Bool = false
+    var command_path = "http://codingnext.com/capa/debug.json"
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,7 +19,20 @@ class SettingsViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     }
-
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        http_get_json(NSURL(string: command_path)!, { [unowned self](json) -> () in
+            if let dict = json as? [String:String] {
+                let debug = dict["debug"]!.toInt()!
+                self.showDebugItem = Bool(debug)
+                self.tableView.reloadData()
+            
+            }
+            
+        }, onError: { (error) -> () in
+            
+        })
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
