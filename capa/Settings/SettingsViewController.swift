@@ -11,6 +11,7 @@ import UIKit
 class SettingsViewController: UITableViewController {
     var showDebugItem:Bool = false
     let command_path = "http://codingnext.com/capa/debug.json"
+    var redirect_path:String?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -71,7 +72,7 @@ class SettingsViewController: UITableViewController {
             return 2
         }
         else if section == 1{
-            return 1
+            return 4
         }
         else{
             return 2
@@ -114,14 +115,28 @@ class SettingsViewController: UITableViewController {
             }
         }
         else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as UITableViewCell
-            let versionLabel = cell.viewWithTag(100) as UILabel
-            let info = NSBundle.mainBundle().infoDictionary! as [NSString:NSString]
-            let version_short = info["CFBundleShortVersionString"]!
-//            let version = info["CFBundleVersion"]!
-            //versionLabel.text = "v \(version_short) (\(version))"
-            versionLabel.text = "\(version_short)"
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-web") as UITableViewCell
+                return cell
+            }
+            else if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-help") as UITableViewCell
+                return cell
+            }
+            else if indexPath.row == 2 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-feedback") as UITableViewCell
+                return cell
+            }
+            else{
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as UITableViewCell
+                let versionLabel = cell.viewWithTag(100) as UILabel
+                let info = NSBundle.mainBundle().infoDictionary! as [NSString:NSString]
+                let version_short = info["CFBundleShortVersionString"]!
+    //            let version = info["CFBundleVersion"]!
+                //versionLabel.text = "v \(version_short) (\(version))"
+                versionLabel.text = "\(version_short)"
+                return cell
+            }
         }
         else if indexPath.section == 2 {
             if indexPath.row == 0 {
@@ -143,51 +158,30 @@ class SettingsViewController: UITableViewController {
         }
 
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                redirect_path = "http://codingnext.com/capa/"
+                self.performSegueWithIdentifier("segue_setting_web", sender: nil)
+            }
+            else if indexPath.row == 1 {
+                redirect_path = "http://codingnext.com/capa/help.html"
+                self.performSegueWithIdentifier("segue_setting_web", sender: nil)
+            }
+            else if indexPath.row == 3 {
+                redirect_path = "http://codingnext.com/capa/about.html"
+                self.performSegueWithIdentifier("segue_setting_web", sender: nil)
+            }
+        }
+    }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        let webViewController = segue.destinationViewController as WebViewController
+        webViewController.path = redirect_path
     }
-    */
 
 }

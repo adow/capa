@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		68308AD31A918E6900369EB6 /* WKHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68308AD21A918E6900369EB6 /* WKHttpRequest.swift */; };
+		68308AD51A92E52E00369EB6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68308AD41A92E52E00369EB6 /* WebViewController.swift */; };
 		686D37321A55887F0095EBEF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686D37311A55887F0095EBEF /* CoreLocation.framework */; };
 		6876CE7A1A5B8B1900B426F8 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6876CE791A5B8B1900B426F8 /* NotificationCenter.framework */; };
 		6876CE7F1A5B8B1900B426F8 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6876CE7E1A5B8B1900B426F8 /* TodayViewController.swift */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		68308AD21A918E6900369EB6 /* WKHttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKHttpRequest.swift; sourceTree = "<group>"; };
+		68308AD41A92E52E00369EB6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		685EEFA11A8C97230095BFDA /* capa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = capa.entitlements; sourceTree = "<group>"; };
 		685EEFA21A8C97380095BFDA /* todayopen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = todayopen.entitlements; sourceTree = "<group>"; };
 		686D37311A55887F0095EBEF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -281,6 +283,7 @@
 			children = (
 				68B105881A5E5CBE00CC6C2E /* SettingsNavigationController.swift */,
 				68B105891A5E5CBE00CC6C2E /* SettingsViewController.swift */,
+				68308AD41A92E52E00369EB6 /* WebViewController.swift */,
 			);
 			path = settings;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				68B1058F1A5E5CBE00CC6C2E /* WorkPreviewViewController.swift in Sources */,
 				68B1058D1A5E5CBE00CC6C2E /* WorkPreviewCollectionLayout.swift in Sources */,
 				68B1058E1A5E5CBE00CC6C2E /* WorkPreviewCollectionViewCell.swift in Sources */,
+				68308AD51A92E52E00369EB6 /* WebViewController.swift in Sources */,
 				68B1059E1A5E5E5900CC6C2E /* CPPreviewView.swift in Sources */,
 				68B105961A5E5CBE00CC6C2E /* WorkspaceToolbar.swift in Sources */,
 				68B1059A1A5E5CBE00CC6C2E /* SettingsViewController.swift in Sources */,
