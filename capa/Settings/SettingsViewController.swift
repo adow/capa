@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import MessageUI
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController,MFMailComposeViewControllerDelegate{
     var showDebugItem:Bool = false
     let command_path = "http://codingnext.com/capa/debug.json"
     var redirect_path:String?
+    let mail_title = "Capa Camera 反馈"
+    let mail_body = ""
+    let mail_to = "xiaobenapp@gmail.com"
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -168,6 +172,9 @@ class SettingsViewController: UITableViewController {
                 redirect_path = "http://codingnext.com/capa/help.html"
                 self.performSegueWithIdentifier("segue_setting_web", sender: nil)
             }
+            else if indexPath.row == 2 {
+                sendMail()
+            }
             else if indexPath.row == 3 {
                 redirect_path = "http://codingnext.com/capa/about.html"
                 self.performSegueWithIdentifier("segue_setting_web", sender: nil)
@@ -184,4 +191,51 @@ class SettingsViewController: UITableViewController {
         webViewController.path = redirect_path
     }
 
+    // MARK: - Mail
+    ///调用发送反馈邮件
+    private func sendMail(){
+        if (MFMailComposeViewController.canSendMail()){
+           _showMailComposer()
+        }
+        else{
+           _showMailApp()
+        }
+    }
+    private func _showMailComposer(){
+        let mail = MFMailComposeViewController()
+        mail.mailComposeDelegate = self
+        mail.setSubject(mail_title)
+        mail.setToRecipients([NSString(string: mail_to)])
+        self.presentViewController(mail, animated: true) { () -> Void in
+            
+        }
+    }
+    private func _showMailApp(){
+        let mail = "mailto:\(mail_to)&subject=\(mail_title)&body=\(mail_body)"
+        let mail_encode = mail.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        UIApplication.sharedApplication().openURL(NSURL(string: mail_encode!)!)
+    }
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        var message = ""
+        switch result.value {
+        case MFMailComposeResultSent.value:
+            message = "邮件发送成功"
+        case MFMailComposeResultSaved.value:
+            message = "邮件已经保存"
+        case MFMailComposeResultFailed.value:
+            message = "邮件发送失败"
+        case MFMailComposeResultCancelled.value:
+            message = "邮件取消发送"
+        default:
+            break
+        }
+        NSLog("%@",message)
+//        let hud = MBProgressHUD.showHUDAddedTo(self.view.window, animated: true)
+//        hud.removeFromSuperViewOnHide = true
+//        hud.detailsLabelText = message
+//        hud.hide(true, afterDelay: 1.0)
+        controller.dismissViewControllerAnimated(true, completion: { () -> Void in
+            
+        })
+    }
 }
