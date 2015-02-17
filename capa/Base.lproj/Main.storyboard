@@ -160,7 +160,7 @@
                                             <action selector="onShuttleButton:" destination="Tlz-qI-jbe" eventType="touchUpInside" id="M8s-pC-t3Y"/>
                                         </connections>
                                     </button>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
                                         <rect key="frame" x="165" y="523" width="20" height="20"/>
                                     </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" userLabel="flashButton" customClass="FlashButton" customModule="capa" customModuleProvider="target">
@@ -348,7 +348,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J9b-uR-cG9" userLabel="guideView">
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J9b-uR-cG9" userLabel="guideView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="vvy-cK-A5b">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -495,7 +495,7 @@
                                     <outlet property="delegate" destination="6EE-lL-CXt" id="Tx8-gA-Qcm"/>
                                 </connections>
                             </collectionView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYC-nA-68r" userLabel="guideView">
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYC-nA-68r" userLabel="guideView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VC1-gw-orT">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
