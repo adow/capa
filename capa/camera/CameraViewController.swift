@@ -721,12 +721,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         label.textColor = UIColor.whiteColor()
         if pickerView === shuttlesPickerView {
 //            let title = shuttles[row]
-            let title = shuttles_available[row]
+            let title = Int(shuttles_available[row])
             label.text = "1/\(title)"
         }
         else if pickerView == isoPickerView {
 //            let title = isos[row]
-            let title = isos_availabel[row]
+            let title = Int(isos_availabel[row])
             label.text = "\(title)"
         }
         return label
