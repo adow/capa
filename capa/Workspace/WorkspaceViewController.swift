@@ -53,15 +53,16 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.is_vc_visible = true
         
         ///设置collectionView 的边距
-        let screen_width = view.frame.size.width
-        if screen_width <= 320.0 {
-            leftConstraint.constant = -11.0
-            rightConstraint.constant = 11.0
-        }
-        else{
-            leftConstraint.constant = 0.0
-            rightConstraint.constant = 0.0
-        }
+//        let screen_width = view.frame.size.width
+//        if screen_width <= 320.0 {
+//            leftConstraint.constant = -11.0
+//            rightConstraint.constant = 11.0
+//        }
+//        else{
+//            leftConstraint.constant = 0.0
+//            rightConstraint.constant = 0.0
+//        }
+        
         
         self.reload_photo_list()
     }
@@ -99,6 +100,13 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
         NSLog("photo_list:%d", photo_list!.count)
         self.collection.reloadData()
+        ///
+//        let photo = photo_list!.first!
+//        let imageView = UIImageView(image: photo.originalImage!)
+//        imageView.frame = CGRect(x: 0.0, y: item_width + 1.0, width: item_width, height: item_width)
+//        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+//        imageView.alpha = 1.0
+//        self.collection.addSubview(imageView)
     }
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -267,6 +275,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         }
 //        println("image orientation:\(photo.originalImage?.imageOrientation),\(indexPath.row)")
 //        println("\(indexPath.row):\(photo.state)")
+//        cell.thumbImageView.contentMode = UIViewContentMode.ScaleAspectFill
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

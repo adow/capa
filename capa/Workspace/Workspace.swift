@@ -111,6 +111,7 @@ class PhotoModal:Equatable {
 }
 func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     let workspace = workspace_path
+    NSLog("workspace:%@", workspace)
     let filelist = NSFileManager.defaultManager().contentsOfDirectoryAtPath(workspace, error: nil) as [String]?
     var photo_list = [PhotoModal]()
     if let filelist_value = filelist {
@@ -175,11 +176,11 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     if let squareMarginPercent_value = squareMarginPercent {
         let squareImage = originalImage.squareImage(squareMarginPercent: squareMarginPercent!)
         outputImageData = UIImageJPEGRepresentation(squareImage, 1.0)
-        thumbImage = squareImage.resizeImageWithTarget(100.0)
+        thumbImage = squareImage.resizeImageWithTarget(item_width * 2.0)
     }
     else{
         outputImageData = UIImageJPEGRepresentation(originalImage, 1.0)
-        thumbImage = originalImage.resizeImageWithTarget(100.0)
+        thumbImage = originalImage.resizeImageWithTarget(item_width * 2.0)
     }
     /// metadata
     let metadata = metadata_from_image_data(imageData, location: location)

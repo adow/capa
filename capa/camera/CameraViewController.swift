@@ -146,6 +146,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.isoPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
         
         self.guideScrollView.contentSize = CGSize(width: 200.0 * CGFloat(totalGuides), height: 200.0)
+        self.guideTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
+        self.guideView.addGestureRecognizer(self.guideTapGesture)
         
         session = AVCaptureSession()
         self.previewView.session=session
@@ -203,8 +205,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 self.touchView.addGestureRecognizer(self.focusTapGesture)
                 self.panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
                 self.touchView.addGestureRecognizer(self.panGesture)
-                self.guideTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
-                self.guideView.addGestureRecognizer(self.guideTapGesture)
+                
                 
             })
         }
