@@ -128,28 +128,7 @@ func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
     }
     return photo_list.reverse()
 }
-/// 从数据中获取元数据信息
-private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
-    /// metadata
-    let source = CGImageSourceCreateWithData(imageData, nil)
-    let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
-    let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
-    metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation") ///修改方向为 up，因为下面会旋转图片
-    let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
-    //NSLog("exif:%@", exif_dict!)
-    let tiff_dict = (metadata_mutable.objectForKey(kCGImagePropertyTIFFDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
-    if let tiff_dict_value = tiff_dict {
-        tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation") /// tiff 中的方向也修改为 up, 因为下面会旋转图片
-        metadata_mutable.setObject(tiff_dict_value, forKey: kCGImagePropertyTIFFDictionary as NSString)
-    }
-    ///gps
-    if let location_value = location {
-        let location_dict = gps_dictionary_for_location(location_value) /// 写入 gps 信息
-        metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
-    }
-    NSLog("metadata:%@", metadata_mutable)
-    return metadata_mutable
-}
+
 ///写入照片到工作区
 func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,squareMarginPercent:CGFloat? = nil,
     location:CLLocation? = nil)->PhotoModal{
@@ -196,6 +175,17 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     if !NSFileManager.defaultManager().fileExistsAtPath(bundle) {
         NSFileManager.defaultManager().createDirectoryAtPath(bundle, withIntermediateDirectories: true, attributes: nil, error: nil)
     }
+    /// exif file
+    let exif_filename = "\(bundle)/exif.json"
+    let exif_dict = metadata[kCGImagePropertyExifDictionary as NSString] as? NSDictionary
+    if let exif_dict = exif_dict {
+        let exif_data = NSJSONSerialization.dataWithJSONObject(exif_dict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        if let exif_data = exif_data {
+            exif_data.writeToFile(exif_filename, atomically: true)
+            NSLog("save exif to workspace:%@", exif_filename)
+        }
+    }
+    
     let original_filename = "\(bundle)/original.jpg"
     dest_data.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)
@@ -206,6 +196,32 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     NSLog("save thumb to workspace:%@", thumb_filename)
     
     return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename,state:.undefined)
+}
+/// 从数据中获取元数据信息
+private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
+    /// metadata
+    let source = CGImageSourceCreateWithData(imageData, nil)
+    let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
+    let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
+    metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation") ///修改方向为 up，因为下面会旋转图片
+    let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    if let exif_dict = exif_dict {
+        exif_dict.setObject("Capa Camera", forKey: kCGImagePropertyExifMakerNote as NSString) ///设置文件中的相机信息
+        metadata_mutable.setObject(exif_dict, forKey: kCGImagePropertyExifDictionary as NSString)
+    }
+    //NSLog("exif:%@", exif_dict!)
+    let tiff_dict = (metadata_mutable.objectForKey(kCGImagePropertyTIFFDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
+    if let tiff_dict_value = tiff_dict {
+        tiff_dict_value.setObject(NSNumber(int: 0), forKey: "Orientation") /// tiff 中的方向也修改为 up, 因为下面会旋转图片
+        metadata_mutable.setObject(tiff_dict_value, forKey: kCGImagePropertyTIFFDictionary as NSString)
+    }
+    ///gps
+    if let location_value = location {
+        let location_dict = gps_dictionary_for_location(location_value) /// 写入 gps 信息
+        metadata_mutable.setObject(location_dict, forKey: kCGImagePropertyGPSDictionary as NSString)
+    }
+    NSLog("metadata:%@", metadata_mutable)
+    return metadata_mutable
 }
 ///把gps数据整合为NSDictionary，用来写入到metadata
 func gps_dictionary_for_location(location:CLLocation)->NSDictionary{
