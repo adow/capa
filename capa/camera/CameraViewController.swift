@@ -82,6 +82,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet weak var guideView:UIVisualEffectView!
     @IBOutlet weak var guideScrollView:UIScrollView!
     @IBOutlet weak var guidePage:UIPageControl!
+    @IBOutlet weak var gpsLoadingView:GpsLoadingView!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -144,6 +145,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.isoPickerView.layer.shadowOpacity = 0.9
         self.isoPickerView.layer.shadowRadius = 3.0
         self.isoPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
+        
         
         self.guideScrollView.contentSize = CGSize(width: 200.0 * CGFloat(totalGuides), height: 200.0)
         self.guideTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
@@ -257,6 +259,37 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             locationManager?.activityType = CLActivityType.Fitness
             locationManager?.requestWhenInUseAuthorization()
             locationManager?.startUpdatingLocation()
+            self.gpsLoadingView.hidden = false
+            self.gpsLoadingView.state = .run
+            self.gpsLoadingView.onGpsTouched = {
+                NSLog("tap location:%@", self.currentLocation!)
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(self.currentLocation!, completionHandler: { (result, errorCallback) -> Void in
+                    let placemarks = result as [CLPlacemark]
+                    let place=placemarks[0]
+                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    hud.mode = MBProgressHUDModeText
+                    hud.removeFromSuperViewOnHide = true
+                    hud.detailsLabelText = "\(place.name)"
+                    hud.hide(true, afterDelay: 1.0)
+                })
+
+            }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [unowned self]() -> Void in
+                if let locationManager = self.locationManager {
+                    locationManager.stopUpdatingLocation()
+                    ///如果精度还可以，显示完成，否则显示定位结束
+                    if self.currentLocation?.horizontalAccuracy < 300.0 {
+                        self.gpsLoadingView.state = .completed
+                    }
+                    else{
+                        self.gpsLoadingView.state = .stop
+                    }
+                }
+            }
+        }
+        else{
+            self.gpsLoadingView.hidden = true
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onApplicationDidBecomeActiveNotification:", name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
@@ -768,8 +801,15 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         NSLog("location failed:%@", error)
     }
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+        if newLocation.horizontalAccuracy < 0.0{
+            return
+        }
         NSLog("location:%@", newLocation)
         self.currentLocation = newLocation
+        if newLocation.horizontalAccuracy < 300.0 {
+            manager.stopUpdatingLocation()
+            self.gpsLoadingView.state = .completed
+        }
     }
     /// MARK: - Notification
     func onApplicationDidBecomeActiveNotification(notification:NSNotification){

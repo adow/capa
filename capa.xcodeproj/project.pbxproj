@@ -18,6 +18,7 @@
 		6876CE811A5B8B1900B426F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6876CE801A5B8B1900B426F8 /* MainInterface.storyboard */; };
 		6876CE841A5B8B1900B426F8 /* todayopen.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6876CE781A5B8B1900B426F8 /* todayopen.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6876CE891A5B90E400B426F8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6884755D19E6D7E100F0A416 /* Images.xcassets */; };
+		688080B61ABFD8FD00F6B066 /* GpsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688080B51ABFD8FD00F6B066 /* GpsLoadingView.swift */; };
 		6880FD9A1A1A397F00BABBE2 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6880FD991A1A397F00BABBE2 /* CoreMotion.framework */; };
 		6884755719E6D7E100F0A416 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6884755619E6D7E100F0A416 /* AppDelegate.swift */; };
 		6884755C19E6D7E100F0A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6884755A19E6D7E100F0A416 /* Main.storyboard */; };
@@ -88,6 +89,7 @@
 		6876CE7D1A5B8B1900B426F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6876CE7E1A5B8B1900B426F8 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		6876CE801A5B8B1900B426F8 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		688080B51ABFD8FD00F6B066 /* GpsLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GpsLoadingView.swift; sourceTree = "<group>"; };
 		6880FD991A1A397F00BABBE2 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		6884755119E6D7E100F0A416 /* capa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = capa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6884755519E6D7E100F0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				68B105A71A5E622600CC6C2E /* ViewFinder.swift */,
 				68B105A81A5E622600CC6C2E /* FocusControl.swift */,
 				68B105A91A5E622600CC6C2E /* ExposureControl.swift */,
+				688080B51ABFD8FD00F6B066 /* GpsLoadingView.swift */,
 			);
 			path = camera;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				68B105991A5E5CBE00CC6C2E /* SettingsNavigationController.swift in Sources */,
 				68B105AC1A5E622600CC6C2E /* FocusControl.swift in Sources */,
 				68B1058A1A5E5CBE00CC6C2E /* Extension.swift in Sources */,
+				688080B61ABFD8FD00F6B066 /* GpsLoadingView.swift in Sources */,
 				68B105AD1A5E622600CC6C2E /* ExposureControl.swift in Sources */,
 				68B105981A5E5CBE00CC6C2E /* WorkspaceViewController.swift in Sources */,
 			);
