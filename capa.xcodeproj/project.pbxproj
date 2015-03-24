@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		68069FEC1ABA9B7E00B3B5A2 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68069FEB1ABA9B7E00B3B5A2 /* JavaScriptCore.framework */; };
 		68069FEE1ABA9BA600B3B5A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68069FED1ABA9BA600B3B5A2 /* UIKit.framework */; };
+		680CBC1B1AC108540096D828 /* WorkInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680CBC1A1AC108540096D828 /* WorkInfoViewController.swift */; };
+		680CBC1D1AC123ED0096D828 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 680CBC1C1AC123EC0096D828 /* MapKit.framework */; };
+		680CBC1F1AC128D10096D828 /* WorkInfoAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680CBC1E1AC128D10096D828 /* WorkInfoAnnotation.swift */; };
 		68308AD31A918E6900369EB6 /* WKHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68308AD21A918E6900369EB6 /* WKHttpRequest.swift */; };
 		68308AD51A92E52E00369EB6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68308AD41A92E52E00369EB6 /* WebViewController.swift */; };
 		68308AD71A92EC9A00369EB6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68308AD61A92EC9A00369EB6 /* MessageUI.framework */; };
@@ -78,6 +81,9 @@
 /* Begin PBXFileReference section */
 		68069FEB1ABA9B7E00B3B5A2 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		68069FED1ABA9BA600B3B5A2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		680CBC1A1AC108540096D828 /* WorkInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkInfoViewController.swift; sourceTree = "<group>"; };
+		680CBC1C1AC123EC0096D828 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		680CBC1E1AC128D10096D828 /* WorkInfoAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkInfoAnnotation.swift; sourceTree = "<group>"; };
 		68308AD21A918E6900369EB6 /* WKHttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKHttpRequest.swift; sourceTree = "<group>"; };
 		68308AD41A92E52E00369EB6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		68308AD61A92EC9A00369EB6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -139,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				680CBC1D1AC123ED0096D828 /* MapKit.framework in Frameworks */,
 				68069FEE1ABA9BA600B3B5A2 /* UIKit.framework in Frameworks */,
 				68069FEC1ABA9B7E00B3B5A2 /* JavaScriptCore.framework in Frameworks */,
 				68308AD71A92EC9A00369EB6 /* MessageUI.framework in Frameworks */,
@@ -183,6 +190,7 @@
 		6880FD9B1A1A4AF200BABBE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				680CBC1C1AC123EC0096D828 /* MapKit.framework */,
 				68069FED1ABA9BA600B3B5A2 /* UIKit.framework */,
 				68069FEB1ABA9B7E00B3B5A2 /* JavaScriptCore.framework */,
 				68308AD61A92EC9A00369EB6 /* MessageUI.framework */,
@@ -275,6 +283,8 @@
 				68B1057C1A5E5CBE00CC6C2E /* WorkPreviewViewController.swift */,
 				68B1057A1A5E5CBE00CC6C2E /* WorkPreviewCollectionLayout.swift */,
 				68B1057B1A5E5CBE00CC6C2E /* WorkPreviewCollectionViewCell.swift */,
+				680CBC1A1AC108540096D828 /* WorkInfoViewController.swift */,
+				680CBC1E1AC128D10096D828 /* WorkInfoAnnotation.swift */,
 			);
 			path = workspace;
 			sourceTree = "<group>";
@@ -442,9 +452,11 @@
 				68B1058D1A5E5CBE00CC6C2E /* WorkPreviewCollectionLayout.swift in Sources */,
 				68B1058E1A5E5CBE00CC6C2E /* WorkPreviewCollectionViewCell.swift in Sources */,
 				68308AD51A92E52E00369EB6 /* WebViewController.swift in Sources */,
+				680CBC1F1AC128D10096D828 /* WorkInfoAnnotation.swift in Sources */,
 				68B1059E1A5E5E5900CC6C2E /* CPPreviewView.swift in Sources */,
 				68B105961A5E5CBE00CC6C2E /* WorkspaceToolbar.swift in Sources */,
 				68B1059A1A5E5CBE00CC6C2E /* SettingsViewController.swift in Sources */,
+				680CBC1B1AC108540096D828 /* WorkInfoViewController.swift in Sources */,
 				68B105AA1A5E622600CC6C2E /* FlashButton.swift in Sources */,
 				68B105951A5E5CBE00CC6C2E /* WorkspaceNavigationViewController.swift in Sources */,
 				68B105911A5E5CBE00CC6C2E /* WorkspaceCollectionViewCell.swift in Sources */,

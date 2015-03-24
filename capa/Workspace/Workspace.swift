@@ -84,6 +84,12 @@ class PhotoModal:Equatable {
     var info_path :String {
         return self.bundlePath + "/info.json"
     }
+    var exif_path :String{
+        return self.bundlePath + "/exif.json"
+    }
+    var gps_path : String{
+        return self.bundlePath + "/gps.json"
+    }
     ///读取配置文件
     func load_info(){
         NSLog("load info:%@", self.info_path)
@@ -107,6 +113,24 @@ class PhotoModal:Equatable {
     func updateState(_state:PhotoModalState){
         self.state = _state
         self.write_info()
+    }
+    ///获得 exif
+    func load_exif() -> NSDictionary?{
+        let data = NSData(contentsOfFile: self.exif_path)
+        if let data = data {
+            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            return dict
+        }
+        return nil
+    }
+    /// 获得 gps
+    func load_gps() -> NSDictionary? {
+        let data = NSData(contentsOfFile: self.gps_path)
+        if let data = data {
+            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            return dict
+        }
+        return nil
     }
 }
 func photo_list_in_workspace(state:PhotoModalState? = nil)->[PhotoModal]!{
@@ -182,10 +206,21 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
         let exif_data = NSJSONSerialization.dataWithJSONObject(exif_dict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         if let exif_data = exif_data {
             exif_data.writeToFile(exif_filename, atomically: true)
-            NSLog("save exif to workspace:%@", exif_filename)
+            NSLog("save exif to bundle:%@", exif_filename)
         }
     }
-    
+    /// gps file
+    let gps_filename = "\(bundle)/gps.json"
+    let gps_dict = metadata[kCGImagePropertyGPSDictionary as NSString] as? NSDictionary
+    if let gps_dict = gps_dict {
+        var dict_mutable = gps_dict.mutableCopy() as NSMutableDictionary
+        dict_mutable.removeObjectForKey("TimeStamp")
+        let gps_data = NSJSONSerialization.dataWithJSONObject(dict_mutable, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        if let gps_data = gps_data {
+            gps_data.writeToFile(gps_filename, atomically: true)
+            NSLog("save gps to bundle:%@", gps_filename)
+        }
+    }
     let original_filename = "\(bundle)/original.jpg"
     dest_data.writeToFile(original_filename, atomically: true)
     NSLog("save original to workspace:%@", original_filename)

@@ -54,6 +54,7 @@ extension Float64 {
         return String(format:"%\(f)f",self)
     }
 }
+
 extension AVCaptureExposureMode : Printable {
     public var description:String{
         switch self {
@@ -239,5 +240,14 @@ extension Array {
         if let index_value = index {
             self.removeAtIndex(index_value)
         }
+    }
+}
+extension String{
+    func decodeBase64()->String{
+        let data: NSData =
+        NSData(base64EncodedString: self,
+            options: NSDataBase64DecodingOptions.allZeros)!
+        let base64Decoded: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+        return base64Decoded
     }
 }

@@ -41,6 +41,10 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let workInfoViewController = segue.destinationViewController as WorkInfoViewController
+        workInfoViewController.photo = editing_photo!
+    }
     ///MARK: - UICollectionView
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
