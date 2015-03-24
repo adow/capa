@@ -232,6 +232,53 @@ func save_to_workspace(imageData:NSData,orientation:AVCaptureVideoOrientation,sq
     
     return PhotoModal(bundlePath: bundle, thumbPath: thumb_filename, originalPath: original_filename,state:.undefined)
 }
+///直接存入相片集
+func save_to_cameraroll(imageData:NSData,
+    orientation:AVCaptureVideoOrientation,
+    squareMarginPercent:CGFloat? = nil,
+    location:CLLocation? = nil,
+    callback:(()->())? = nil){
+    var outputImageData:NSData! ///输出的照片数据内容
+    let image : UIImage=UIImage(data: imageData)!
+    var imageOrientation : UIImageOrientation!
+    switch orientation {
+    case .LandscapeLeft:
+        imageOrientation = UIImageOrientation.Right
+    case .LandscapeRight:
+        imageOrientation = UIImageOrientation.Left
+    case .Portrait:
+        imageOrientation = UIImageOrientation.Up
+    case .PortraitUpsideDown:
+        imageOrientation = UIImageOrientation.Down
+    default:
+        imageOrientation = UIImageOrientation.Up
+    }
+    let rotateImage = image.rotate(imageOrientation)
+    /// square
+    if let squareMarginPercent_value = squareMarginPercent {
+        let squareImage = rotateImage.squareImage(squareMarginPercent: squareMarginPercent!)
+        outputImageData = UIImageJPEGRepresentation(squareImage, 1.0)
+    }
+    else{
+        outputImageData = UIImageJPEGRepresentation(rotateImage, 1.0)
+    }
+    /// metadata
+    let metadata = metadata_from_image_data(imageData, location: location)
+    let source = CGImageSourceCreateWithData(outputImageData, nil)
+    let uti = CGImageSourceGetType(source)
+    var dest_data = NSMutableData()
+    var destination = CGImageDestinationCreateWithData(dest_data, uti, 1, nil)
+    CGImageDestinationAddImageFromSource(destination, source, 0, metadata)
+    let suc = CGImageDestinationFinalize(destination)
+   
+    let outputImage = UIImage(data: outputImageData)
+    ///meta
+    ALAssetsLibrary().writeImageToSavedPhotosAlbum(outputImage!.CGImage, metadata: metadata, completionBlock: { (url, error) -> Void in
+        if let callback = callback {
+            callback()
+        }
+    })
+}
 /// 从数据中获取元数据信息
 private func metadata_from_image_data (imageData:NSData,location:CLLocation? = nil)->NSDictionary {
     /// metadata

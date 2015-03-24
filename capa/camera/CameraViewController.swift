@@ -18,6 +18,7 @@ let kGPS = "kGPS"
 let kSQUARE = "kSQUARE"
 let kHIDEGUIDE = "kHIDEGUIDE"
 let kDEBUG = "kDEBUG"
+let kWORKFLOW = "kWORKFLOW"
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -361,16 +362,23 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         exposureView.center = previewView.center
         exposureView.updateConstraints()
     }
+    /// 传统工作流，直接存入系统相册
     private func _saveToPhotosAlbum(){
         if (self.captureOutput != nil){
+            self.cameraState = .writing
             let connection = self.captureOutput.connections[0] as AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                let image : UIImage=UIImage(data: imageData)!
-                ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!, completionBlock: {
-                    (url,error)-> () in
-                    
+                if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
+                save_to_cameraroll(imageData, self.cameraOriention, squareMarginPercent: 0.0, location: self.currentLocation, callback: { () -> () in
+                   self.cameraState = .preview
                 })
+                }
+                else{
+                    save_to_cameraroll(imageData, self.cameraOriention, location: self.currentLocation, callback: { () -> () in
+                        self.cameraState = .preview
+                    })
+                }
             })
         }
     }
@@ -402,7 +410,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 
             })
         }
-        self._saveToWorkspace()
+        if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) == 0 {
+            self._saveToWorkspace()
+        }
+        else{
+            self._saveToPhotosAlbum()
+        }
         
     }
     @IBAction func onFlashButton(sender:FlashButton!){
@@ -533,7 +546,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 
                 if move.y >= 40.0 {
                     gesture.removeTarget(self, action: "onPanGesture:")
-                    self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+                    if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) != 0 { ///只有 capa 工作流可以拖动进入工作区
+                        self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
+                    }
                     resetShuttleButton(self, delay: 0.3)
                 }
                 else if move.y <= -40.0 {

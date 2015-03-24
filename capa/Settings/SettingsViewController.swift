@@ -65,6 +65,10 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
         NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDEWORKSPACE)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    @IBAction func onSegmentWorkflow(sender:UISegmentedControl){
+        NSUserDefaults.standardUserDefaults().setInteger(sender.selectedSegmentIndex, forKey: kWORKFLOW)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -73,7 +77,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 2
+            return 3
         }
         else if section == 1{
             return 4
@@ -111,6 +115,12 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
                 let cell = tableView.dequeueReusableCellWithIdentifier("setting-location", forIndexPath: indexPath) as UITableViewCell
                 let switch_location = cell.viewWithTag(100) as UISwitch
                 switch_location.on = NSUserDefaults.standardUserDefaults().boolForKey(kGPS)
+                return cell
+            }
+            else if indexPath.row == 2 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow") as UITableViewCell
+                let segment_workflow = cell.viewWithTag(100) as UISegmentedControl
+                segment_workflow.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW)
                 return cell
             }
             else{

@@ -1099,6 +1099,44 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="setting-workflow" rowHeight="44" id="t03-ns-MrT">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t03-ns-MrT" id="p7h-Hg-qoI">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拍摄流程" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NNu-gL-mo4">
+                                            <rect key="frame" x="18" y="11" width="119" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="119" id="BrL-4r-sLZ"/>
+                                                <constraint firstAttribute="height" constant="21" id="CZD-6g-HQ6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <segmentedControl opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Upi-TG-rcy">
+                                            <rect key="frame" x="469" y="7" width="123" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="28" id="H6G-dJ-5m4"/>
+                                                <constraint firstAttribute="width" constant="123" id="Lhf-ef-WvO"/>
+                                            </constraints>
+                                            <segments>
+                                                <segment title="Capa"/>
+                                                <segment title="传统"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="onSegmentWorkflow:" destination="e3b-EJ-p79" eventType="valueChanged" id="zFz-UM-wGn"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="Upi-TG-rcy" secondAttribute="centerY" id="Jst-8V-pCj"/>
+                                        <constraint firstItem="NNu-gL-mo4" firstAttribute="leading" secondItem="p7h-Hg-qoI" secondAttribute="leadingMargin" constant="10" id="Kd8-W7-5tk"/>
+                                        <constraint firstAttribute="centerY" secondItem="NNu-gL-mo4" secondAttribute="centerY" id="MOS-HM-Yqk"/>
+                                        <constraint firstItem="Upi-TG-rcy" firstAttribute="trailing" secondItem="p7h-Hg-qoI" secondAttribute="trailingMargin" id="j3z-H6-Rgb"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="setting-web" rowHeight="44" id="E5R-aW-Tij">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E5R-aW-Tij" id="SJs-hl-Hcx">
