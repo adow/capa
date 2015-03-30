@@ -223,19 +223,6 @@
                                             <constraint firstAttribute="width" constant="150" id="pIQ-C8-GsX"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pre-uL-hAM" userLabel="settingbutton">
-                                        <rect key="frame" x="164" y="472" width="22" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="fGp-JD-DhB"/>
-                                            <constraint firstAttribute="height" constant="22" id="sIx-JC-tcd"/>
-                                        </constraints>
-                                        <state key="normal" image="settings">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="SeV-DY-kCp" kind="presentation" identifier="segue_camera_setting" id="sKg-ZI-2iF"/>
-                                        </connections>
-                                    </button>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
                                         <rect key="frame" x="320" y="430" width="50" height="162"/>
                                         <constraints>
@@ -247,19 +234,6 @@
                                             <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
                                         </connections>
                                     </pickerView>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-8K-hoo" userLabel="filmbutton">
-                                        <rect key="frame" x="164" y="576" width="22" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="Kk2-FR-LQa"/>
-                                            <constraint firstAttribute="height" constant="22" id="PnL-YO-Uh1"/>
-                                        </constraints>
-                                        <state key="normal" image="film">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="tKa-L4-vgE" kind="presentation" identifier="segue_camera_workspace" id="TnD-JH-Luy"/>
-                                        </connections>
-                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Js-C2-N4g" userLabel="gpsLoadingView" customClass="GpsLoadingView" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="390" y="518" width="30" height="30"/>
                                         <constraints>
@@ -285,7 +259,6 @@
                                     <constraint firstAttribute="centerX" secondItem="jGc-oa-ASj" secondAttribute="centerX" constant="-45" id="DGP-5h-Iaz"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hne-f8-4Ds" secondAttribute="centerX" id="DXH-os-RXn"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="hne-f8-4Ds" secondAttribute="centerY" id="DlN-dd-yVx"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="Pre-uL-hAM" secondAttribute="centerX" id="J5a-Ta-Vgb"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="KlK-pK-ASu"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="5Js-C2-N4g" secondAttribute="centerY" id="MCr-zw-U2J"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
@@ -293,40 +266,33 @@
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="8" id="R5Q-Pb-XaM"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="104" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="38" id="UEx-hb-eok"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="1" id="VNn-0Z-ntd"/>
                                     <constraint firstAttribute="bottom" secondItem="ZMP-IX-ouw" secondAttribute="bottom" id="XBh-uk-GWL"/>
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="ZTn-ZN-JlW"/>
                                     <constraint firstAttribute="trailing" secondItem="GnW-EL-ewn" secondAttribute="trailing" constant="14" id="Zv3-jD-wgl"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" id="bmD-2N-QJL"/>
-                                    <constraint firstItem="hV4-8K-hoo" firstAttribute="top" secondItem="vcZ-N7-Cp8" secondAttribute="bottom" constant="8" id="d3b-qL-5nl"/>
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="ewT-BI-nzA"/>
                                     <constraint firstItem="IlX-jn-6Ml" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="fFk-z6-orr"/>
                                     <constraint firstItem="GwY-x7-UgS" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="55" id="fzb-Tq-XC5" userLabel="exposure_constraints_top"/>
                                     <constraint firstAttribute="trailing" secondItem="ZMP-IX-ouw" secondAttribute="trailing" id="h5U-qp-wG3"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" constant="22" id="hvS-Oc-Qdw"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="iMb-OD-a1f"/>
                                     <constraint firstItem="2BJ-Ga-Hu2" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="iQ1-ji-nip"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
                                     <constraint firstItem="FNa-HV-RfY" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="8" id="nBb-I5-3vt" userLabel="focus_constraints_left"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="ne9-7T-JN4"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="vcZ-N7-Cp8" secondAttribute="trailing" constant="20" id="oEZ-jr-cJf"/>
-                                    <constraint firstAttribute="bottom" secondItem="hV4-8K-hoo" secondAttribute="bottom" constant="2" id="oWO-gH-QrS"/>
                                     <constraint firstItem="GwY-x7-UgS" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="5" id="oYj-pN-WVx" userLabel="exposure_constraint_left"/>
                                     <constraint firstItem="iQ9-Z8-vzp" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="100" id="qhe-tA-dr0"/>
                                     <constraint firstAttribute="centerX" secondItem="Iy7-9m-rXZ" secondAttribute="centerX" constant="250" id="rh2-VN-WHb"/>
                                     <constraint firstAttribute="bottom" secondItem="jGc-oa-ASj" secondAttribute="bottom" constant="8" id="ro8-b8-jRs"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="sDQ-rV-FNN"/>
                                     <constraint firstAttribute="bottom" secondItem="IlX-jn-6Ml" secondAttribute="bottom" id="she-Uh-DJe"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="Pre-uL-hAM" secondAttribute="bottom" constant="4" id="t2i-IG-o47"/>
                                     <constraint firstItem="FNa-HV-RfY" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="8" id="vb4-xX-cPa"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="w50-Eh-iTE"/>
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="64" id="x2y-DV-HRc"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="hV4-8K-hoo" secondAttribute="centerX" id="xPA-1l-hfj"/>
                                     <constraint firstItem="5Js-C2-N4g" firstAttribute="leading" secondItem="jGc-oa-ASj" secondAttribute="trailing" constant="20" id="xWb-Cr-KAt"/>
                                     <constraint firstAttribute="centerX" secondItem="iQ9-Z8-vzp" secondAttribute="centerX" id="ytn-0A-YB0"/>
-                                    <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerX" secondItem="Pre-uL-hAM" secondAttribute="centerX" id="zLO-X5-HYh"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -339,13 +305,9 @@
                                         <exclude reference="Cc9-oP-mdq"/>
                                         <exclude reference="DXH-os-RXn"/>
                                         <exclude reference="DlN-dd-yVx"/>
-                                        <exclude reference="VNn-0Z-ntd"/>
-                                        <exclude reference="iMb-OD-a1f"/>
                                         <exclude reference="w50-Eh-iTE"/>
-                                        <exclude reference="zLO-X5-HYh"/>
                                         <exclude reference="UEx-hb-eok"/>
                                         <exclude reference="bmD-2N-QJL"/>
-                                        <exclude reference="oWO-gH-QrS"/>
                                         <exclude reference="ktU-as-hGW"/>
                                         <exclude reference="qhe-tA-dr0"/>
                                     </mask>
@@ -434,7 +396,6 @@
                     <connections>
                         <outlet property="debugLabel" destination="bw7-A0-nmd" id="aLE-bL-azR"/>
                         <outlet property="exposureView" destination="GwY-x7-UgS" id="fgE-ie-GfF"/>
-                        <outlet property="filmButton" destination="Pre-uL-hAM" id="maA-ez-2p8"/>
                         <outlet property="flashButton" destination="Iy7-9m-rXZ" id="NPy-5f-9uH"/>
                         <outlet property="focusView" destination="FNa-HV-RfY" id="164-On-2TP"/>
                         <outlet property="gpsLoadingView" destination="5Js-C2-N4g" id="yVt-wM-My1"/>
@@ -444,7 +405,6 @@
                         <outlet property="isoPickerView" destination="jGc-oa-ASj" id="48Y-YE-iNK"/>
                         <outlet property="orientationDebugLabel" destination="GnW-EL-ewn" id="yEL-kN-KIj"/>
                         <outlet property="previewView" destination="CeE-eV-OFd" id="7GN-Ls-IrV"/>
-                        <outlet property="settingButton" destination="hV4-8K-hoo" id="3be-l1-Fl2"/>
                         <outlet property="shuttleButton" destination="vcZ-N7-Cp8" id="ZaU-Se-lbY"/>
                         <outlet property="shuttleISOLabelView" destination="iQ9-Z8-vzp" id="IQw-PM-lMS"/>
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
@@ -452,6 +412,8 @@
                         <outlet property="squareMaskView" destination="IlX-jn-6Ml" id="XgQ-g4-Pas"/>
                         <outlet property="touchView" destination="2BJ-Ga-Hu2" id="RPI-i2-M6Q"/>
                         <outlet property="writingActivityView" destination="hne-f8-4Ds" id="3uh-mO-N97"/>
+                        <segue destination="tKa-L4-vgE" kind="presentation" identifier="segue_camera_workspace" id="0Yy-t7-kfw"/>
+                        <segue destination="SeV-DY-kCp" kind="presentation" identifier="segue_camera_setting" id="dOu-6l-2CM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wRv-eY-Y2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1296,7 +1258,6 @@
     <resources>
         <image name="cards" width="120" height="120"/>
         <image name="download" width="132" height="132"/>
-        <image name="film" width="22" height="22"/>
         <image name="flashlight2" width="400" height="400"/>
         <image name="guide_1" width="200" height="200"/>
         <image name="guide_2" width="200" height="200"/>
@@ -1312,7 +1273,6 @@
         <image name="mark-use-normal" width="132" height="132"/>
         <image name="original" width="1080" height="1920"/>
         <image name="remove" width="132" height="132"/>
-        <image name="settings" width="512" height="512"/>
         <image name="shutterButton" width="54" height="54"/>
         <image name="sun" width="24" height="24"/>
     </resources>

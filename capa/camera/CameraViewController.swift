@@ -76,8 +76,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet weak var isoPickerView:UIPickerView!
     @IBOutlet weak var writingActivityView:UIActivityIndicatorView!
     @IBOutlet weak var shuttleISOLabelView:UIView!
-    @IBOutlet weak var filmButton:UIButton!
-    @IBOutlet weak var settingButton:UIButton!
     @IBOutlet weak var squareMaskView:UIView!
     @IBOutlet weak var sqaureConstraintTop:NSLayoutConstraint!
     @IBOutlet weak var guideView:UIVisualEffectView!
@@ -241,7 +239,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
 
         ///更新可用的ISO和快门速度
         updateAvailableISOAndShuttles()
-        _hideFilmSettingButton()
         ///快门拖动手势
         let shuttlePanGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         shuttleButton.addGestureRecognizer(shuttlePanGesture)
@@ -425,27 +422,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.device.flashMode = AVCaptureFlashMode(rawValue: sender.stateItem!.value)!
         self.device.unlockForConfiguration()
     }
-    private func _showFilmSettingButton(){
-        if (self.filmButton.alpha > 0.0) {
-            return
-        }
-        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn,
-            animations: { [unowned self]() -> Void in
-            self.filmButton.alpha = 0.3
-            self.settingButton.alpha = 0.3
-            }) { (completed) -> Void in
-                
-        }
-    }
-    private func _hideFilmSettingButton(){
-        UIView.animateWithDuration(3.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseIn,
-            animations: { [unowned self]() -> Void in
-            self.filmButton.alpha = 0.0
-            self.settingButton.alpha = 0.0
-            }) { (completed) -> Void in
-                
-        }
-    }
+    
+    
     @IBAction func onButtonCloseGuide(sender:UIButton!){
         guideView.hidden = true
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDEGUIDE)
@@ -524,11 +502,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             }
             if gesture.state == UIGestureRecognizerState.Began {
                 shuttleButtonCenterStart = shuttleButton.center
-                self._showFilmSettingButton()
             }
             else if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
                 resetShuttleButton(self)
-                self._hideFilmSettingButton()
             }
             else if gesture.state == UIGestureRecognizerState.Changed {
                 let min_x = CGFloat(0.0)
