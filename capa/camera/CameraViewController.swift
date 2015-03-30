@@ -545,8 +545,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 shuttleButton.center = new_center
                 
                 if move.y >= 40.0 {
-                    gesture.removeTarget(self, action: "onPanGesture:")
-                    if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) != 0 { ///只有 capa 工作流可以拖动进入工作区
+                    if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) == 0 { ///只有 capa 工作流可以拖动进入工作区
+                        gesture.removeTarget(self, action: "onPanGesture:")
                         self.performSegueWithIdentifier("segue_camera_workspace", sender: nil)
                     }
                     resetShuttleButton(self, delay: 0.3)
