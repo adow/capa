@@ -19,6 +19,7 @@ let kSQUARE = "kSQUARE"
 let kHIDEGUIDE = "kHIDEGUIDE"
 let kDEBUG = "kDEBUG"
 let kWORKFLOW = "kWORKFLOW"
+let kSHUTTLEGUIDE = "KSHUTTLEGUIDE"
 class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -82,6 +83,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     @IBOutlet weak var guideScrollView:UIScrollView!
     @IBOutlet weak var guidePage:UIPageControl!
     @IBOutlet weak var gpsLoadingView:GpsLoadingView!
+    @IBOutlet weak var shuttleGuideLabel:UILabel!
     var focusTapGesture : UITapGestureRecognizer!
     var focusPressGesture : UILongPressGestureRecognizer!
     var exposureTapGesutre: UITapGestureRecognizer!
@@ -236,7 +238,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         debugLabel.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
         _resetExposureFocus()
         _setFinderView()
-
+        self._toggleShuttleGuide(false)
         ///更新可用的ISO和快门速度
         updateAvailableISOAndShuttles()
         ///快门拖动手势
@@ -408,6 +410,10 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             })
         }
         if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) == 0 {
+            if !NSUserDefaults.standardUserDefaults().boolForKey(kSHUTTLEGUIDE) {
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kSHUTTLEGUIDE)
+                self._toggleShuttleGuide(true)
+            }
             self._saveToWorkspace()
         }
         else{
@@ -422,12 +428,29 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.device.flashMode = AVCaptureFlashMode(rawValue: sender.stateItem!.value)!
         self.device.unlockForConfiguration()
     }
-    
-    
     @IBAction func onButtonCloseGuide(sender:UIButton!){
         guideView.hidden = true
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDEGUIDE)
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    private func _toggleShuttleGuide(show:Bool){
+        UIView.animateWithDuration(1.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            if !show {
+                self.isoPickerView.alpha = 1.0
+                self.shuttlesPickerView.alpha = 1.0
+                self.gpsLoadingView.alpha = 1.0
+                self.shuttleISOLabelView.alpha = 1.0
+                self.shuttleGuideLabel.alpha = 0.0
+            }
+            else{
+                self.isoPickerView.alpha = 0.0
+                self.shuttlesPickerView.alpha = 0.0
+                self.gpsLoadingView.alpha = 0.0
+                self.shuttleISOLabelView.alpha = 0.0
+                self.shuttleGuideLabel.alpha = 1.0
+            }
+        }) { (completed) -> Void in
+        }
     }
     // MARK: - Gesture
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置

@@ -130,39 +130,6 @@
                                             <outlet property="unlockButton" destination="Zim-Je-VKV" id="9EF-VZ-dxH"/>
                                         </connections>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMP-IX-ouw" userLabel="controlPanelView">
-                                        <rect key="frame" x="0.0" y="438" width="600" height="162"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="162" id="nGN-57-x2U"/>
-                                        </constraints>
-                                    </view>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-FZ-7UK" userLabel="shuttlepicker">
-                                        <rect key="frame" x="230" y="430" width="50" height="162"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="162" id="QLa-Y3-2lM"/>
-                                            <constraint firstAttribute="width" constant="50" id="WtZ-7b-Z5z"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="yev-uR-Gho"/>
-                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="Q4H-Dq-i1I"/>
-                                        </connections>
-                                    </pickerView>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-N7-Cp8" userLabel="shuttleButton">
-                                        <rect key="frame" x="140" y="498" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="70" id="SRe-BI-mZx">
-                                                <variation key="heightClass=compact" constant="50"/>
-                                            </constraint>
-                                            <constraint firstAttribute="height" constant="70" id="Zji-eo-u7K"/>
-                                        </constraints>
-                                        <state key="normal" image="shutterButton"/>
-                                        <connections>
-                                            <action selector="onShuttleButton:" destination="Tlz-qI-jbe" eventType="touchUpInside" id="M8s-pC-t3Y"/>
-                                        </connections>
-                                    </button>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
-                                        <rect key="frame" x="165" y="523" width="20" height="20"/>
-                                    </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iy7-9m-rXZ" userLabel="flashButton" customClass="FlashButton" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="153" y="8" width="44" height="44"/>
                                         <constraints>
@@ -176,6 +143,28 @@
                                             <action selector="onFlashButton:" destination="Tlz-qI-jbe" eventType="valueChanged" id="Rgu-4K-ib3"/>
                                         </connections>
                                     </button>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-FZ-7UK" userLabel="shuttlepicker">
+                                        <rect key="frame" x="230" y="430" width="50" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="162" id="QLa-Y3-2lM"/>
+                                            <constraint firstAttribute="width" constant="50" id="WtZ-7b-Z5z"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="yev-uR-Gho"/>
+                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="Q4H-Dq-i1I"/>
+                                        </connections>
+                                    </pickerView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
+                                        <rect key="frame" x="320" y="430" width="50" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
+                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
+                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
+                                        </connections>
+                                    </pickerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQ9-Z8-vzp" userLabel="iso_shuttle_label">
                                         <rect key="frame" x="225" y="580" width="150" height="20"/>
                                         <subviews>
@@ -223,17 +212,6 @@
                                             <constraint firstAttribute="width" constant="150" id="pIQ-C8-GsX"/>
                                         </constraints>
                                     </view>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-oa-ASj" userLabel="isopicker">
-                                        <rect key="frame" x="320" y="430" width="50" height="162"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="4RH-kb-lXR"/>
-                                            <constraint firstAttribute="height" constant="162" id="Xmh-7s-7Ls"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="dataSource" destination="Tlz-qI-jbe" id="Jxj-bM-hbP"/>
-                                            <outlet property="delegate" destination="Tlz-qI-jbe" id="S1Q-88-V3D"/>
-                                        </connections>
-                                    </pickerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Js-C2-N4g" userLabel="gpsLoadingView" customClass="GpsLoadingView" customModule="capa" customModuleProvider="target">
                                         <rect key="frame" x="390" y="518" width="30" height="30"/>
                                         <constraints>
@@ -241,6 +219,30 @@
                                             <constraint firstAttribute="width" constant="30" id="vME-Xq-yLY"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXY-PC-Y5h" userLabel="shuttleGuide">
+                                        <rect key="frame" x="220" y="517" width="176.5" height="33.5"/>
+                                        <string key="text">往下 拉动 快门按钮进入相册
+上拉 进入设置</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-N7-Cp8" userLabel="shuttleButton">
+                                        <rect key="frame" x="140" y="498" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="SRe-BI-mZx">
+                                                <variation key="heightClass=compact" constant="50"/>
+                                            </constraint>
+                                            <constraint firstAttribute="height" constant="70" id="Zji-eo-u7K"/>
+                                        </constraints>
+                                        <state key="normal" image="shutterButton"/>
+                                        <connections>
+                                            <action selector="onShuttleButton:" destination="Tlz-qI-jbe" eventType="touchUpInside" id="M8s-pC-t3Y"/>
+                                        </connections>
+                                    </button>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hne-f8-4Ds">
+                                        <rect key="frame" x="165" y="523" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -248,7 +250,6 @@
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="6" id="30i-gf-1ua"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="15" id="5Ho-4n-c1x"/>
                                     <constraint firstItem="FNa-HV-RfY" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="224" id="7Ok-IU-2ve" userLabel="focus_constraints_top"/>
-                                    <constraint firstItem="ZMP-IX-ouw" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="7Yr-xP-JIn"/>
                                     <constraint firstAttribute="trailing" secondItem="2BJ-Ga-Hu2" secondAttribute="trailing" id="9Xx-aX-mI0"/>
                                     <constraint firstItem="2BJ-Ga-Hu2" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" id="Aru-KK-mDr"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="16" id="BIJ-oF-3IF"/>
@@ -262,11 +263,11 @@
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="KlK-pK-ASu"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="5Js-C2-N4g" secondAttribute="centerY" id="MCr-zw-U2J"/>
                                     <constraint firstItem="Iy7-9m-rXZ" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="8" id="PLR-qk-674"/>
+                                    <constraint firstItem="gXY-PC-Y5h" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="QGf-vG-Qdp"/>
                                     <constraint firstItem="IlX-jn-6Ml" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" id="Qux-xV-cbo"/>
                                     <constraint firstAttribute="bottom" secondItem="VCp-FZ-7UK" secondAttribute="bottom" constant="8" id="R5Q-Pb-XaM"/>
                                     <constraint firstItem="VCp-FZ-7UK" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" constant="104" id="RgN-ay-7w8"/>
                                     <constraint firstItem="jGc-oa-ASj" firstAttribute="leading" secondItem="VCp-FZ-7UK" secondAttribute="trailing" constant="38" id="UEx-hb-eok"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZMP-IX-ouw" secondAttribute="bottom" id="XBh-uk-GWL"/>
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerX" secondItem="vcZ-N7-Cp8" secondAttribute="centerX" id="ZTn-ZN-JlW"/>
                                     <constraint firstAttribute="trailing" secondItem="GnW-EL-ewn" secondAttribute="trailing" constant="14" id="Zv3-jD-wgl"/>
                                     <constraint firstAttribute="trailing" secondItem="bw7-A0-nmd" secondAttribute="trailing" id="ajx-bN-Xy6"/>
@@ -274,7 +275,6 @@
                                     <constraint firstItem="hne-f8-4Ds" firstAttribute="centerY" secondItem="vcZ-N7-Cp8" secondAttribute="centerY" id="ewT-BI-nzA"/>
                                     <constraint firstItem="IlX-jn-6Ml" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="fFk-z6-orr"/>
                                     <constraint firstItem="GwY-x7-UgS" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="55" id="fzb-Tq-XC5" userLabel="exposure_constraints_top"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZMP-IX-ouw" secondAttribute="trailing" id="h5U-qp-wG3"/>
                                     <constraint firstItem="vcZ-N7-Cp8" firstAttribute="centerY" secondItem="VCp-FZ-7UK" secondAttribute="centerY" constant="22" id="hvS-Oc-Qdw"/>
                                     <constraint firstItem="2BJ-Ga-Hu2" firstAttribute="leading" secondItem="CeE-eV-OFd" secondAttribute="leading" id="iQ1-ji-nip"/>
                                     <constraint firstAttribute="bottom" secondItem="iQ9-Z8-vzp" secondAttribute="bottom" id="ktU-as-hGW"/>
@@ -292,6 +292,7 @@
                                     <constraint firstItem="bw7-A0-nmd" firstAttribute="top" secondItem="CeE-eV-OFd" secondAttribute="top" constant="32" id="wmH-Zm-vzi"/>
                                     <constraint firstItem="GnW-EL-ewn" firstAttribute="top" secondItem="bw7-A0-nmd" secondAttribute="bottom" constant="64" id="x2y-DV-HRc"/>
                                     <constraint firstItem="5Js-C2-N4g" firstAttribute="leading" secondItem="jGc-oa-ASj" secondAttribute="trailing" constant="20" id="xWb-Cr-KAt"/>
+                                    <constraint firstItem="gXY-PC-Y5h" firstAttribute="leading" secondItem="vcZ-N7-Cp8" secondAttribute="trailing" constant="10" id="xcw-NV-LHc"/>
                                     <constraint firstAttribute="centerX" secondItem="iQ9-Z8-vzp" secondAttribute="centerX" id="ytn-0A-YB0"/>
                                 </constraints>
                                 <variation key="default">
@@ -406,6 +407,7 @@
                         <outlet property="orientationDebugLabel" destination="GnW-EL-ewn" id="yEL-kN-KIj"/>
                         <outlet property="previewView" destination="CeE-eV-OFd" id="7GN-Ls-IrV"/>
                         <outlet property="shuttleButton" destination="vcZ-N7-Cp8" id="ZaU-Se-lbY"/>
+                        <outlet property="shuttleGuideLabel" destination="gXY-PC-Y5h" id="jzp-lR-FQm"/>
                         <outlet property="shuttleISOLabelView" destination="iQ9-Z8-vzp" id="IQw-PM-lMS"/>
                         <outlet property="shuttlesPickerView" destination="VCp-FZ-7UK" id="Boi-Ig-x5g"/>
                         <outlet property="sqaureConstraintTop" destination="Qux-xV-cbo" id="33m-IJ-uD5"/>
