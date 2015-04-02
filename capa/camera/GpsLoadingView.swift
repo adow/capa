@@ -8,6 +8,7 @@
 
 import UIKit
 
+///GPS 显示状态
 class GpsLoadingView: UIView {
     typealias onTouched = ()->()
     var onGpsTouched:onTouched?
@@ -28,6 +29,7 @@ class GpsLoadingView: UIView {
                 }
                 run()
             case .completed:
+                ///完成之后，清除所有动画，设置动作
                 self.layer.sublayers?.removeAll(keepCapacity: false)
                 let layer =
                     circularLayerAtCenter(CGPointMake(CGRectGetMidX(self.bounds),CGRectGetMidY(self.bounds)),
@@ -61,6 +63,7 @@ class GpsLoadingView: UIView {
     private func stop(){
         self.layer.sublayers?.removeAll(keepCapacity: false)
     }
+    ///创建一个圆圆的图层
     func circularLayerAtCenter(center:CGPoint,radius:CGFloat)->CAShapeLayer{
         let rect = CGRectMake(center.x - radius, center.y - radius, radius * 2, radius * 2)
         let layer = CAShapeLayer()
@@ -72,6 +75,7 @@ class GpsLoadingView: UIView {
         layer.opacity = 0.6
         return layer
     }
+    ///创建一个动画的圆圆的图层
     func loadingLayerAtCenter(center:CGPoint,radius:CGFloat) -> CAShapeLayer{
         let layer = circularLayerAtCenter(center, radius: radius)
         let scale_transform = CATransform3DMakeScale(2.0, 2.0, 2.0)
@@ -98,6 +102,7 @@ class GpsLoadingView: UIView {
         CATransaction.commit()
         return layer
     }
+    ///只有定位完成后，触摸时才会调用
     func onTapGesture(gesture:UITapGestureRecognizer){
         if let onGpsTouched = onGpsTouched {
             onGpsTouched()

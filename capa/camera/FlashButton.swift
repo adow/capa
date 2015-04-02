@@ -9,21 +9,25 @@
 import Foundation
 import UIKit
 
+func == (left:ValuedButton.StateItem,right:ValuedButton.StateItem) -> Bool{
+    return left.value == right.value
+}
+
 class ValuedButton:UIButton {
-    struct StateItem {
+    struct StateItem:Equatable {
         let value:Int!
         let title:String!
         let image:UIImage?
     }
     var contents:[StateItem]! = [StateItem]()
-    var _stateItem:StateItem?
-    var stateItem:StateItem?{
+    var _currentItem:StateItem?
+    var currentItem:StateItem?{
         get{
-            return _stateItem
+            return _currentItem
         }
         set{
-            _stateItem = newValue
-            if let state_value = _stateItem {
+            _currentItem = newValue
+            if let state_value = _currentItem {
                 if let image = state_value.image {
                     self.setImage(image, forState: UIControlState.Normal)
                     self.setImage(image, forState: UIControlState.Highlighted)
@@ -32,21 +36,21 @@ class ValuedButton:UIButton {
                     self.setTitle(state_value.title, forState: UIControlState.Normal)
                     self.setTitle(state_value.title, forState: UIControlState.Highlighted)
                 }
+                self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
             }
-            self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         }
     }
     override init(){
         super.init()
-        self.addTarget(self, action: "gotoNextState", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
     }
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.addTarget(self, action: "gotoNextState", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addTarget(self, action: "gotoNextState", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
     }    
     func setTitle(title: String!, forValue value:Int!) {
         let item = StateItem(value: value, title: title, image: nil)
@@ -56,43 +60,27 @@ class ValuedButton:UIButton {
         let item = StateItem(value: value, title: title, image: image)
         self.contents.append(item)
     }
-    private func stateItemForValue(value:Int)->StateItem?{
+    ///指定状态
+    func gotoValue(value:Int){
         for item in self.contents {
-            if item.value == value  {
-                return item
+            if item.value == value {
+                self.currentItem = item
             }
         }
-        return nil
     }
-    internal func gotoNextState(){
-        func _gotoFirstState(){
-            if self.contents.count > 0 {
-                self.stateItem = self.contents[0]
-            }
+    ///下一个状态
+    func gotoNextValue(){
+        if let currentItem = self.currentItem {
+            self.currentItem = self.contents.nextOf(currentItem)
         }
-        if let stateItem_value = self.stateItem {
-            for (index,item) in enumerate(self.contents){
-                if (item.value == stateItem_value.value) {
-                    if index < self.contents.count-1 {
-                        self.stateItem = self.contents[index+1]
-                        return
-                    }
-                }
-            }
-            _gotoFirstState()
-        }
-        else{
-            _gotoFirstState()
+        if self.currentItem == nil && self.contents.count > 0 {
+            self.currentItem = self.contents.first
         }
         
     }
-    private func makeStateValue(value:Int){
-        let stateItem = self.stateItemForValue(value)
-        if let state_value = stateItem {
-            self.stateItem = state_value
-        }
-    }
+    
 }
+///闪光灯按钮
 @IBDesignable
 class FlashButton:ValuedButton {
     override init(){
@@ -112,6 +100,6 @@ class FlashButton:ValuedButton {
         self.setTitle("关闭", withImage: UIImage(named: "flashlight2-off"), forValue: 0)
         self.setTitle("打开", withImage: UIImage(named: "flashlight2"), forValue: 1)
         self.setTitle("自动", withImage: UIImage(named: "flashlight2-auto"), forValue: 2)
-        self.makeStateValue(0)
+        self.gotoValue(0)
     }
 }

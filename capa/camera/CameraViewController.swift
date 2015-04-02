@@ -20,7 +20,7 @@ let kHIDEGUIDE = "kHIDEGUIDE"
 let kDEBUG = "kDEBUG"
 let kWORKFLOW = "kWORKFLOW"
 let kSHUTTLEGUIDE = "KSHUTTLEGUIDE"
-class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate{
+class CameraViewController : UIViewController,UIScrollViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
     var device:AVCaptureDevice!
@@ -35,7 +35,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     lazy var isos:[Float] = {
        return [50,64,80,100,125,160,200,250,320,400,500,640,800,1000,1250,1600]
     }()
+    ///可用的快门数
     var shuttles_available:[Float]=[Float]()
+    ///可用的 iso
     var isos_availabel:[Float] = [Float]()
     /// 相机的状态，是拍摄还是写入中
     enum CameraState : Int,Printable {
@@ -118,14 +120,15 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 default:
                     break
                 }
-                self.orientateShuttleAndISOLabel(self.cameraOriention)
+                self.orientateShuttleAndISOLabel(self.cameraOriention)///选中一些其他的按钮
             })
             
         }
     }
     /// shuttle 按钮在开始时的位置
     var shuttleButtonCenterStart:CGPoint = CGPoint(x: 0, y: 0)
-    let totalGuides = 5 ///引导页数量
+    ///引导页数量
+    let totalGuides = 5
     // MARK: - ViewController
     override func viewDidLoad() {
         self.view.layer.anchorPoint = CGPoint(x: 0.5, y:1.0)
@@ -138,6 +141,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 background_view.layer.cornerRadius = 2.0
             }
         }
+        ///快门和iso可以选择的列表
         self.shuttlesPickerView.layer.shadowColor = UIColor.blackColor().CGColor
         self.shuttlesPickerView.layer.shadowOpacity = 0.9
         self.shuttlesPickerView.layer.shadowRadius = 3.0
@@ -147,7 +151,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         self.isoPickerView.layer.shadowRadius = 3.0
         self.isoPickerView.layer.shadowOffset = CGSizeMake(3.0, 3.0)
         
-        
+        ///引导图
         self.guideScrollView.contentSize = CGSize(width: 200.0 * CGFloat(totalGuides), height: 200.0)
         self.guideTapGesture = UITapGestureRecognizer(target: self, action: "onTapGesture:")
         self.guideView.addGestureRecognizer(self.guideTapGesture)
@@ -160,7 +164,6 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.session.beginConfiguration()
             
             var error : NSError?
-//            self.device=AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
             let devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
             for one_device in devices {
                 if one_device.position == AVCaptureDevicePosition.Back {
@@ -216,6 +219,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
+        ///显示引导图
         guideView.hidden = NSUserDefaults.standardUserDefaults().boolForKey(kHIDEGUIDE)
         dispatch_async(self.sessionQueue, { () -> Void in
             if self.device != nil {
@@ -236,8 +240,11 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         debugLabel.hidden = !NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
+        ///重新设置曝光和对焦方式
         _resetExposureFocus()
+        ///设置取景器
         _setFinderView()
+        ///开始的时候不要显示快门拖动提示
         self._toggleShuttleGuide(false)
         ///更新可用的ISO和快门速度
         updateAvailableISOAndShuttles()
@@ -261,6 +268,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             locationManager?.startUpdatingLocation()
             self.gpsLoadingView.hidden = false
             self.gpsLoadingView.state = .run
+            ///点击显示当前的未知
             self.gpsLoadingView.onGpsTouched = {
                 NSLog("tap location:%@", self.currentLocation!)
                 let geocoder = CLGeocoder()
@@ -273,8 +281,8 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                     hud.detailsLabelText = "\(place.name)"
                     hud.hide(true, afterDelay: 1.0)
                 })
-
             }
+            ///处理定位超时的情况
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [unowned self]() -> Void in
                 if let locationManager = self.locationManager {
                     locationManager.stopUpdatingLocation()
@@ -381,6 +389,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             })
         }
     }
+    ///Capa 工作流，保存到工作区
     private func _saveToWorkspace(){
         self.cameraState = .writing
         if (self.captureOutput != nil){
@@ -398,7 +407,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             })
         }
     }
+    ///按下快门按钮
     @IBAction func onShuttleButton(sender:UIButton!){
+        ///屏幕一黑
         UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
            self.previewView.alpha = 0.0
         }) { (completed) -> Void in
@@ -409,6 +420,7 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             })
         }
         if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) == 0 {
+            ////是否要提示快门拖动操作
             if !NSUserDefaults.standardUserDefaults().boolForKey(kSHUTTLEGUIDE) {
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: kSHUTTLEGUIDE)
                 self._toggleShuttleGuide(true)
@@ -420,18 +432,21 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }
         
     }
+    ///闪光灯模式切换按钮
     @IBAction func onFlashButton(sender:FlashButton!){
-        NSLog("flashButton:%d", sender.stateItem!.value)
+        NSLog("flashButton:%d", sender.currentItem!.value)
         var error : NSError?
         self.device.lockForConfiguration(&error)
-        self.device.flashMode = AVCaptureFlashMode(rawValue: sender.stateItem!.value)!
+        self.device.flashMode = AVCaptureFlashMode(rawValue: sender.currentItem!.value)!
         self.device.unlockForConfiguration()
     }
+    ///关闭引导
     @IBAction func onButtonCloseGuide(sender:UIButton!){
         guideView.hidden = true
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDEGUIDE)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    ///是否显示快门拖动提示
     private func _toggleShuttleGuide(show:Bool){
         UIView.animateWithDuration(1.0, delay: 1.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
             if !show {
@@ -451,7 +466,23 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         }) { (completed) -> Void in
         }
     }
-    // MARK: - Gesture
+    /// MARK: - Notification
+    func onApplicationDidBecomeActiveNotification(notification:NSNotification){
+        NSLog("applicationDidBecomeActive")
+        ///重置曝光和对焦方式
+        _resetExposureFocus()
+    }
+    /// MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        ///引导图换页面
+        let x = scrollView.contentOffset.x
+        let page = Int(x / 200.0)
+        guidePage.currentPage = page
+    }
+    
+}
+// MARK: - Gesture
+extension CameraViewController:UIGestureRecognizerDelegate{
     /// 触摸就显示对焦点，对焦点出现后可以拖动位置
     func onTapGesture(gesture:UITapGestureRecognizer){
         if gesture.view == self.touchView {
@@ -564,7 +595,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
-    // MARK: - Update UI
+}
+// MARK: - Update UI
+extension CameraViewController{
     /// 修改屏幕方向
     private func updateCameraOriention(acceleration:CMAcceleration){
         var orientation:AVCaptureVideoOrientation!
@@ -743,68 +776,9 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
         let mode = self.device.flashMode
         NSLog("updateFlashMode:\(mode)")
     }
-    // MARK: - UIPicketView
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView === shuttlesPickerView {
-//            return shuttles.count
-            return shuttles_available.count
-        }
-        else if pickerView == isoPickerView {
-            return isos_availabel.count
-        }
-        else {
-            return 3
-        }
-    }
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        return "1/\(row)"
-    }
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
-        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 44.0))
-        label.textAlignment = NSTextAlignment.Center
-        label.textColor = UIColor.whiteColor()
-        if pickerView === shuttlesPickerView {
-//            let title = shuttles[row]
-            let title = Int(shuttles_available[row])
-            label.text = "1/\(title)"
-        }
-        else if pickerView == isoPickerView {
-//            let title = isos[row]
-            let title = Int(isos_availabel[row])
-            label.text = "\(title)"
-        }
-        return label
-    }
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        NSLog("didSelectRow:%d", row)
-        var error:NSError?
-        self.device.lockForConfiguration(&error)
-        self.device.exposureMode = AVCaptureExposureMode.Custom
-        NSLog("minISO:%f,maxISO:%f", self.device.activeFormat.minISO,self.device.activeFormat.maxISO)
-        if pickerView === self.isoPickerView {
-            let row_iso = self.isoPickerView.selectedRowInComponent(0)
-//            let iso = self.isos[row_iso]
-            let iso = self.isos_availabel[row_iso]
-            self.device.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, ISO: iso, completionHandler: { (time) -> Void in
-                
-            })
-        }
-        else{
-            let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
-//            let shuttle = 1 / self.shuttles[row_shuttles]
-            let shuttle = 1 / self.shuttles_available[row_shuttles]
-            self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000 * 1000 * 1000), ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
-                
-            })
-        }
-            
-        
-        self.device.unlockForConfiguration()
-    }
-    // MARK: - CLLocationManagerDelegate
+}
+// MARK: - CLLocationManagerDelegate
+extension CameraViewController:CLLocationManagerDelegate{
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.NotDetermined {
             manager.requestWhenInUseAuthorization()
@@ -824,26 +798,67 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.gpsLoadingView.state = .completed
         }
     }
-    /// MARK: - Notification
-    func onApplicationDidBecomeActiveNotification(notification:NSNotification){
-        NSLog("applicationDidBecomeActive")
-        _resetExposureFocus()
+}
+// MARK: - UIPicketView
+extension CameraViewController:UIPickerViewDataSource,UIPickerViewDelegate{
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
     }
-    /// MARK: - UIScrollViewDelegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let x = scrollView.contentOffset.x
-        let page = Int(x / 200.0)
-        guidePage.currentPage = page
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView === shuttlesPickerView {
+            //            return shuttles.count
+            return shuttles_available.count
+        }
+        else if pickerView == isoPickerView {
+            return isos_availabel.count
+        }
+        else {
+            return 3
+        }
     }
-    /// MARK: - Test
-    func testImageRotate(){
-//        let image = UIImage(named: "cards")
-        let image = UIImage(named: "solar")
-        NSLog("imageOrientation:\(image?.imageOrientation)")
-        let image_rotate = image?.rotate(UIImageOrientation.Right)
-//        let imageView = UIImageView(image: image!)
-        let imageView = UIImageView(image: image_rotate!)
-        self.view.addSubview(imageView)
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return "1/\(row)"
+    }
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 44.0))
+        label.textAlignment = NSTextAlignment.Center
+        label.textColor = UIColor.whiteColor()
+        if pickerView === shuttlesPickerView {
+            //            let title = shuttles[row]
+            let title = Int(shuttles_available[row])
+            label.text = "1/\(title)"
+        }
+        else if pickerView == isoPickerView {
+            //            let title = isos[row]
+            let title = Int(isos_availabel[row])
+            label.text = "\(title)"
+        }
+        return label
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        NSLog("didSelectRow:%d", row)
+        var error:NSError?
+        self.device.lockForConfiguration(&error)
+        self.device.exposureMode = AVCaptureExposureMode.Custom
+        NSLog("minISO:%f,maxISO:%f", self.device.activeFormat.minISO,self.device.activeFormat.maxISO)
+        if pickerView === self.isoPickerView {
+            let row_iso = self.isoPickerView.selectedRowInComponent(0)
+            //            let iso = self.isos[row_iso]
+            let iso = self.isos_availabel[row_iso]
+            self.device.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, ISO: iso, completionHandler: { (time) -> Void in
+                
+            })
+        }
+        else{
+            let row_shuttles = self.shuttlesPickerView.selectedRowInComponent(0)
+            //            let shuttle = 1 / self.shuttles[row_shuttles]
+            let shuttle = 1 / self.shuttles_available[row_shuttles]
+            self.device.setExposureModeCustomWithDuration(CMTimeMakeWithSeconds(Float64(shuttle), 1000 * 1000 * 1000), ISO: AVCaptureISOCurrent, completionHandler: { (time) -> Void in
+                
+            })
+        }
         
+        
+        self.device.unlockForConfiguration()
     }
 }

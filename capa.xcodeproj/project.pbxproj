@@ -48,11 +48,9 @@
 		68B105A21A5E5FF000CC6C2E /* WorkspaceToPreviewTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A11A5E5FF000CC6C2E /* WorkspaceToPreviewTransition.swift */; };
 		68B105A51A5E60D900CC6C2E /* PresentTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A41A5E60D900CC6C2E /* PresentTransition.swift */; };
 		68B105AA1A5E622600CC6C2E /* FlashButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A61A5E622600CC6C2E /* FlashButton.swift */; };
-		68B105AB1A5E622600CC6C2E /* ViewFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A71A5E622600CC6C2E /* ViewFinder.swift */; };
 		68B105AC1A5E622600CC6C2E /* FocusControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A81A5E622600CC6C2E /* FocusControl.swift */; };
 		68B105AD1A5E622600CC6C2E /* ExposureControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B105A91A5E622600CC6C2E /* ExposureControl.swift */; };
 		68E307BA1A447D0E00F68BEB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68E307B91A447D0E00F68BEB /* ImageIO.framework */; };
-		68EF73161ACBC24A001BFE12 /* ShuttleGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EF73151ACBC24A001BFE12 /* ShuttleGuideView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,11 +125,9 @@
 		68B105A11A5E5FF000CC6C2E /* WorkspaceToPreviewTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceToPreviewTransition.swift; sourceTree = "<group>"; };
 		68B105A41A5E60D900CC6C2E /* PresentTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PresentTransition.swift; path = transition/PresentTransition.swift; sourceTree = "<group>"; };
 		68B105A61A5E622600CC6C2E /* FlashButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashButton.swift; sourceTree = "<group>"; };
-		68B105A71A5E622600CC6C2E /* ViewFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinder.swift; sourceTree = "<group>"; };
 		68B105A81A5E622600CC6C2E /* FocusControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusControl.swift; sourceTree = "<group>"; };
 		68B105A91A5E622600CC6C2E /* ExposureControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExposureControl.swift; sourceTree = "<group>"; };
 		68E307B91A447D0E00F68BEB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		68EF73151ACBC24A001BFE12 /* ShuttleGuideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShuttleGuideView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,11 +293,9 @@
 				68B1059B1A5E5E5900CC6C2E /* CameraViewController.swift */,
 				68B1059C1A5E5E5900CC6C2E /* CPPreviewView.swift */,
 				68B105A61A5E622600CC6C2E /* FlashButton.swift */,
-				68B105A71A5E622600CC6C2E /* ViewFinder.swift */,
 				68B105A81A5E622600CC6C2E /* FocusControl.swift */,
 				68B105A91A5E622600CC6C2E /* ExposureControl.swift */,
 				688080B51ABFD8FD00F6B066 /* GpsLoadingView.swift */,
-				68EF73151ACBC24A001BFE12 /* ShuttleGuideView.swift */,
 			);
 			path = camera;
 			sourceTree = "<group>";
@@ -458,14 +452,12 @@
 				680CBC1F1AC128D10096D828 /* WorkInfoAnnotation.swift in Sources */,
 				68B1059E1A5E5E5900CC6C2E /* CPPreviewView.swift in Sources */,
 				68B105961A5E5CBE00CC6C2E /* WorkspaceToolbar.swift in Sources */,
-				68EF73161ACBC24A001BFE12 /* ShuttleGuideView.swift in Sources */,
 				68B1059A1A5E5CBE00CC6C2E /* SettingsViewController.swift in Sources */,
 				680CBC1B1AC108540096D828 /* WorkInfoViewController.swift in Sources */,
 				68B105AA1A5E622600CC6C2E /* FlashButton.swift in Sources */,
 				68B105951A5E5CBE00CC6C2E /* WorkspaceNavigationViewController.swift in Sources */,
 				68B105911A5E5CBE00CC6C2E /* WorkspaceCollectionViewCell.swift in Sources */,
 				68B105A21A5E5FF000CC6C2E /* WorkspaceToPreviewTransition.swift in Sources */,
-				68B105AB1A5E622600CC6C2E /* ViewFinder.swift in Sources */,
 				6890DF681A285A13007E0BF2 /* MBProgressHUD.m in Sources */,
 				68308AD31A918E6900369EB6 /* WKHttpRequest.swift in Sources */,
 				68B105921A5E5CBE00CC6C2E /* WorkspaceLayout.swift in Sources */,

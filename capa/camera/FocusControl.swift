@@ -81,6 +81,7 @@ class FocusControl:UIView {
     }
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
+        ///绘制边框
         let context = UIGraphicsGetCurrentContext()
         CGContextSaveGState(context)
         CGContextClearRect(context, rect)

@@ -228,6 +228,7 @@ extension UIImageOrientation:Printable{
 }
 
 extension Array {
+    /// 删除一个元素
     mutating func removeObject<U: Equatable>(object: U) {
         var index: Int?
         for (idx, objectToCompare) in enumerate(self) {
@@ -240,6 +241,24 @@ extension Array {
         if let index_value = index {
             self.removeAtIndex(index_value)
         }
+    }
+    /// 得到下一个元素
+    mutating func nextOf<U:Equatable>(object:U)-> T?{
+        var index: Int?
+        for (idx,objectToCompare) in enumerate(self) {
+            if let to = objectToCompare as? U{
+                if object == to {
+                    index = idx
+                }
+            }
+        }
+        if let index = index {
+            let next = index + 1
+            if next <= self.count - 1 {
+                return self[next]
+            }
+        }
+        return nil
     }
 }
 extension String{
