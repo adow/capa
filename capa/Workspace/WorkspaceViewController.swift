@@ -84,16 +84,14 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.reset_editing()
         photo_list?.removeAll(keepCapacity: true)
         if self.filterSegment.selectedSegmentIndex == 0 {
-//            photo_list = photo_list_in_workspace()
-            for one_photo in photo_list_in_workspace() {
+            for one_photo in Workspace.photoListInWorkspace() {
                 photo_list?.append(one_photo)
             }
         }
         else {
-            let state = PhotoModalState(rawValue: self.filterSegment.selectedSegmentIndex)
+            let state = PhotoModal.State(rawValue: self.filterSegment.selectedSegmentIndex)
             if let state_value = state {
-//                photo_list = photo_list_in_workspace(state: state)
-                for one_photo in photo_list_in_workspace(state: state){
+                for one_photo in Workspace.photoListInWorkspace(state: state){
                     photo_list?.append(one_photo)
                 }
             }
@@ -149,7 +147,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         if let photo_list_value = photo_list {
             ///第一次循环，用来计算一共要删除几张
             for one_photo in photo_list_value {
-                if one_photo.state == PhotoModalState.use {
+                if one_photo.state == PhotoModal.State.use {
                     self.photosDeletedTarget += 1
                 }
             }
@@ -157,7 +155,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             ///对每张照片进行删除
             var save_photo_list = [PhotoModal]()
             photo_loop:for one_photo in photo_list_value {
-                if one_photo.state == PhotoModalState.use {
+                if one_photo.state == PhotoModal.State.use {
                     save_photo_list.append(one_photo)
                     one_photo.saveToCameraRoll(callback: { [unowned self]() -> () in
                         self.photosDeleted += 1 ///删除完后就计数器+1
@@ -337,12 +335,12 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             self.performSegueWithIdentifier("segue_workspace_preview", sender: nil)
         }
         else if itemButton.tag == 2 {
-            photo!.state = PhotoModalState.use
+            photo!.state = PhotoModal.State.use
             photo!.write_info()
             self.collection.reloadData()
         }
         else if itemButton.tag == 3 {
-            photo!.state = PhotoModalState.remove
+            photo!.state = PhotoModal.State.remove
             photo!.write_info()
             self.collection.reloadData()
         }

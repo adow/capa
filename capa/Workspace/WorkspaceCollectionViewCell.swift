@@ -51,13 +51,13 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     private func updateState()->(){
         if let photo_value = photo {
             switch photo_value.state{
-            case PhotoModalState.undefined:
+            case PhotoModal.State.undefined:
                 useMarkButton.selected = false
                 removeMarkButton.selected = false
-            case PhotoModalState.use:
+            case PhotoModal.State.use:
                 useMarkButton.selected = true
                 removeMarkButton.selected = false
-            case PhotoModalState.remove:
+            case PhotoModal.State.remove:
                 useMarkButton.selected = false
                 removeMarkButton.selected = true
             }
@@ -71,19 +71,19 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
     @IBAction func onButton(sender:UIButton!){
         if sender === useMarkButton {
             if sender.selected {
-                photo?.state = PhotoModalState.undefined
+                photo?.state = PhotoModal.State.undefined
             }
             else{
-                photo?.state = PhotoModalState.use
+                photo?.state = PhotoModal.State.use
             }
             
         }
         else if sender === removeMarkButton {
             if sender.selected {
-                photo?.state = PhotoModalState.undefined
+                photo?.state = PhotoModal.State.undefined
             }
             else{
-                photo?.state = PhotoModalState.remove
+                photo?.state = PhotoModal.State.remove
             }
         }
         self.updateState()

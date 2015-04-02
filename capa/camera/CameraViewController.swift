@@ -369,12 +369,12 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
-                save_to_cameraroll(imageData, self.cameraOriention, squareMarginPercent: 0.0, location: self.currentLocation, callback: { () -> () in
-                   self.cameraState = .preview
-                })
+                    Workspace.saveToCameraRoll(imageData, orientation: self.cameraOriention, squareMarginPercent: 0.0, location: self.currentLocation, callback: { () -> () in
+                        self.cameraState = .preview
+                    })
                 }
                 else{
-                    save_to_cameraroll(imageData, self.cameraOriention, location: self.currentLocation, callback: { () -> () in
+                    Workspace.saveToCameraRoll(imageData, orientation: self.cameraOriention, location: self.currentLocation, callback: { () -> () in
                         self.cameraState = .preview
                     })
                 }
@@ -389,11 +389,10 @@ class CameraViewController : UIViewController,UIGestureRecognizerDelegate,UIPick
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 ///有正方形取景框的时候剪裁为正方形
                 if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
-                    save_to_workspace(imageData,self.cameraOriention,squareMarginPercent:0.0,
-                        location: self.currentLocation)
+                    Workspace.saveToWorkspace(imageData, orientation: self.cameraOriention, squareMarginPercent: 0.0, location: self.currentLocation)
                 }
                 else{
-                    save_to_workspace(imageData, self.cameraOriention, location: self.currentLocation)
+                    Workspace.saveToWorkspace(imageData, orientation: self.cameraOriention,location: self.currentLocation)
                 }
                 self.cameraState = .preview
             })
