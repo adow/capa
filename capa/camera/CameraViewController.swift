@@ -19,7 +19,7 @@ let kSQUARE = "kSQUARE"
 let kHIDEGUIDE = "kHIDEGUIDE"
 let kDEBUG = "kDEBUG"
 let kWORKFLOW = "kWORKFLOW"
-let kSHUTTLEGUIDE = "KSHUTTLEGUIDE"
+let kHIDESHUTTLEGUIDE = "KHIDESHUTTLEGUIDE"
 class CameraViewController : UIViewController,UIScrollViewDelegate{
     // MARK: - AV
     var session:AVCaptureSession!
@@ -421,8 +421,8 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
         }
         if NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW) == 0 {
             ////是否要提示快门拖动操作
-            if !NSUserDefaults.standardUserDefaults().boolForKey(kSHUTTLEGUIDE) {
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kSHUTTLEGUIDE)
+            if !NSUserDefaults.standardUserDefaults().boolForKey(kHIDESHUTTLEGUIDE) {
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kHIDESHUTTLEGUIDE)
                 self._toggleShuttleGuide(true)
             }
             self._saveToWorkspace()

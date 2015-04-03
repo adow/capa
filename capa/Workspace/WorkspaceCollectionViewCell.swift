@@ -49,8 +49,8 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
         }
     }
     private func updateState()->(){
-        if let photo_value = photo {
-            switch photo_value.state{
+        if let photo = photo {
+            switch photo.state{
             case PhotoModal.State.undefined:
                 useMarkButton.selected = false
                 removeMarkButton.selected = false
@@ -89,6 +89,7 @@ class WorkspaceCollectionViewCell: UICollectionViewCell {
         self.updateState()
         
     }
+    ///双击 Tap 的时候，进入 Preview
     @IBAction func onTapGesture(gesture:UITapGestureRecognizer){
         self.viewController.editing_photo = self.photo
         self.viewController.editing_index = self.indexPath

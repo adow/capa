@@ -14,12 +14,12 @@ protocol WorkspaceToolbarDelegate:class,NSObjectProtocol {
 class WorkspaceToolbar : UIView {
     var photo : PhotoModal?{
         didSet{
-            if let photo_value = photo {
-                if photo_value.state == .use {
+            if let photo = photo {
+                if photo.state == .use {
                     self.buttonMarkUse.selected = true
                     self.buttonMarkRemove.selected = false
                 }
-                else if photo_value.state == .remove{
+                else if photo.state == .remove{
                     self.buttonMarkUse.selected = false
                     self.buttonMarkRemove.selected = true
                 }

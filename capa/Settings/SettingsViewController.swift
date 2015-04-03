@@ -26,6 +26,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        ///从服务器上检查是否要开启一下调试菜单
         http_get_json(NSURL(string: command_path)!, { [weak self](json) -> () in
             if let dict = json as? [String:String] {
                 let debug = dict["debug"]!.toInt()!
@@ -63,6 +64,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
     @IBAction func onSwitchGuide(sender:UISwitch){
         NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDE)
         NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDEGUIDEWORKSPACE)
+        NSUserDefaults.standardUserDefaults().setBool(!sender.on, forKey: kHIDESHUTTLEGUIDE)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     @IBAction func onSegmentWorkflow(sender:UISegmentedControl){
@@ -240,10 +242,6 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
             break
         }
         NSLog("%@",message)
-//        let hud = MBProgressHUD.showHUDAddedTo(self.view.window, animated: true)
-//        hud.removeFromSuperViewOnHide = true
-//        hud.detailsLabelText = message
-//        hud.hide(true, afterDelay: 1.0)
         controller.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })

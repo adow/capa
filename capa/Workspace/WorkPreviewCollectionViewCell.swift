@@ -73,7 +73,7 @@ class WorkPreviewCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         let imageViewSize = self.imageView.frame.size
         let scrollViewSize = self.scrollView.frame.size
-        let imageSize = self.imageView.image!.size
+        let imageSize = self.imageView.image != nil ? self.imageView.image!.size : self.imageView.frame.size
         
         //        NSLog("imageViewSize:%@,scrollViewSize:%@",
         //            NSStringFromCGSize(imageViewSize),NSStringFromCGSize(scrollViewSize))

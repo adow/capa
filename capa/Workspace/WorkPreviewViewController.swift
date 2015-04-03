@@ -55,7 +55,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkPreviewCollectionViewCell
         cell.layoutIfNeeded() ///要先调用一次layoutIfNeeded()，否则开始的几个cell的宽度还没有改变
-        cell.collectionViewOnwer = collectionView
+        cell.collectionViewOnwer = collectionView ///cell 中需要访问 collectionView
         let photo = self.photo_list[indexPath.row]
         cell.imageView.image = photo.originalImage!
 //        cell.imageView.image = UIImage(contentsOfFile: photo.originalPath)
@@ -63,13 +63,14 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         return cell
     }
     ///MARK: - UIScrollViewDelegate
+    ///滚动完后，要知道当前的照片的位置，然后更新工具条的未知,还要更新 WorkspaceViewController 中选中的 cell
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
         NSLog("pageIndex:%d", pageIndex)
         self.photoIndex = pageIndex
         self.updateToolbar()
         NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
-            object: NSNumber(integer: self.photoIndex))
+            object: NSNumber(integer: self.photoIndex))///通知 WorkspaceViewController 更新选中的 cell,因为从 preview 返回的时候要动画回到这个 cell
     }
     ///MARK: - Action
     @IBAction func onButtonState(sender:UIButton!){
@@ -84,6 +85,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         }
         self.updateToolbar()
     }
+    ///根据当前的图片来更新工具条的状态
     private func updateToolbar(){
         if self.photoIndex >= self.photo_list.count {
             NSLog("empty photo list")
@@ -114,17 +116,18 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
             var target_photoIndex = self.photoIndex
             self.collectionView.performBatchUpdates({() -> Void in
                 let photo = self.photo_list[self.photoIndex]
-                photo.remove()
-                self.photo_list.removeAtIndex(self.photoIndex)
-                self.collectionView.deleteItemsAtIndexPaths([indexPath,])
+                photo.remove() ///先删除文件
+                self.photo_list.removeAtIndex(self.photoIndex) ///从当前的列表删除
+                self.collectionView.deleteItemsAtIndexPaths([indexPath,]) ///实现删除动画
+                ///要计算下一个显示的照片,因为他会自动把后面的一张照片移过来显示
                 target_photoIndex = min(target_photoIndex!,self.photo_list.count - 1)
                 target_photoIndex = max(target_photoIndex!,0)
                 }, completion: { (completed) -> Void in
                     hud.hide(true, afterDelay: 1.0)
-                    self.photoIndex = target_photoIndex
-                    self.updateToolbar()
+                    self.photoIndex = target_photoIndex ///更新当前正在编辑的图片
+                    self.updateToolbar() ///更新这个图片对应的工具条状态
                     NSNotificationCenter.defaultCenter().postNotificationName(kWorkspaceScrollPhotoNotification,
-                        object: NSNumber(integer: self.photoIndex))
+                        object: NSNumber(integer: self.photoIndex)) ///要让 WorkspaceViewController 也更新选中正在编辑的 cell
             })
         }))
         self.presentViewController(alert, animated: true) { () -> Void in
@@ -140,6 +143,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let indexPath = NSIndexPath(forItem: self.photoIndex, inSection: 0)
                 self.collectionView.performBatchUpdates({() -> Void in
+                    ///和删除时的流程一样
                     photo.remove()
                     self.photo_list.removeAtIndex(self.photoIndex)
                     self.collectionView.deleteItemsAtIndexPaths([indexPath,])

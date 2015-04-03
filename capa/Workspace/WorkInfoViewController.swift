@@ -47,7 +47,7 @@ class WorkInfoViewController: UITableViewController {
         if let gps_dict = gps_dict {
             if let latitude = gps_dict["Latitude"] as? Double {
                 if let longtitude = gps_dict["Longitude"] as? Double {
-//                    self.mapView.centerCoordinate = CLLocationCoordinate2DMake(latitude, longtitude)
+                    ///转换 gps 坐标到 Google 坐标，然后在地图上标注出来
                     let url = "http://api.map.baidu.com/ag/coord/convert?from=0&to=2&x=\(longtitude)&y=\(latitude)"
                     http_get_json(NSURL(string: url)!, { (json) -> () in
                         if let dict = json as? [String:AnyObject] {

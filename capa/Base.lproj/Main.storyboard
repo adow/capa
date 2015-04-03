@@ -572,7 +572,7 @@
                                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="t9r-Td-Xva">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="original" translatesAutoresizingMaskIntoConstraints="NO" id="L8c-8w-02X">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L8c-8w-02X">
                                                                     <rect key="frame" x="100" y="100" width="100" height="100"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="100" id="EPu-AT-Inj"/>
@@ -1273,7 +1273,6 @@
         <image name="mark-use" width="132" height="132"/>
         <image name="mark-use-highlight" width="132" height="132"/>
         <image name="mark-use-normal" width="132" height="132"/>
-        <image name="original" width="1080" height="1920"/>
         <image name="remove" width="132" height="132"/>
         <image name="shutterButton" width="54" height="54"/>
         <image name="sun" width="24" height="24"/>
