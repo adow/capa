@@ -1167,6 +1167,34 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="setting-workflow-info" rowHeight="60" id="ijc-XL-Yu2">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ijc-XL-Yu2" id="Ffq-kX-IXa">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="反馈" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMf-HV-4Y2">
+                                            <rect key="frame" x="18" y="11" width="574" height="36.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="sMf-HV-4Y2" secondAttribute="bottom" constant="4" id="GoQ-hg-DP9"/>
+                                        <constraint firstItem="sMf-HV-4Y2" firstAttribute="leading" secondItem="Ffq-kX-IXa" secondAttribute="leadingMargin" constant="10" id="I6O-OX-uaV"/>
+                                        <constraint firstItem="sMf-HV-4Y2" firstAttribute="leading" secondItem="Ffq-kX-IXa" secondAttribute="leadingMargin" constant="10" id="Ihq-Zb-mGB"/>
+                                        <constraint firstItem="sMf-HV-4Y2" firstAttribute="trailing" secondItem="Ffq-kX-IXa" secondAttribute="trailingMargin" id="V3M-oU-hO3"/>
+                                        <constraint firstAttribute="centerY" secondItem="sMf-HV-4Y2" secondAttribute="centerY" id="cFU-Rh-TvF"/>
+                                        <constraint firstItem="sMf-HV-4Y2" firstAttribute="top" secondItem="Ffq-kX-IXa" secondAttribute="topMargin" constant="3" id="fDI-4R-xrV"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="I6O-OX-uaV"/>
+                                            <exclude reference="cFU-Rh-TvF"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>

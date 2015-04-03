@@ -70,6 +70,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
     @IBAction func onSegmentWorkflow(sender:UISegmentedControl){
         NSUserDefaults.standardUserDefaults().setInteger(sender.selectedSegmentIndex, forKey: kWORKFLOW)
         NSUserDefaults.standardUserDefaults().synchronize()
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -79,7 +80,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 3
+            return 4
         }
         else if section == 1{
             return 4
@@ -103,7 +104,12 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
         }
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 44.0
+        if indexPath.section == 0 && indexPath.row == 3 {
+            return 60.0
+        }
+        else {
+            return 44.0
+        }
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -123,6 +129,18 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
                 let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow") as UITableViewCell
                 let segment_workflow = cell.viewWithTag(100) as UISegmentedControl
                 segment_workflow.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW)
+                return cell
+            }
+            else if indexPath.row == 3 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow-info") as UITableViewCell
+                let label = cell.viewWithTag(100) as UILabel
+                let workflow = NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW)
+                if workflow == 0 {
+                    label.text = "使用 Capa 工作流，拍摄的照片将先进入 Capa 的工作目录，经过筛选后再进入系统相册"
+                }
+                else if workflow == 1 {
+                    label.text = "使用传统工作流，拍摄的照片将直接进入系统相册"
+                }
                 return cell
             }
             else{
