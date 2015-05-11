@@ -18,11 +18,11 @@ class CPPreviewView:UIView{
     
     var session:AVCaptureSession!{
         get{
-            let layer=self.layer as AVCaptureVideoPreviewLayer
+            let layer=self.layer as! AVCaptureVideoPreviewLayer
             return layer.session
         }
         set{
-            let layer=self.layer as AVCaptureVideoPreviewLayer
+            let layer=self.layer as! AVCaptureVideoPreviewLayer
             layer.session=newValue
         }
     }

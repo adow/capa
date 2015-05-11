@@ -31,7 +31,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         self.collection.allowsMultipleSelection = true
         
         toolbar = WorkspaceToolbar.toolbar()
-        (toolbar as WorkspaceToolbar).delegate = self
+        (toolbar as! WorkspaceToolbar).delegate = self
         self.collection.addSubview(toolbar)
         toolbar.hidden = true
         
@@ -96,7 +96,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "segue_workspace_preview" {
-            let previewViewController = segue.destinationViewController as WorkPreviewViewController
+            let previewViewController = segue.destinationViewController as! WorkPreviewViewController
             previewViewController.photo_list = self.photo_list
             previewViewController.photoIndex = self.editing_index!.row
         }
@@ -123,7 +123,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             let index_path = NSIndexPath(forItem: photo_index_value, inSection: 0)
             /// 这个cell 是否是可见的
             var cell_visible = false
-            for one_index_path in self.collection.indexPathsForVisibleItems() as [NSIndexPath] {
+            for one_index_path in self.collection.indexPathsForVisibleItems() as! [NSIndexPath] {
                 if index_path.section == one_index_path.section && index_path.row == one_index_path.row {
                     cell_visible = true
                     break
@@ -152,7 +152,7 @@ class WorkspaceViewController: UIViewController,UICollectionViewDataSource,UICol
             y += 64.0
         }
         editing_cell_frame = CGRectMake(x, y, cell_frame.size.width, cell_frame.size.height)
-        NSLog("editing_cell_frame:%@,%@", NSStringFromCGRect(editing_cell_frame!),NSStringFromCGRect(cell_frame))
+//        NSLog("editing_cell_frame:%@,%@", NSStringFromCGRect(editing_cell_frame!),NSStringFromCGRect(cell_frame))
     }
 }
 // MARK: - Actions
@@ -296,7 +296,7 @@ extension WorkspaceViewController:UICollectionViewDelegate,UICollectionViewDataS
         }
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkspaceCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as! WorkspaceCollectionViewCell
         cell.setupGesture()
         cell.viewController = self
         cell.indexPath = indexPath
@@ -313,14 +313,14 @@ extension WorkspaceViewController:UICollectionViewDelegate,UICollectionViewDataS
         }
         self.editing_index = indexPath
         editing_photo?.editing = false ///把原来的状态修改
-        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as WorkspaceCollectionViewCell
+        let cell = self.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! WorkspaceCollectionViewCell
         editing_photo = cell.photo
         editing_photo?.editing = true
         var x = cell.frame.origin.x - (toolbar.frame.size.width - cell.frame.size.width) / 2
         var y = cell.frame.origin.y + cell.frame.size.height + 3.0
         x = fmax(x, 0)
         x = fmin(x, collectionView.frame.size.width - toolbar.frame.size.width)
-        let toolbar_m = toolbar as WorkspaceToolbar
+        let toolbar_m = toolbar as! WorkspaceToolbar
         toolbar_m.photo = cell.photo
         toolbar.hidden = false
         let target_frame = CGRectMake(x, y, toolbar.frame.size.width, toolbar.frame.size.height)

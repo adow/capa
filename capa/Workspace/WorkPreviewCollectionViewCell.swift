@@ -25,7 +25,7 @@ class WorkPreviewCollectionViewCell: UICollectionViewCell {
         self.addGestureRecognizer(tapGesture)
     }
     func setupConstraints() {
-        NSLog("viewSize:%@,scrollSize:%@", NSStringFromCGSize(self.frame.size),NSStringFromCGSize(self.scrollView.frame.size))
+//        NSLog("viewSize:%@,scrollSize:%@", NSStringFromCGSize(self.frame.size),NSStringFromCGSize(self.scrollView.frame.size))
         let image = imageView.image!
         let imageSize = image.size
         let scrollViewSize = self.scrollView.frame.size
@@ -56,8 +56,8 @@ class WorkPreviewCollectionViewCell: UICollectionViewCell {
         self.imageViewConstraintLeft.constant = left_margin
         self.imageViewConstraintWidth.constant = target_image_width
         self.imageViewConstraintHeight.constant = target_image_height
-        NSLog("top_margin:%@,right_margin:%@,bottom_margin:%@,left_margin:%@,width:%@,height:%@",
-            top_margin,right_margin,bottom_margin,left_margin,target_image_width,target_image_height)
+//        NSLog("top_margin:%@,right_margin:%@,bottom_margin:%@,left_margin:%@,width:%@,height:%@",
+//            top_margin,right_margin,bottom_margin,left_margin,target_image_width,target_image_height)
         
         ///maxZoom，放到最大就是图片的大小
         let maxWidthRatio = imageSize.width / target_image_width
@@ -112,10 +112,10 @@ class WorkPreviewCollectionViewCell: UICollectionViewCell {
                 self.scrollView.contentSize.height / scrollView.zoomScale)
             self.scrollView.contentSize = scale_contentsize
         }
-        NSLog("imageViewConstraintWidth:%@,imageViewConstraintHeight:%@,imageViewConstraintTop:%@,imageViewConstraintRight:%@,imageViewConstraintBottom:%@,imageViewConstraintLeft:%@",
-            self.imageViewConstraintWidth.constant,self.imageViewConstraintHeight.constant,
-            self.imageViewConstraintTop.constant,self.imageViewConstraintRight.constant,
-            self.imageViewConstraintBottom.constant,self.imageViewConstraintLeft.constant)
+//        NSLog("imageViewConstraintWidth:%@,imageViewConstraintHeight:%@,imageViewConstraintTop:%@,imageViewConstraintRight:%@,imageViewConstraintBottom:%@,imageViewConstraintLeft:%@",
+//            self.imageViewConstraintWidth.constant,self.imageViewConstraintHeight.constant,
+//            self.imageViewConstraintTop.constant,self.imageViewConstraintRight.constant,
+//            self.imageViewConstraintBottom.constant,self.imageViewConstraintLeft.constant)
         //        NSLog("scrollViewContentSize:%@", NSStringFromCGSize(self.scrollView.contentSize))
         
         
@@ -128,13 +128,13 @@ class WorkPreviewCollectionViewCell: UICollectionViewCell {
         //        self.layoutIfNeeded()
         UIView.animateWithDuration(0.1, animations: { [unowned self]() -> Void in
             if self.scrollView.zoomScale != self.scrollView.maximumZoomScale {
-                NSLog("zoom:%@", self.scrollView.maximumZoomScale)
+                //NSLog("zoom:%@", self.scrollView.maximumZoomScale)
                 self.scrollView.scrollEnabled = true
                 self.collectionViewOnwer.scrollEnabled = false
                 self.scrollView.zoomScale = self.scrollView.maximumZoomScale
             }
             else{
-                NSLog("zoom : 1")
+                //NSLog("zoom : 1")
                 self.scrollView.scrollEnabled = false
                 self.collectionViewOnwer.scrollEnabled = true
                 self.scrollView.zoomScale = 1.0

@@ -505,8 +505,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = todayopen/todayopen.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: qin dao ping (Q8ZFZ9RX9H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: qin dao ping (Q8ZFZ9RX9H)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -515,7 +515,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d5f576b2-7be2-45b5-86b9-4e9aa017e346";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -525,13 +525,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = todayopen/todayopen.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: qin dao ping";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: qin dao ping";
 				INFOPLIST_FILE = todayopen/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0828e5a7-3cd4-4148-83e3-d88b103f811e";
+				PROVISIONING_PROFILE = "40e2e672-b221-4f50-a54c-e39782b6d912";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -640,7 +640,7 @@
 				INFOPLIST_FILE = capa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2393af73-f273-4cfb-847a-92f796ddb790";
+				PROVISIONING_PROFILE = "8b529f3e-7770-4452-83f3-d0eb152e7387";
 				SWIFT_OBJC_BRIDGING_HEADER = "capa/Capa-Swift-Header.h";
 			};
 			name = Release;

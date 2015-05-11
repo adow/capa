@@ -58,7 +58,7 @@ class PhotoModal:Equatable {
             let source = CGImageSourceCreateWithData(imageData, nil)
             let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
 
-            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, metadata: metadata, completionBlock: { (url, error) -> Void in
+            ALAssetsLibrary().writeImageToSavedPhotosAlbum(image.CGImage, metadata: metadata as [NSObject : AnyObject], completionBlock: { (url, error) -> Void in
                 if let callback_value = callback {
                     callback_value()
                 }
@@ -88,7 +88,7 @@ class PhotoModal:Equatable {
         NSLog("load info:%@", self.info_path)
         let data = NSData(contentsOfFile: self.info_path)
         if let data_value = data {
-            let dict = NSJSONSerialization.JSONObjectWithData(data_value, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            let dict = NSJSONSerialization.JSONObjectWithData(data_value, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
             let state_raw = dict["state"]?.integerValue
             if let state_raw_value = state_raw {
                 self.state = State(rawValue: state_raw_value)!
@@ -111,7 +111,7 @@ class PhotoModal:Equatable {
     func load_exif() -> NSDictionary?{
         let data = NSData(contentsOfFile: self.exif_path)
         if let data = data {
-            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
             return dict
         }
         return nil
@@ -120,7 +120,7 @@ class PhotoModal:Equatable {
     func load_gps() -> NSDictionary? {
         let data = NSData(contentsOfFile: self.gps_path)
         if let data = data {
-            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+            let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
             return dict
         }
         return nil
@@ -130,7 +130,7 @@ class PhotoModal:Equatable {
 struct Workspace {
     ///Workspace 路径
     static var workspace_path:String!{
-        let document = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as String
+        let document = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
         let workspace = document + "/workspace/"
         return workspace
     }
@@ -138,7 +138,7 @@ struct Workspace {
     static func photoListInWorkspace(state:PhotoModal.State? = nil)->[PhotoModal]{
         let workspace = workspace_path
         NSLog("workspace:%@", workspace)
-        let filelist = NSFileManager.defaultManager().contentsOfDirectoryAtPath(workspace, error: nil) as [String]?
+        let filelist = NSFileManager.defaultManager().contentsOfDirectoryAtPath(workspace, error: nil) as! [String]?
         var photo_list = [PhotoModal]()
         if let filelist_value = filelist {
             for one_file in filelist_value {
@@ -216,7 +216,7 @@ struct Workspace {
         let gps_filename = "\(bundle)/gps.json"
         let gps_dict = metadata[kCGImagePropertyGPSDictionary as NSString] as? NSDictionary
         if let gps_dict = gps_dict {
-            var dict_mutable = gps_dict.mutableCopy() as NSMutableDictionary
+            var dict_mutable = gps_dict.mutableCopy()as! NSMutableDictionary
             dict_mutable.removeObjectForKey("TimeStamp")
             let gps_data = NSJSONSerialization.dataWithJSONObject(dict_mutable, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
             if let gps_data = gps_data {
@@ -276,7 +276,7 @@ struct Workspace {
        
         let outputImage = UIImage(data: outputImageData)
         ///meta
-        ALAssetsLibrary().writeImageToSavedPhotosAlbum(outputImage!.CGImage, metadata: metadata, completionBlock: { (url, error) -> Void in
+        ALAssetsLibrary().writeImageToSavedPhotosAlbum(outputImage!.CGImage, metadata: metadata as [NSObject : AnyObject], completionBlock: { (url, error) -> Void in
             if let callback = callback {
                 callback()
             }
@@ -288,7 +288,7 @@ struct Workspace {
         /// metadata
         let source = CGImageSourceCreateWithData(imageData, nil)
         let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as NSDictionary
-        let metadata_mutable = metadata.mutableCopy() as NSMutableDictionary
+        let metadata_mutable = metadata.mutableCopy() as! NSMutableDictionary
         metadata_mutable.setObject(NSNumber(int: 0), forKey: "Orientation") ///修改方向为 up，因为下面会旋转图片
         let exif_dict = (metadata_mutable.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary)?.mutableCopy() as? NSMutableDictionary
         if let exif_dict = exif_dict {

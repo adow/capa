@@ -40,10 +40,10 @@ class ValuedButton:UIButton {
             }
         }
     }
-    override init(){
-        super.init()
-        self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
-    }
+//    override init(){
+//        super.init()
+//        self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
+//    }
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.addTarget(self, action: "gotoNextValue", forControlEvents: UIControlEvents.TouchUpInside)
@@ -83,10 +83,10 @@ class ValuedButton:UIButton {
 ///闪光灯按钮
 @IBDesignable
 class FlashButton:ValuedButton {
-    override init(){
-        super.init()
-        self.setup()
-    }
+//    override init(){
+//        super.init()
+//        self.setup()
+//    }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

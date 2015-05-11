@@ -167,7 +167,7 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
             let devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
             for one_device in devices {
                 if one_device.position == AVCaptureDevicePosition.Back {
-                    self.device = one_device as AVCaptureDevice
+                    self.device = one_device as! AVCaptureDevice
                     break
                 }
             }
@@ -175,7 +175,7 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
                 NSLog("could not use camera")
                 return
             }
-            let captureInput = AVCaptureDeviceInput.deviceInputWithDevice(self.device, error: &error) as AVCaptureDeviceInput
+            let captureInput = AVCaptureDeviceInput.deviceInputWithDevice(self.device, error: &error)as! AVCaptureDeviceInput
             if let error_value = error {
                 NSLog("error:%@", error_value)
                 return
@@ -273,7 +273,7 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
                 NSLog("tap location:%@", self.currentLocation!)
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(self.currentLocation!, completionHandler: { (result, errorCallback) -> Void in
-                    let placemarks = result as [CLPlacemark]
+                    let placemarks = result as! [CLPlacemark]
                     let place=placemarks[0]
                     let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
                     hud.mode = MBProgressHUDModeText
@@ -373,7 +373,7 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
     private func _saveToPhotosAlbum(){
         if (self.captureOutput != nil){
             self.cameraState = .writing
-            let connection = self.captureOutput.connections[0] as AVCaptureConnection
+            let connection = self.captureOutput.connections[0] as! AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 if NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE) {
@@ -393,7 +393,7 @@ class CameraViewController : UIViewController,UIScrollViewDelegate{
     private func _saveToWorkspace(){
         self.cameraState = .writing
         if (self.captureOutput != nil){
-            let connection = self.captureOutput.connections[0] as AVCaptureConnection
+            let connection = self.captureOutput.connections[0] as! AVCaptureConnection
             self.captureOutput.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: {[unowned self] (buffer, error) -> Void in
                 let imageData=AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 ///有正方形取景框的时候剪裁为正方形
@@ -618,7 +618,7 @@ extension CameraViewController{
         }
         let log = NSString(format: "\(self.cameraOriention),x:%@,y:%@,z:%@",
             acceleration.x.format(".1"),acceleration.y.format(".1"),acceleration.z.format("1."))
-        self.orientationDebugLabel.text = log
+        self.orientationDebugLabel.text = log as String
         if orientation != self.cameraOriention {
             self.cameraOriention = orientation
             NSLog("cameraOrientation changed:\(self.cameraOriention)")

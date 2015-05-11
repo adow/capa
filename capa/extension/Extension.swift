@@ -267,6 +267,6 @@ extension String{
         NSData(base64EncodedString: self,
             options: NSDataBase64DecodingOptions.allZeros)!
         let base64Decoded: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-        return base64Decoded
+        return base64Decoded as String
     }
 }

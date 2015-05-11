@@ -41,7 +41,7 @@ class WorkspaceToolbar : UIView {
         self.layer.shadowOpacity = 0.5
     }
     class func toolbar()->UIView{
-        return NSBundle.mainBundle().loadNibNamed("WorkspaceToolbar", owner: self, options: nil)[0] as UIView
+        return NSBundle.mainBundle().loadNibNamed("WorkspaceToolbar", owner: self, options: nil)[0] as! UIView
     }
     @IBAction func onButtonItem(sender:UIButton){
         if sender === self.buttonMarkUse {

@@ -51,8 +51,8 @@ class WorkInfoViewController: UITableViewController {
                     let url = "http://api.map.baidu.com/ag/coord/convert?from=0&to=2&x=\(longtitude)&y=\(latitude)"
                     http_get_json(NSURL(string: url)!, { (json) -> () in
                         if let dict = json as? [String:AnyObject] {
-                            let encodeX = dict["x"]! as String
-                            let encodeY = dict["y"]! as String
+                            let encodeX = dict["x"]! as! String
+                            let encodeY = dict["y"]! as! String
                             NSLog("\(encodeX),\(encodeY)")
                             let longtitude_b = encodeX.decodeBase64() as NSString
                             let latitude_b = encodeY.decodeBase64() as NSString

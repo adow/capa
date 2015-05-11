@@ -14,8 +14,8 @@ class WorkspaceToPreviewPushTransition:NSObject,UIViewControllerAnimatedTransiti
         return 0.3
     }
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let toVc = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as WorkPreviewViewController
-        let fromVc = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as WorkspaceViewController
+        let toVc = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! WorkPreviewViewController
+        let fromVc = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! WorkspaceViewController
         let containerView = transitionContext.containerView()
         let toVcFrame = transitionContext.finalFrameForViewController(toVc)
         let duration = self.transitionDuration(transitionContext)
@@ -65,8 +65,8 @@ class PreviewToWorkspacePopTransition:NSObject,UIViewControllerAnimatedTransitio
         return 0.3
     }
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let toVc = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as WorkspaceViewController
-        let fromVc = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as WorkPreviewViewController
+        let toVc = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! WorkspaceViewController
+        let fromVc = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! WorkPreviewViewController
         let containerView = transitionContext.containerView()
         let toVcFrame = transitionContext.finalFrameForViewController(toVc)
         let duration = self.transitionDuration(transitionContext)

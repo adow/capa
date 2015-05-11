@@ -42,7 +42,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         // Dispose of any resources that can be recreated.
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let workInfoViewController = segue.destinationViewController as WorkInfoViewController
+        let workInfoViewController = segue.destinationViewController as! WorkInfoViewController
         workInfoViewController.photo = editing_photo!
     }
     ///MARK: - UICollectionView
@@ -53,7 +53,7 @@ class WorkPreviewViewController: UIViewController,UICollectionViewDataSource,UIC
         return self.photo_list!.count
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath) as WorkPreviewCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("photo-cell", forIndexPath: indexPath)as!WorkPreviewCollectionViewCell
         cell.layoutIfNeeded() ///要先调用一次layoutIfNeeded()，否则开始的几个cell的宽度还没有改变
         cell.collectionViewOnwer = collectionView ///cell 中需要访问 collectionView
         let photo = self.photo_list[indexPath.row]

@@ -114,26 +114,26 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-square", forIndexPath: indexPath) as UITableViewCell
-                let switch_square = cell.viewWithTag(100) as UISwitch
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-square", forIndexPath: indexPath) as! UITableViewCell
+                let switch_square = cell.viewWithTag(100) as! UISwitch
                 switch_square.on = NSUserDefaults.standardUserDefaults().boolForKey(kSQUARE)
                 return cell
             }
             else if indexPath.row == 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-location", forIndexPath: indexPath) as UITableViewCell
-                let switch_location = cell.viewWithTag(100) as UISwitch
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-location", forIndexPath: indexPath) as! UITableViewCell
+                let switch_location = cell.viewWithTag(100) as! UISwitch
                 switch_location.on = NSUserDefaults.standardUserDefaults().boolForKey(kGPS)
                 return cell
             }
             else if indexPath.row == 2 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow") as UITableViewCell
-                let segment_workflow = cell.viewWithTag(100) as UISegmentedControl
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow") as! UITableViewCell
+                let segment_workflow = cell.viewWithTag(100) as! UISegmentedControl
                 segment_workflow.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW)
                 return cell
             }
             else if indexPath.row == 3 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow-info") as UITableViewCell
-                let label = cell.viewWithTag(100) as UILabel
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-workflow-info") as! UITableViewCell
+                let label = cell.viewWithTag(100) as! UILabel
                 let workflow = NSUserDefaults.standardUserDefaults().integerForKey(kWORKFLOW)
                 if workflow == 0 {
                     label.text = "使用 Capa 工作流，拍摄的照片将先进入 Capa 的工作目录，经过筛选后再进入系统相册"
@@ -144,27 +144,27 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
                 return cell
             }
             else{
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
             }
         }
         else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-web") as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-web") as! UITableViewCell
                 return cell
             }
             else if indexPath.row == 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-help") as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-help") as! UITableViewCell
                 return cell
             }
             else if indexPath.row == 2 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-feedback") as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-feedback") as! UITableViewCell
                 return cell
             }
             else{
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as UITableViewCell
-                let versionLabel = cell.viewWithTag(100) as UILabel
-                let info = NSBundle.mainBundle().infoDictionary! as [NSString:NSString]
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-about", forIndexPath: indexPath) as! UITableViewCell
+                let versionLabel = cell.viewWithTag(100) as! UILabel
+                let info = NSBundle.mainBundle().infoDictionary! as! [NSString:NSString]
                 let version_short = info["CFBundleShortVersionString"]!
     //            let version = info["CFBundleVersion"]!
                 //versionLabel.text = "v \(version_short) (\(version))"
@@ -174,20 +174,20 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
         }
         else if indexPath.section == 2 {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-debug") as UITableViewCell
-                let switch_debug = cell.viewWithTag(100) as UISwitch
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-debug") as! UITableViewCell
+                let switch_debug = cell.viewWithTag(100) as! UISwitch
                 switch_debug.on = NSUserDefaults.standardUserDefaults().boolForKey(kDEBUG)
                 return cell
             }
             else{
-                let cell = tableView.dequeueReusableCellWithIdentifier("setting-guide") as UITableViewCell
-                let switch_guide = cell.viewWithTag(100) as UISwitch
+                let cell = tableView.dequeueReusableCellWithIdentifier("setting-guide") as! UITableViewCell
+                let switch_guide = cell.viewWithTag(100) as! UISwitch
                 switch_guide.on = !NSUserDefaults.standardUserDefaults().boolForKey(kHIDEGUIDE)
                 return cell
             }
         }
         else{
-            let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("setting-cell", forIndexPath: indexPath) as! UITableViewCell
             return cell
         }
 
@@ -217,7 +217,7 @@ class SettingsViewController: UITableViewController,MFMailComposeViewControllerD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        let webViewController = segue.destinationViewController as WebViewController
+        let webViewController = segue.destinationViewController as! WebViewController
         webViewController.path = redirect_path
     }
 

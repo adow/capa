@@ -89,7 +89,7 @@ func _http_request(request:NSURLRequest,
     onError:errorCallback?=nil){
         NSURLConnection.sendAsynchronousRequest(request, queue:global_queue) { (response, data, error) -> Void in
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                NSLog("%@", request.URL.absoluteString!)
+                NSLog("%@", request.URL!.absoluteString!)
                 if (error != nil){
                     NSLog("%@", error)
                     onError?(error: error)
